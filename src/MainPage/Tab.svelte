@@ -21,8 +21,8 @@
     }
 </script>
 
-<div class="flex flex-none bg-red-500 border-solid border-r-2 border-red-600 w-auto h-full items-center justify-center">
-    <h1 class="flex-auto ml-2 mr-2">
+<div class="flex flex-none bg-zinc-800 border-solid border-r-2 border-zinc-900 w-auto h-full items-center justify-center">
+    <h1 class="text-white flex-auto ml-2 mr-2">
         {filename}
     </h1>
 

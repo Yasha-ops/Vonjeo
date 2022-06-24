@@ -17,8 +17,8 @@
     </div>
     
     <Drawer drawer_id={"drawer-files"} name={"Files"}/>
+    
     <SearchDrawer/>
 
     <MainPage/>
-
 </div>

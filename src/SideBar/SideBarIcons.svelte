@@ -7,16 +7,12 @@
 
     function showDrawer(){
         var drawers = document.getElementsByClassName("drawer");
-        var main_files = document.getElementById("main_files");
 
         Array.prototype.forEach.call(drawers, function(element) {
-            if (element.id == drawer_id){
-                if (element.style.display != 'block') {    
-                    element.style.display = 'block';
-                    main_files.classList.add('')
-                }
-                else
-                    element.style.display = 'none';
+            if (element.id === drawer_id){
+                console.log("FOUND !");
+                console.log(element.style.display);
+                 element.style.display = (element.style.display != 'block') ? 'block' : 'none';
             }
             else
                 element.style.display = 'none';
