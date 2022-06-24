@@ -22,11 +22,11 @@
 </script>
 
 <div class="flex flex-none bg-zinc-800 border-solid border-r-2 border-zinc-900 w-auto h-full items-center justify-center">
-    <h1 class="text-white flex-auto ml-2 mr-2">
+    <h1 class="text-white flex-auto ml-2 mr-2 text-xs">
         {filename}
     </h1>
 
-    <button class="bg-red-300 flex-non w-auto ml-2 mr-2 rounded-xl  opacity-0 hover:opacity-100 transition-all duration-300 ease-linear"  on:click|once={removeMe}>
-        <Icon src={IoClose} size="20"/>
+    <button class="flex-non w-auto ml-2 mr-2 rounded-xl hover:bg-white transition-all duration-300 ease-linear"  on:click|once={removeMe}>
+        <Icon src={IoClose} size="15"/>
     </button>
 </div> 
