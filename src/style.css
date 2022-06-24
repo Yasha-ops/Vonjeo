@@ -14,10 +14,14 @@ body {
     }
     
     .drawer {
-        @apply fixed top-0 left-14 w-36 h-screen m-0 flex flex-col bg-zinc-800 resize-x;
+        @apply top-0 left-14 w-36 h-screen m-0 flex flex-col bg-zinc-800 resize-x;
     }
 
     .search-bar{
          @apply shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none
+    }
+
+    :root{
+        --color-files: #212324;
     }
 }

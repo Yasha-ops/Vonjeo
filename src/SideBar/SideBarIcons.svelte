@@ -7,10 +7,17 @@
 
     function showDrawer(){
         var drawers = document.getElementsByClassName("drawer");
+        var main_files = document.getElementById("main_files");
 
         Array.prototype.forEach.call(drawers, function(element) {
-            if (element.id == drawer_id)
-                element.style.display = (element.style.display != 'block') ? 'block' : 'none';
+            if (element.id == drawer_id){
+                if (element.style.display != 'block') {    
+                    element.style.display = 'block';
+                    main_files.classList.add('')
+                }
+                else
+                    element.style.display = 'none';
+            }
             else
                 element.style.display = 'none';
         });
