@@ -6,6 +6,8 @@
     import SearchDrawer from './Drawer/SearchDrawer.svelte';
     import Drawer from './Drawer/Drawer.svelte';
 
+    import Debuger from './Debuger/Debuger.svelte'
+
 </script>
 
 <DisableScrollBar/>
@@ -19,6 +21,8 @@
     <Drawer drawer_id={"drawer-files"} name={"Files"}/>
     
     <SearchDrawer/>
+
+    <Debuger/>
 
     <MainPage/>
 </div>
