@@ -5,6 +5,7 @@
     
     import SearchDrawer from './Drawer/SearchDrawer.svelte';
     import Drawer from './Drawer/Drawer.svelte';
+    import SettingsDrawer from './Drawer/SettingsDrawer.svelte';
 
 </script>
 
@@ -19,6 +20,7 @@
     <Drawer drawer_id={"drawer-files"} name={"Files"}/>
     
     <SearchDrawer/>
+    <SettingsDrawer/>
 
     <MainPage/>
 </div>
