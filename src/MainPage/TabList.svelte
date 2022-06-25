@@ -8,7 +8,7 @@
 </script>
 
 
-<div class="flex-none flex bg-zinc-600 h-8 w-screen" id="tabs_id">
+<div class="flex-none flex bg-zinc-600 h-8 w-full" id="tabs_id">
     {#each tabs as tab}
         <Tab filename={tab.filename}/>
     {/each}    

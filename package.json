@@ -29,6 +29,7 @@
   "dependencies": {
     "@codemirror/language": "^6.1.0",
     "@joshnuss/svelte-codemirror": "^0.2.6",
+    "ace-code-editor": "^1.2.3",
     "sirv-cli": "^1.0.0",
     "svelte-ace": "^1.0.21",
     "svelte-icons-pack": "^1.4.6"

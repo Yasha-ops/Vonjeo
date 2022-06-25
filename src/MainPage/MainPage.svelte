@@ -1,16 +1,19 @@
-
 <script>
     import TabList from './TabList.svelte';
-    import Page from './Page.svelte';
     import PageTextZone from './PageTextZone.svelte';
+    import InfoTab from './InfoTab.svelte';
 
     let h;
 </script>
 
-<div class="flex-auto flex flex-col bg-red h-screen w-auto bg-zinc-900" id="main_files">
+<div class="flex-1 flex flex-col bg-red h-full w-auto bg-red-200" id="main_files">
+    
     <TabList/>
-    <!--Page lines={20}/-->
-    <div class= "flex-1"  bind:clientHeight={h}>
+    
+    <InfoTab/>
+
+    <div class= "flex-1 h-full" name="editor-div" bind:clientHeight={h}>
         <PageTextZone h_parent={h}/>
     </div>
+
 </div>

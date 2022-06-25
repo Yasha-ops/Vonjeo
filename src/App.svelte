@@ -8,8 +8,6 @@
 
 </script>
 
-<DisableScrollBar/>
-
 <div class="flex h-screen w-screen">
     
     <div class="flex-none h-screen w-14">
@@ -18,7 +16,5 @@
     
     <Drawer drawer_id={"drawer-files"} name={"Files"}/>
     
-    <SearchDrawer/>
-
     <MainPage/>
 </div>
