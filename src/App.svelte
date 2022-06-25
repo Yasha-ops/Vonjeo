@@ -6,6 +6,8 @@
     import SearchDrawer from './Drawer/SearchDrawer.svelte';
     import Drawer from './Drawer/Drawer.svelte';
 
+    import Debuger from './Debuger/Debuger.svelte'
+
 </script>
 
 <div class="flex h-screen w-screen">
@@ -15,6 +17,8 @@
     </div>
     
     <Drawer drawer_id={"drawer-files"} name={"Files"}/>
-    
+
+    <SearchDrawer/>
+    <Debuger/>
     <MainPage/>
 </div>
