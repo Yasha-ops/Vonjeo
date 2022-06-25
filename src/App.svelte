@@ -9,6 +9,8 @@
     import Debuger from './Debuger/Debuger.svelte'
 
     //<DisableScrollBar/>
+    import Debuger from './Debuger/Debuger.svelte'
+
 </script>
 
 
@@ -21,6 +23,8 @@
     <Drawer drawer_id={"drawer-files"} name={"Files"}/>
     
     <SearchDrawer/>
+
+    <Debuger/>
     
     <div class="flex-1">
         <MainPage/>
