@@ -1,16 +1,34 @@
 
 <script>
-    import TabList from './TabList.svelte';
-    import Page from './Page.svelte';
+
+	import { Tabs, TabList, TabPanel, Tab } from './Tabs/tabs.js';
     import PageTextZone from './PageTextZone.svelte';
 
-    let h;
+
+	let tab_list = [
+			{ name : "One", content:"HELLO"} ,
+			{ name : "Two", content:"WORLD"} ,
+			{ name : "Three", content:"HEY"} 
+	]
+
+    let h, w;
 </script>
 
-<div class="flex-auto flex flex-col bg-red h-screen w-auto bg-zinc-900" id="main_files">
-    <TabList/>
-    <!--Page lines={20}/-->
-    <div class= "flex-1"  bind:clientHeight={h}>
-        <PageTextZone h_parent={h}/>
-    </div>
-</div>
+    
+<Tabs>
+	
+	<TabList>
+		{#each tab_list as tab}
+			<Tab>{tab.name}</Tab>
+		{/each}
+	</TabList>
+
+	{#each tab_list as tab}
+	<TabPanel bind:clientHeight={h}>
+        <div class="flex-1 h-full bg-green-500" bind:clientHeight={h} bind:clientWidth={w}>
+            <PageTextZone h_parent={h} w_parent={w} text={h}/>
+        </div>
+	</TabPanel>
+	{/each}
+
+</Tabs>

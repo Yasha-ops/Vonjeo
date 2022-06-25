@@ -5,23 +5,33 @@
     
     import "brace/keybinding/vim";
 
-    let text = "";
     export let h_parent;
+    export let w_parent;
 
-
+    console.log(h_parent);
 
     console.log("Parent height : " + h_parent);
 
-    function editor_init(editors){
+
+    let options_editor = {
+        fontSize: "20pt"
     }
+    
+    let innerWidth = 0
+    let innerHeight = 0
+    
+
+    console.log("Screen : " + innerHeight); 
+    let text = "// Write Text";
 </script>
+
+<svelte:window bind:innerWidth bind:innerHeight />
   
 
 <!--
     on:input={(obj) => console.log(obj.detail)}
     on:paste={(obj) => console.log(obj.detail)}
 -->
-  
 <div class="">
   <AceEditor
     on:selectionChange={(obj) => console.log(obj.detail)}
@@ -31,7 +41,6 @@
     on:cut={() => console.log('cut')}
     on:cursorChange={() => console.log('cursor change')}
     on:copy={() => console.log('copy')}
-    on:init={editor_init}
     on:commandKey={(obj) => console.log(obj.detail)}
     
     on:changeMode={(obj) => console.log(`change mode : ${obj.detail}`)}
@@ -41,7 +50,7 @@
     height={h_parent}
     lang="c_cpp"
     theme="clouds_midnight"
-    fontSize='50pt'
-    keybindings='vim'
-    value={text} />
+    options = {options_editor}
+    keybindings="vim"
+    value={text + innerHeight} />
 </div>

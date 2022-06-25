@@ -6,19 +6,21 @@
     import SearchDrawer from './Drawer/SearchDrawer.svelte';
     import Drawer from './Drawer/Drawer.svelte';
 
+    //<DisableScrollBar/>
 </script>
 
-<DisableScrollBar/>
 
 <div class="flex h-screen w-screen">
     
     <div class="flex-none h-screen w-14">
         <SideBar/>
     </div>
-    
+
     <Drawer drawer_id={"drawer-files"} name={"Files"}/>
     
     <SearchDrawer/>
-
-    <MainPage/>
+    
+    <div class="flex-1">
+        <MainPage/>
+    </div>
 </div>
