@@ -87,7 +87,6 @@
     });
 
   $: if (height !== null && width !== null) {
-    console.log("Resizing ...");
     resizeOnNextTick();
   }
 
@@ -155,15 +154,98 @@
     });
     
     if (keybindings != null){
-      editor.setKeyboardHandler("ace/keyboard/" + keybindings);
-      console.log(editor);
-      
-      var fun = editor.$vimModeHandler.getStatusText;
-      console.log(fun);
-      console.log(">" + fun(editor) + "<");
+      editor.setKeyboardHandler("ace/keyboard/" + keybindings); 
     }
+
+    // BREAKPOINTS 
+    // 4. Attach an event listener to handle when the user clicks on some row of the gutter
+    //    In this case, the breakpoint will be added in the clicked position of the document
+    editor.on("guttermousedown", function(e) {
+      console.log("Clicked !");
+      var target = e.domEvent.target;
+
+      if (target.className.indexOf("ace_gutter-cell") == -1){
+          return;
+      }
+
+      if (!editor.isFocused()){
+          return; 
+      }
+
+      if (e.clientX > 30 + target.getBoundingClientRect().left){
+          return;
+      }
+
+      var breakpoints = e.editor.session.getBreakpoints(row, 0);
+      var row = e.getDocumentPosition().row;
+
+
+      // If there's a breakpoint already defined, it should be removed, offering the toggle feature
+      if(typeof breakpoints[row] === typeof undefined){
+          console.log("SETTING BREAKPOINT !");
+          e.editor.session.setBreakpoint(row);
+      }else{
+          console.log("SETTING BREAKPOINT !");
+          e.editor.session.clearBreakpoint(row);
+      }
+
+      e.stop();
+    });
+
+    editor.on("change", function (e) {
+	if (e.lines.length > 1 && (e.action==='insert' || e.action==='remove')){
+		const breakpointsArrayOld = editor.session.getBreakpoints();
+		let breakpointsArrayNew = [];
+
+		const amountOfLinesAffected = e.lines.length - 1;
+		const startRow = e.start.row;
+		const endRow = e.end.row;
+
+		for (const key of Object.keys(breakpointsArrayOld)) {
+			let breakpointRow = parseInt(key)
+
+			if (e.action==='insert') {  // new lines
+				if (breakpointRow > startRow ){
+					// breakpoint forward
+					breakpointsArrayNew[breakpointRow + amountOfLinesAffected] = "ace_breakpoint"
+				}
+				else {
+					// unaffected by insert
+					breakpointsArrayNew[breakpointRow] = "ace_breakpoint"
+				}
+			}
+			else if (e.action==='remove') {  // removed lines
+				if (breakpointRow > startRow && breakpointRow <= endRow ){
+					// breakpoint removed
+				}
+				else if (breakpointRow >= endRow ){
+					// breakpoint behind
+					breakpointsArrayNew[breakpointRow - amountOfLinesAffected] = "ace_breakpoint"
+				}
+				else {
+					// unaffected by remove
+					breakpointsArrayNew[breakpointRow] = "ace_breakpoint"
+				}
+			}
+		}
+
+		// remove all old breakpoints
+		for (const key of Object.keys(breakpointsArrayOld)) {
+			let breakpointRow = parseInt(key)
+			editor.session.clearBreakpoint(breakpointRow);
+		}
+
+		// add all new breakpoints
+		for (const key of Object.keys(breakpointsArrayNew)) {
+			let breakpointRow = parseInt(key)
+			editor.session.setBreakpoint(breakpointRow);
+		}
+	}
+})
+
   }
 </script>
+
 
 <div style="width:{px(width)};height:{px(height)}">
   <div bind:this={editorElement} style="width:{px(width)};height:{px(height)}" />

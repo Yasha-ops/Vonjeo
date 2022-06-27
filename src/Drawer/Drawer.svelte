@@ -1,7 +1,4 @@
 <script>
-    import Icon from 'svelte-icons-pack/Icon.svelte';
-    import IoOptionsOutline from "svelte-icons-pack/io/IoOptionsOutline";
-
     export let name;
     export let drawer_id;
 </script>

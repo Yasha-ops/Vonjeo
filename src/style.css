@@ -40,6 +40,13 @@ body {
         display: none;
     }
 
+    .ace_gutter-cell.ace_breakpoint{ 
+        border-radius: 20px 0px 0px 20px;
+        /* Change the color of the breakpoint if you want */
+        @apply bg-yellow-500;
+    }
+    
+
     :root{
         --color-files: #212324;
     }

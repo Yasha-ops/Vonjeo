@@ -2,6 +2,7 @@
     import { AceEditor } from "svelte-ace";
     import "brace/mode/c_cpp";
     import "brace/mode/javascript";
+    import "brace/mode/golang";
     import "brace/theme/clouds_midnight";
 
     import "brace/ext/searchbox";
@@ -26,8 +27,15 @@
     }
 
     function update_text(editor){
-        console.log(editor.detail);
         text = editor.detail;
+    }
+
+    function update_stats(){
+        let fileStats = document.getElementById("tab_stats");
+        
+        let nbr_errors = document.getElementsByClassName("ace_error").length;
+        let nbr_warning = document.getElementsByClassName("ace_warning").length;
+        fileStats.innerText = '☠️ ' + nbr_errors + ' ⚠ ' + nbr_warning; 
     }
 
 </script>
@@ -43,13 +51,16 @@
     on:init={editor_init}
     on:commandKey={(obj) => console.log(obj.detail)}
     
-    on:input={update_text}
+    on:input={(obj) => {
+        update_text(obj);
+        update_stats();
+    }}
     
     on:blur={() => console.log('blur')}
     width='100%'
     height={h_parent}
 
-    lang="javascript"
+    lang="c_cpp"
     
     theme="clouds_midnight"
   

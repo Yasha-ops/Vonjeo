@@ -26,8 +26,5 @@
 			</TabPanel>
 		{/each}
 	</Tabs>
-
-	
-
 	<!-- Page/ -->
 </div>
