@@ -1,13 +1,18 @@
-<script>
-    import PageLine from './PageLine.svelte';
-    export let lines;
+<script>    
+    import InfoTab from './InfoTab.svelte'; 
+    import PageTextZone from './PageTextZone.svelte';
+
+    let h;
 </script>
 
-<div class="flex">
-    <div class="flex-none w-10 bg-red-500 h-screen justify-center items-center">
-        {#each {length: lines} as _, i}
-            <PageLine nbr={i + 1}/> 
-        {/each}
+<div class="flex-1 flex flex-col" name="page">
+
+    <InfoTab/>
+
+    <div class= "flex-1 h-full" name="editor-div" bind:clientHeight={h}>
+        <PageTextZone h_parent={h}/>
     </div>
+
 </div>
 
+ 
