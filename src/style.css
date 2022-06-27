@@ -21,6 +21,25 @@ body {
          @apply shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none
     }
 
+    .tab-passif{
+        @apply flex flex-none border-solid border-r-2 border-zinc-900 w-auto h-full items-center justify-center bg-zinc-800
+    }
+
+    .tab-actif{
+        @apply flex flex-none border-solid border-r-2 border-zinc-900 w-auto h-full items-center justify-center bg-red-500
+    }
+
+    .panel-actif{
+
+        @apply flex-auto w-full bg-red-500;
+        display: block;
+    }
+
+    .panel-passif{
+        @apply flex-auto w-full bg-green-500;
+        display: none;
+    }
+
     :root{
         --color-files: #212324;
     }

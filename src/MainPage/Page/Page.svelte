@@ -5,7 +5,7 @@
     let h;
 </script>
 
-<div class="flex-1 flex flex-col" name="page">
+<div class="flex-1 flex flex-col h-full" name="page">
 
     <InfoTab/>
 

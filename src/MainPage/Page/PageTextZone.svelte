@@ -15,11 +15,6 @@
 
     export let h_parent;
 
-
-
-    let y;
-    console.log("Parent height : " + h_parent);
-
     function editor_init(editors){
     }
 
@@ -30,23 +25,13 @@
         enableLiveAutocompletion: true
     }
 
-
-    function update_stats(editor){
-        let fileStats = document.getElementById("tab_stats");
-        
-        let nbr_errors = document.getElementsByClassName("ace_error").length;
-        let nbr_warning = document.getElementsByClassName("ace_warning").length;
-
-        fileStats.innerText = '☠️ ' + nbr_errors + ' ⚠ ' + nbr_warning; 
+    function update_text(editor){
+        console.log(editor.detail);
+        text = editor.detail;
     }
-</script>
-  
 
-<!--
-    on:input={(obj) => console.log(obj.detail)}
-    on:paste={(obj) => console.log(obj.detail)}
--->
-  
+</script>
+   
 <div class="">
   <AceEditor
     on:selectionChange={(obj) => console.log(obj.detail)}
@@ -57,7 +42,8 @@
     on:copy={() => console.log('copy')}
     on:init={editor_init}
     on:commandKey={(obj) => console.log(obj.detail)}
-    on:input={update_stats}
+    
+    on:input={update_text}
     
     on:blur={() => console.log('blur')}
     width='100%'
