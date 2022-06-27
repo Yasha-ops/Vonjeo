@@ -60,7 +60,7 @@
     width='100%'
     height={h_parent}
 
-    lang="c_cpp"
+    lang="javascript"
     
     theme="clouds_midnight"
   

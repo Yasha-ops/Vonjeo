@@ -2,7 +2,7 @@
 
 
 	import { getContext } from 'svelte';
-	import { TABS } from './Tabs.svelte';
+	import { TABS, removeTab} from './Tabs.svelte';
     
     import Icon from 'svelte-icons-pack/Icon.svelte';
     import IoClose from "svelte-icons-pack/io/IoClose";
@@ -30,7 +30,7 @@
         </h1>
     </div>
 
-    <button class="flex-non w-auto ml-2 mr-2 rounded-xl hover:bg-white transition-all duration-300 ease-linear" on:click={removeMe}>
+    <button class="flex-non w-auto ml-2 mr-2 rounded-xl hover:bg-white transition-all duration-300 ease-linear" on:click="{() => removeTab(tab)}">
         <Icon src={IoClose} size="15"/>
     </button>
 </div> 

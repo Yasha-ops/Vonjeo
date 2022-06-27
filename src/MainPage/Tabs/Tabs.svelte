@@ -1,7 +1,3 @@
-<script context="module">
-	export const TABS = {};
-</script>
-
 <script>
 	import { setContext, onDestroy } from 'svelte';
 	import { writable } from 'svelte/store';
@@ -43,6 +39,15 @@
 		selectedTab,
 		selectedPanel
 	});
+
+</script>
+
+<script context="module">
+	export const TABS = {};
+	
+	export function removeTab(tab){
+		console.log(tabs);
+	}
 </script>
 
 <div class="flex flex-col flex-auto h-full w-full" name="tabs">

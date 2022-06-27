@@ -26,5 +26,8 @@
 			</TabPanel>
 		{/each}
 	</Tabs>
+
+	<!--div class="flex-none bg-green-500 w-full h-60">
+	</div-->
 	<!-- Page/ -->
 </div>
