@@ -11,6 +11,8 @@
     //<DisableScrollBar/>
     import Debuger from './Debuger/Debuger.svelte'
 
+    import { xterm } from './Term/xterm';
+
 </script>
 
 
