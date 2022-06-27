@@ -52,5 +52,5 @@
     theme="clouds_midnight"
     options = {options_editor}
     keybindings="vim"
-    value={text + innerHeight} />
+    value={text + " " + innerHeight} />
 </div>

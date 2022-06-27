@@ -9,10 +9,6 @@
     import Debuger from './Debuger/Debuger.svelte'
 
     //<DisableScrollBar/>
-    import Debuger from './Debuger/Debuger.svelte'
-
-    import { xterm } from './Term/xterm';
-
 </script>
 
 
@@ -26,8 +22,6 @@
     
     <SearchDrawer/>
 
-    <Debuger/>
-    
     <div class="flex-1">
         <MainPage/>
     </div>

@@ -7,6 +7,6 @@
 
 	registerPanel(panel);
 </script>
-<div class="flex-auto w-full bg-red-500" hidden={$selectedPanel !== panel}>
+<div class="flex-auto w-full" hidden={$selectedPanel !== panel}>
     <slot></slot>
 </div>
