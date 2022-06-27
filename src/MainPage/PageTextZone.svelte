@@ -59,8 +59,6 @@
     on:commandKey={(obj) => console.log(obj.detail)}
     on:input={update_stats}
     
-    on:changeMode={(obj) => update_mode(`${obj.detail}`)}
-
     on:blur={() => console.log('blur')}
     width='100%'
     height={h_parent}
