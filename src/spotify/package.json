@@ -1,0 +1,16 @@
+{
+  "name": "spotify",
+  "version": "1.0.0",
+  "description": "spotify integration",
+  "main": "index.js",
+  "scripts": {
+    "devstart": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "karim",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "spotify-web-api-node": "^5.0.2"
+  }
+}
