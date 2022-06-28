@@ -17,7 +17,7 @@
 
     // /!\
     // TODO: MOVE THIS OUT OF WEB BROWSER cuz i can't spwan process
-    // inside it :c. 
+    // inside it :c.
 
     let debug_back_proc;
 
@@ -38,8 +38,11 @@
                 console.error("** An error occurred during the XMLHttpRequest");
                 };
 
-                xhr.send("pkill " + debug_back_proc.pid);
+                const args = "pkill " + debug_back_proc.pid;
+                xhr.send(JSON.stringify({ value: args }));
             });
+
+            console.log("debug mode off:", response);
         }
     });
 </script>

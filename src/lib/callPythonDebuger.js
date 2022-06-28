@@ -21,7 +21,7 @@ export async function launchServer() {
         xhr.send(JSON.stringify({ value: args }));
      });
 
-     console.log(response);
+     console.log("Launched server:", response);
 }
 
 async function getFetchContent(url) {
