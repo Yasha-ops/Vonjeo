@@ -10,7 +10,7 @@
 	
     let nodeRef;
     const tab = {};
-	const { registerTab, selectTab, selectedTab } = getContext(TABS);
+	const { registerTab, unregisterTab, selectTab, selectedTab } = getContext(TABS);
     
     function removeMe(obj){
         var tabs = document.getElementById("tabs_id").children;
@@ -28,11 +28,16 @@
 
     export let basketIndex;
     export let itemIndex;
+    export let filename;
 	
 	function dragStart(event, basketIndex, itemIndex) {
 		const data = {basketIndex, itemIndex};
    		event.dataTransfer.setData('text/plain', JSON.stringify(data));
 	}
+
+    function popo(){      
+		unregisterTab(tab);
+    }
 
     // TODO Add removeMe Function
 	registerTab(tab);
@@ -46,7 +51,11 @@
             </h1>
         </div>
 
-        <button class="flex-non w-auto ml-2 mr-2 rounded-xl hover:bg-white transition-all duration-300 ease-linear" on:click="{() => nodeRef.parentNode.parentNode.removeChild(nodeRef.parentNode)}">
+        <button class="flex-non w-auto ml-2 mr-2 rounded-xl hover:bg-white transition-all duration-300 ease-linear" on:click="{() => {
+            var panel = document.getElementById(`panel-${filename}`);
+            panel.parentNode.removeChild(panel);
+            nodeRef.parentNode.parentNode.removeChild(nodeRef.parentNode);
+        }}">
             <Icon src={IoClose} size="15"/>
         </button>
     </div> 

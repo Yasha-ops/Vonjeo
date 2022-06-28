@@ -7,7 +7,10 @@
 	import {flip} from 'svelte/animate';
 
 	let baskets = [{
-      "items": ["Orange", "Pineapple", "Peach"]
+      "items": [
+		  {filename:"Orange", id:"panel-Orange"},
+		  {filename:"Pineapple", id:"panel-Pineapple"},
+		  {filename:"Peach", id:"panel-Peach"}]
     }];
 	
 	let hoveringOverBasket;
@@ -36,8 +39,8 @@
 			<TabList>
 		    {#each basket.items as item, itemIndex (item)}
 			<div class="item" animate:flip>
-				<Tab basketIndex={basketIndex} itemIndex={itemIndex}>
-						{item}
+				<Tab basketIndex={basketIndex} itemIndex={itemIndex} filename={item.filename}>
+						{item.filename}
 				</Tab>
 			</div> 
 		    {/each}
@@ -48,7 +51,7 @@
 
 
 	{#each baskets[0]["items"] as tab}	
-		<TabPanel>
+		<TabPanel id={tab.id}>
 			<Page/>
 		</TabPanel>
 	{/each}

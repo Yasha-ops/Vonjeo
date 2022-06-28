@@ -19,6 +19,14 @@
 			});
 		},
 
+		unregisterTab: tab => {
+			console.log("pOUXY");
+			const i = tabs.indexOf(tab);
+			console.log(tabs[i]);
+			tabs.splice(i, 1);
+			panels.splice(i, 1);
+		},
+
 		registerPanel: panel => {
 			panels.push(panel);
 			selectedPanel.update(current => current || panel);
