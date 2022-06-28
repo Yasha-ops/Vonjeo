@@ -1,7 +1,6 @@
 <script>
     import { launchServer, PythonDebug } from '../lib/callPythonDebuger'
     import { debug_on } from '../lib/Store'
-    const kill  = require('tree-kill');
 
     const pd = new PythonDebug('/home/geox/ing1/tlya/tp1/a.out');
     let promise = pd.test();
@@ -22,12 +21,25 @@
 
     let debug_back_proc;
 
-    debug_on.subscribe(v => {
+    debug_on.subscribe(async v => {
         if (v) {
-            debug_back_proc = launchServer();
+            debug_back_proc = await launchServer();
         }
         else {
-            kill(debug_back_proc.pid);
+            let response = await new Promise(resolve => {
+                let xhr = new XMLHttpRequest();
+
+                xhr.open("POST", backend + "/cmd", true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                xhr.onload = () => { resolve(xhr.response);  };
+                xhr.onerror = () => {
+                    resolve(undefined);
+                console.error("** An error occurred during the XMLHttpRequest");
+                };
+
+                xhr.send("pkill " + debug_back_proc.pid);
+            });
         }
     });
 </script>

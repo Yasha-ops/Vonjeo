@@ -1,32 +1,27 @@
-import child_process from 'child_process';
-// import { fetch } from 'node-fetch';
-const spawn = child_process.spawn;
 
 const port = 5555;
+const backend_port = 8000;
+const backend = 'localhost:' + backend_port;
+
 // Launch server in bg
-export function launchServer() {
-    if (!process.env['FLASK_APP'])
-        process.env['FLASK_APP'] = './python_debuger.py';
+export async function launchServer() {
+    let response = await new Promise(resolve => {
+        let xhr = new XMLHttpRequest();
 
-    return spawn(
-        'python',
-        [ '-m', 'flask', 'run', '--host=0.0.0.0', '-p', port ]
-    );
-}
+        xhr.open("POST", backend + "/cmd", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
 
-async function getExec(process, args)
-{
-    // console.log("args:", args);
-    const proc = spawn(process, args);
-    let res = "";
+        xhr.onload = () => { resolve(xhr.response);  };
+        xhr.onerror = () => {
+            resolve(undefined);
+          console.error("** An error occurred during the XMLHttpRequest");
+        };
 
-    for await (const chunk of proc.stdout)
-    {
-        // console.log("chunk:", chunk.toString());
-        res += chunk;
-    }
+        const args = [ 'FLAKS_APP = ./python_debuger.py python', '-m', 'flask', 'run', '--host=0.0.0.0', '-p', port ].join(" ");
+        xhr.send(JSON.stringify({ value: args }));
+     });
 
-    return res;
+     console.log(response);
 }
 
 async function getFetchContent(url) {
@@ -46,7 +41,6 @@ export class PythonDebug {
         return await getFetchContent('localhost:' + port + "/test");
     }
 
-    // file() { return getExec('python', [ this.dbg, 'file', this.filename ]); }
     async file() {
         return await getFetchContent('localhost:' + port + "/file/" + this.filename);
     }
