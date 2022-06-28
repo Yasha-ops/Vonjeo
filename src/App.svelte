@@ -6,8 +6,6 @@
     import SearchDrawer from './Drawer/SearchDrawer.svelte';
     import Drawer from './Drawer/Drawer.svelte';
 
-    import Debuger from './Debuger/Debuger.svelte'
-
     //<DisableScrollBar/>
 </script>
 
