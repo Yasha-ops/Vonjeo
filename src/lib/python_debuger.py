@@ -1,7 +1,7 @@
-import sys
-
 from flask import Flask
 from random import randrange
+# https://github.com/cs01/pygdbmi
+# pip install pygdbmi
 from pygdbmi.gdbcontroller import GdbController
 from pprint import pprint
 
