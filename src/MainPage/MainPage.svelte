@@ -28,7 +28,7 @@
 
 </script>
 
-<div class="flex-1 flex flex-col bg-red h-full w-auto bg-red-200" id="main_files">   
+<div class="flex-1 flex flex-col bg-red h-full w-auto bg-zinc-900" id="main_files">   
 	<!-- TabList/ -->
 	<Tabs>
 
