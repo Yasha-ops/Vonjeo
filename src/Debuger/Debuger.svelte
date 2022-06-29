@@ -1,12 +1,15 @@
 <script>
+    import Flex from 'svelte-flex';
+    import SplitPane from '../lib/SplitPane.svelte'
+
     import { launchServer, PythonDebug } from '../lib/callPythonDebuger'
     import { debug_on } from '../lib/Store'
 
     const pd = new PythonDebug('/home/geox/ing1/tlya/tp1/a.out');
-    let promise = pd.test();
+    //let promise = pd.test();
 
     function handleClick() {
-        promise = pd.test();
+        // promise = pd.test();
     }
 
     /*
@@ -15,10 +18,6 @@
     const bps = [ { file: "tp1q4.cc", nb_line: 60 } ];
     */
 
-    // /!\
-    // TODO: MOVE THIS OUT OF WEB BROWSER cuz i can't spwan process
-    // inside it :c.
-
     let debug_back_proc;
 
     debug_on.subscribe(async v => {
@@ -26,27 +25,23 @@
             debug_back_proc = await launchServer();
         }
         else {
-            let response = await new Promise(resolve => {
-                let xhr = new XMLHttpRequest();
+            console.log("LA Before post /cmd");
+            const oui = await fetch(backend + "/test");
+            console.log("LA:", await oui.text());
 
-                xhr.open("POST", backend + "/cmd", true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-
-                xhr.onload = () => { resolve(xhr.response);  };
-                xhr.onerror = () => {
-                    resolve(undefined);
-                console.error("** An error occurred during the XMLHttpRequest");
-                };
-
-                const args = "pkill " + debug_back_proc.pid;
-                xhr.send(JSON.stringify({ value: args }));
+            const res = await fetch("localhost:8000/cmd", {
+                method: "POST",
+                headers: [ ['Content-Type', 'application/json'] ], 
+                body: JSON.stringify(args)
             });
-
-            console.log("debug mode off:", response);
+            console.log("LA After post /cmd");
         }
     });
+
+    let w, h;
 </script>
 
+<!--
 <button on:click={handleClick}>
 	generate random number
 </button>
@@ -58,3 +53,31 @@
 {:catch error}
 	<p style="color: red">{error.message}</p>
 {/await}
+-->
+
+<Flex direction="column" align="center" justify="evenly" bind:clientWidth={w} bind:clientHeight={h}>
+    <div class="inside" height={h / 3}>
+        NON    
+    </div>
+
+    <SplitPane minWidth={w / 2}>
+		<div id="blue" slot="left">
+			Left
+		</div>
+
+		<div id="red" slot="right">
+			Right
+		</div>
+	</SplitPane>
+</Flex>
+
+<style>
+    .inside {
+        height: 100%;
+        width: 100%;
+        border-color: rgb(83, 177, 156);
+        border-width: 4px;
+        background-color: rgb(39 39 42 / var(--tw-bg-opacity));
+        width: 100% !important;
+    }
+</style>

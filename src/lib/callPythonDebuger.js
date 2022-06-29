@@ -5,23 +5,38 @@ const backend = 'localhost:' + backend_port;
 
 // Launch server in bg
 export async function launchServer() {
+    const args = "FLASK_APP=./python_debuger.py python -m flask run --host=0.0.0.0 -p " + port;
+
+    console.log("Before post " + backend + "/test");
+    const oui = await fetch(backend + "/test");
+    console.log("ICI le test:", await oui.text());
+
+    console.log("Before post /cmd");
+    const res = await fetch(backend + "/cmd", {
+        method: "POST",
+        headers: [ ['Content-Type', 'application/json'] ], 
+        body: JSON.stringify(args)
+    });
+    console.log("After post /cmd");
+
+    /*
     let response = await new Promise(resolve => {
         let xhr = new XMLHttpRequest();
 
         xhr.open("POST", backend + "/cmd", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
 
+        xhr.send(JSON.stringify({ value: args }));
+
         xhr.onload = () => { resolve(xhr.response);  };
         xhr.onerror = () => {
             resolve(undefined);
-          console.error("** An error occurred during the XMLHttpRequest");
+            console.error("** An error occurred during the XMLHttpRequest");
         };
-
-        const args = [ 'FLAKS_APP = ./python_debuger.py python', '-m', 'flask', 'run', '--host=0.0.0.0', '-p', port ].join(" ");
-        xhr.send(JSON.stringify({ value: args }));
      });
+     */
 
-     console.log("Launched server:", response);
+     console.log("Launched server:", res);
 }
 
 async function getFetchContent(url) {
@@ -38,6 +53,7 @@ export class PythonDebug {
     }
 
     async test() {
+        console.log("Called test")
         return await getFetchContent('localhost:' + port + "/test");
     }
 
