@@ -1,13 +1,7 @@
 <script>
     import SideBar from './SideBar/SideBar.svelte'
-    import DisableScrollBar from './DisableScrollBar.svelte';
-    import MainPage from './MainPage/MainPage.svelte';
-    
-    import SearchDrawer from './Drawer/SearchDrawer.svelte';
+    import MainPage from './MainPage/MainPage.svelte';    
     import Drawer from './Drawer/Drawer.svelte';
-
-    import Debuger from './Debuger/Debuger.svelte'
-
 </script>
 
 <div class="flex h-screen w-screen">
@@ -16,9 +10,12 @@
         <SideBar/>
     </div>
     
-    <Drawer drawer_id={"drawer-files"} name={"Files"}/>
+    <Drawer drawer_id={"drawer-files"} name={"Files"}></Drawer>
+    
+    <Drawer drawer_id={"drawer-search"} name={"Search"}>
+        <input type="text" placeholder="Search" class="flex-1 ml-3 mb-1 input input-bordered input-xs max-w-xs w-32" />
+        <input type="text" placeholder="Replace" class="flex-1 ml-3 input input-bordered input-xs max-w-xs w-32" />
+    </Drawer>
 
-    <SearchDrawer/>
-    <Debuger/>
     <MainPage/>
 </div>
