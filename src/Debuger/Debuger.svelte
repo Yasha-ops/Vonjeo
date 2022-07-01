@@ -1,7 +1,7 @@
 <script>
     import Flex from 'svelte-flex';
     import { onDestroy } from 'svelte';
-    import SplitPane from '../lib/SplitPane.svelte'
+    import { HSplitPane } from 'svelte-split-pane';
 
     import { launchServer, PythonDebug } from '../lib/callPythonDebuger'
     import { debug_on } from '../lib/Store'
@@ -45,19 +45,22 @@
 </script>
 
 
-<button on:click={handleClick}>
-	generate random number
-</button>
+<div class="flex-none w-full h-auto">
+    <button on:click={handleClick}>
+    	generate random number
+    </button>
 
-{#await promise}
-	<p>...waiting</p>
-{:then number}
-	<p>The number is {number}</p>
-{:catch error}
-	<p style="color: red">{error.message}</p>
-{/await}
+    {#await promise}
+    	<p>...waiting</p>
+    {:then number}
+    	<p>The number is {number}</p>
+    {:catch error}
+    	<p style="color: red">{error.message}</p>
+    {/await}
+</div>
 
-<Flex direction="column" align="center" justify="evenly" bind:clientWidth={w} bind:clientHeight={h}>
+
+<!--Flex direction="column" align="center" justify="evenly" bind:clientWidth={w} bind:clientHeight={h}>
     <div class="inside" height={h / 3}>
         NON    
     </div>
@@ -71,15 +74,34 @@
 			Right
 		</div>
 	</SplitPane>
-</Flex>
+</Flex-->
+
+
+
+<div class="flex flex-col flex-auto h-full w-full bg-green-500">
+    <div class="inside flex-auto">
+        NON
+    </div>
+    
+    <div class="flex-auto">
+        <HSplitPane> 
+            <div id="blue" slot="left">
+                Left
+            </div>
+    
+            <div id="red" slot="right">
+                Right
+            </div>
+        </HSplitPane>
+    </div>
+
+</div>
+
 
 <style>
     .inside {
-        height: 100%;
-        width: 100%;
         border-color: rgb(83, 177, 156);
         border-width: 4px;
         background-color: rgb(39 39 42 / var(--tw-bg-opacity));
-        width: 100% !important;
     }
 </style>
