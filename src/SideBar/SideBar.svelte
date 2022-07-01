@@ -10,7 +10,8 @@
     import BsFiles from "svelte-icons-pack/bs/BsFiles";
     import BsSearch from "svelte-icons-pack/bs/BsSearch";
     import BsBug from "svelte-icons-pack/bs/BsBug";
-    import BsSpotify from "svelte-icons-pack/bs/BsSpotify";
+    import RiLogoSpotifyLine from "svelte-icons-pack/ri/RiLogoSpotifyLine";
+
 
     // Functions
     const launchDebugger = () => {
@@ -68,6 +69,6 @@
 
     <!-- Spotify subproccess launcher-->
     <div class="sidebar-icon" on:click={launchSpotify}>
-        <Icon src={BsSpotify} size="20" />
+        <Icon src={RiLogoSpotifyLine} size="20"  color={"white"}/>
     </div>
 </div>
