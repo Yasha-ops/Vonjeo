@@ -1,5 +1,6 @@
 <script>
     import Flex from 'svelte-flex';
+    import { onDestroy } from 'svelte';
     import SplitPane from '../lib/SplitPane.svelte'
 
     import { launchServer, PythonDebug } from '../lib/callPythonDebuger'
@@ -9,19 +10,21 @@
     let promise = null;
 
     async function handleClick() {
-        console.log("Clicked promise:", pd);
         promise = pd.test();
-        console.log("prom:", promise);
-        console.log("await:", await promise);
     }
 
-    /*
-    const filed = pd.file().then(console.log);
-    const ran = pd.run().then(console.log);
-    const bps = [ { file: "tp1q4.cc", nb_line: 60 } ];
-    */
-
     let debug_back_proc;
+
+    const stopServer = async () => {
+        const val = "kill " + debug_back_proc;
+        const args = { value: val };
+
+        const res = await fetch("http://localhost:8000/cmd", {
+            method: "POST",
+            headers: [ ['Content-Type', 'application/json'] ], 
+            body: JSON.stringify(args)
+        });
+    };
 
     debug_on.subscribe(async v => {
         if (v) {
@@ -29,15 +32,13 @@
             console.log("debug_back_proc:", debug_back_proc)
         }
         else {
-            const val = "kill " + debug_back_proc;
-            const args = { value: val };
-
-            const res = await fetch("http://localhost:8000/cmd", {
-                method: "POST",
-                headers: [ ['Content-Type', 'application/json'] ], 
-                body: JSON.stringify(args)
-            });
+            stopServer();
         }
+    });
+
+    onDestroy(() => {
+        if ($debug_on)
+            stopServer();
     });
 
     let w, h;
