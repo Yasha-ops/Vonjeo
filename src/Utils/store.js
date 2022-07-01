@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { writable, derived } from "svelte/store";
 
 export const TypeFile = Object.freeze({
     FILE: 1,
@@ -6,10 +6,16 @@ export const TypeFile = Object.freeze({
 });
 
 export const store_tabs = writable([
-	{type: TypeFile.FILE, filename:"Orange", id:"panel-Orange"},
-	{type: TypeFile.FILE, filename:"Pineapple", id:"panel-Pineapple"},
-	{type: TypeFile.FILE, filename:"Peach", id:"panel-Peach"}
+	{type: TypeFile.FILE, filename:"Orange", content:"ORANGE", id:"panel-Orange"},
+	{type: TypeFile.FILE, filename:"Pineapple",content:"PINEAPPLE", id:"panel-Pineapple"},
+	{type: TypeFile.FILE, filename:"Peach", content:"PEACH", id:"panel-Peach"}
 ]);
+
+export const tabs = writable([]);
+export const panels = [];
+
+
+
 
 export const logger = (type) => {
     return function(line){

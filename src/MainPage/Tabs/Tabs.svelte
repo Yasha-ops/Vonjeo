@@ -1,30 +1,60 @@
 <script>
 	import { setContext, onDestroy } from 'svelte';
-	import { writable } from 'svelte/store';
+	import { writable, derived } from 'svelte/store';
 
-	const tabs = [];
-	const panels = [];
+	import { tabs, panels, store_tabs, DEBUG, INFO} from  './../../Utils/store.js';
+
 	const selectedTab = writable(null);
 	const selectedPanel = writable(null);
 
+	function onChangeTabs(elt){
+		var sortingArr = $store_tabs;
+		var sortingTabs = $tabs;
+
+		sortingArr = sortingArr.map( n => n.filename);
+
+		sortingTabs.sort(function(a,b){
+		    return sortingArr.indexOf(a.name) - sortingArr.indexOf(b.name);
+		});
+
+		tabs.set(sortingTabs);
+
+		//console.log(DEBUG("onChangeTabs")("tabs"), $tabs);
+		//console.log(DEBUG("onChangeTabs")("store_tabs"), $store_tabs);
+		//console.log(DEBUG("onChangeTabs")("selected tabs"), $selectedTab);
+		//console.log(DEBUG("onChangeTabs")("panels"), panels);
+
+		var selectedTabSimple = $selectedTab;
+	
+		//console.log(selectedTabSimple);
+		if (selectedTabSimple === null)
+			return;
+		document.getElementById(`tab-${selectedTabSimple.name}-button`).click();
+	}
+
+	$: onChangeTabs($store_tabs);
+
 	setContext(TABS, {
 		registerTab: tab => {
-			tabs.push(tab);
+			var tabsSimple = $tabs;
+
+			tabsSimple.push(tab);
+
 			selectedTab.update(current => current || tab);
 			
-			onDestroy(() => {
-				const i = tabs.indexOf(tab);
-				tabs.splice(i, 1);
-				selectedTab.update(current => current === tab ? (tabs[i] || tabs[tabs.length - 1]) : current);
-			});
-		},
+			$tabs = tabsSimple;
+			$tabs = $tabs;
 
-		unregisterTab: tab => {
-			console.log("pOUXY");
-			const i = tabs.indexOf(tab);
-			console.log(tabs[i]);
-			tabs.splice(i, 1);
-			panels.splice(i, 1);
+			onDestroy(() => {
+				var tabsSimple = $tabs;
+				const i = tabsSimple.indexOf(tab);
+				tabsSimple.splice(i, 1);
+				
+				$tabs = tabsSimple;
+				$tabs = $tabs;
+				
+				selectedTab.update(current => current === tab ? (tabsSimple[i] || tabsSimple[tabs.length - 1]) : current);
+			});
 		},
 
 		registerPanel: panel => {
@@ -39,9 +69,14 @@
 		},
 
 		selectTab: tab => {
-			const i = tabs.indexOf(tab);
+			var tabsSimple = $tabs;
+
+			const i = tabsSimple.indexOf(tab);
 			selectedTab.set(tab);
 			selectedPanel.set(panels[i]);
+			
+			$tabs = tabsSimple;
+			$tabs = $tabs;
 		},
 
 		selectedTab,

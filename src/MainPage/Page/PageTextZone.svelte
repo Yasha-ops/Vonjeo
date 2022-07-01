@@ -10,10 +10,7 @@
     import "brace/ext/language_tools";
     import "brace/keybinding/vim";
 
-
-
-    let text = "";
-
+    export let text = "";
     export let h_parent;
 
     function editor_init(editors){

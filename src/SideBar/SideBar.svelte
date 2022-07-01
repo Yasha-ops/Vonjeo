@@ -26,7 +26,7 @@
     <SideBarIcons icon={BsFiles} drawer_id="drawer-files"/>
     <SideBarIcons icon={BsSearch} drawer_id="drawer-search"/>
 
-    <!-- Debug button -->
+    <!-- Debug butt on -->
     <div class="sidebar-icon" on:click={launchDebugger}>
         <Icon src={BsBug} size="20"/>
     </div>

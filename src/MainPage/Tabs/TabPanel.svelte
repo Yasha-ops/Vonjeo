@@ -3,7 +3,7 @@
 	import { TABS } from './Tabs.svelte';
 
 	export let id;
-	const panel = {};
+	const panel = {id: id};
 	const { registerPanel, selectedPanel } = getContext(TABS);
 
 	registerPanel(panel);
