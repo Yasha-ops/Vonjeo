@@ -14,13 +14,10 @@
 	
 	function handleConsider(e) {
 		itemsData = e.detail.items;
-		console.log(DEBUG("HANDLE CONSIER")(e.detail.items));
 	}
 
 	function handleFinalize(e) {    
 		onDrop(e.detail.items);
-		console.log(DEBUG("HANDLE FINALIZE")(""));
-		console.log(e.detail.items);
 	}
 </script>
 

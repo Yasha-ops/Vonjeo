@@ -19,16 +19,13 @@
 
 		tabs.set(sortingTabs);
 
-		//console.log(DEBUG("onChangeTabs")("tabs"), $tabs);
-		//console.log(DEBUG("onChangeTabs")("store_tabs"), $store_tabs);
-		//console.log(DEBUG("onChangeTabs")("selected tabs"), $selectedTab);
-		//console.log(DEBUG("onChangeTabs")("panels"), panels);
-
 		var selectedTabSimple = $selectedTab;
-	
-		//console.log(selectedTabSimple);
+
 		if (selectedTabSimple === null)
-			return;
+			return ;
+
+		document.getElementById(`tab-${selectedTabSimple.name}-button`).click();
+		document.getElementById(`tab-${selectedTabSimple.name}-button`).click();
 		document.getElementById(`tab-${selectedTabSimple.name}-button`).click();
 	}
 
@@ -70,11 +67,11 @@
 
 		selectTab: tab => {
 			var tabsSimple = $tabs;
-
 			const i = tabsSimple.indexOf(tab);
 			selectedTab.set(tab);
 			selectedPanel.set(panels[i]);
 			
+
 			$tabs = tabsSimple;
 			$tabs = $tabs;
 		},

@@ -3,7 +3,7 @@
     import PageTextZone from './PageTextZone.svelte';
 
     export let text = "";
-
+    export let name;
     export let h;
 </script>
 
@@ -12,7 +12,7 @@
     <InfoTab/>
 
     <div class= "flex-1 h-full" name="editor-div" bind:clientHeight={h}>
-        <PageTextZone h_parent={h} text={text}/>
+        <PageTextZone h_parent={h} text={text} name={name}/>
     </div>
 
 </div>

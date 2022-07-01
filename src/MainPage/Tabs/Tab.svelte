@@ -7,7 +7,7 @@
     import Icon from 'svelte-icons-pack/Icon.svelte';
     import IoClose from "svelte-icons-pack/io/IoClose";
 	
-    const tab = {name: item.filename};
+    const tab = {name: item.filename, panel_id: item.id};
 	const { registerTab, selectTab, selectedTab } = getContext(TABS);
    
 

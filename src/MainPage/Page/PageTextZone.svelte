@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { AceEditor } from "svelte-ace";
+    import { AceEditor} from "svelte-ace";
     import "brace/mode/c_cpp";
     import "brace/mode/javascript";
     import "brace/mode/golang";
@@ -12,6 +12,7 @@
 
     export let text = "";
     export let h_parent;
+    export let name;
 
     function editor_init(editors){
     }
@@ -65,5 +66,8 @@
     
     keybindings='vim'
 
-    value={text} />
+    value={text} 
+
+    name={name}
+    />
 </div>

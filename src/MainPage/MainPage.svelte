@@ -22,7 +22,7 @@
 		{#each $store_tabs as tab}
 			<TabPanel id={tab.id}>
 				{#if tab.type === TypeFile.FILE }
-					<Page text={tab.content}/>
+					<Page text={tab.content} name={tab.panel_id}/>
 				{:else}
 					<Debugger/>
 				{/if}
