@@ -1,6 +1,4 @@
 <script>
-	import { DEBUG } from './../../Utils/store.js';
-
 	import {dndzone} from 'svelte-dnd-action';
 	import {flip} from 'svelte/animate';
 	

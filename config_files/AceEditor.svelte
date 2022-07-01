@@ -29,6 +29,7 @@
   export let options: any = {}; // Object
   export let readonly: boolean = false;
   export let keybindings: string = null;
+
   let editorElement: HTMLElement;
   let editor: ace.Editor;
   let contentBackup: string = "";
@@ -242,11 +243,18 @@
 		}
 	}
 })
+}
 
-  }
+function refreshEditor(){
+  console.log("Ace Editor clicked !");
+  if (editor === undefined)
+    return;
+  editor.resize(true);
+  editor.insert("");
+}
 </script>
 
 
-<div style="width:{px(width)};height:{px(height)}">
+<div style="width:{px(width)};height:{px(height)}" on:click={refreshEditor} name="AceEditor">
   <div bind:this={editorElement} style="width:{px(width)};height:{px(height)}" />
 </div>

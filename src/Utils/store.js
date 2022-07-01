@@ -28,3 +28,5 @@ export const logger = (type) => {
 export const INFO = logger("INFO");
 export const ERROR = logger("ERROR");
 export const DEBUG = logger("DEBUG");
+
+export let nbr_screens = writable(0);

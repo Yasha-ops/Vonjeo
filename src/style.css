@@ -26,11 +26,10 @@ body {
     }
 
     .tab-actif{
-        @apply flex flex-none border-solid border-r-2 border-zinc-900 w-auto h-full items-center justify-center bg-red-500
+        @apply flex flex-none border-solid border-r-2 border-zinc-900 w-auto h-full items-center justify-center bg-tab-color
     }
 
     .panel-actif{
-
         @apply flex-auto w-full bg-red-500;
         display: block;
     }
@@ -45,7 +44,26 @@ body {
         /* Change the color of the breakpoint if you want */
         @apply bg-yellow-500;
     }
+
+    .context-menu{
+        @apply  w-auto min-w-max py-1 rounded-md shadow-sm outline-none bg-zinc-700 border-gray-700;
+        position: absolute;
+		z-index: 1000; /* Usefull to create an overlay effect */
+	} 
+
+    .context-menu-item{
+        @apply flex items-center w-full px-3 h-8 flex-shrink-0 text-sm text-left cursor-pointer hover:outline-none hover:bg-zinc-800 text-white;
+    }
     
+    .context-menu-item.disable{
+        @apply flex items-center w-full px-3 h-8 flex-shrink-0 text-sm text-left cursor-not-allowed focus:outline-none  bg-green-500 focus:bg-[#1e2022];
+    }
+
+    .context-menu-item .icon-option{
+        @apply ml-1 mr-4;
+    }
+
+
 
     :root{
         --color-files: #212324;

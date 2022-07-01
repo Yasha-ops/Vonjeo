@@ -1,6 +1,6 @@
 <script>
 	import { getContext } from 'svelte';
-import { DEBUG } from '../../Utils/store';
+	import { DEBUG } from '../../Utils/store';
 	import { TABS } from './Tabs.svelte';
 
 	export let id;

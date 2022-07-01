@@ -11,6 +11,8 @@
 		console.log(newItems);
 	}
 
+	export let onePage = false;
+
 </script>
 
 <div class="flex-1 flex flex-col bg-red h-full w-auto bg-zinc-900" id="main_files">   
@@ -19,14 +21,18 @@
 
 		<TabList itemsData={$store_tabs} itemComponent={Tab} onDrop={onDrop}/>
 
-		{#each $store_tabs as tab}
-			<TabPanel id={tab.id}>
-				{#if tab.type === TypeFile.FILE }
-					<Page text={tab.content} name={tab.panel_id}/>
-				{:else}
-					<Debugger/>
-				{/if}
-			</TabPanel>
-		{/each}
+		{#if ! onePage}
+			{#each $store_tabs as tab}
+				<TabPanel id={tab.id}>
+					{#if tab.type === TypeFile.FILE }
+						<Page text={tab.content} name={tab.panel_id}/>
+					{:else}
+						<Debugger/>
+					{/if}
+				</TabPanel>
+			{/each}
+		{:else}
+				<Page text="// Splitted" name="Split"/>
+		{/if}
 	</Tabs>
 </div>

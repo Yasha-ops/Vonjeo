@@ -1,8 +1,7 @@
 <script>
-    import {store_tabs, TypeFile, INFO, ERROR, DEBUG} from './../Utils/store.js';
+    import {store_tabs, TypeFile, INFO, ERROR, DEBUG, nbr_screens } from './../Utils/store.js';
 
     import SideBarIcons from './SideBarIcons.svelte';
-    import { onMount } from 'svelte';
 
     // Icons
     import Icon from 'svelte-icons-pack/Icon.svelte';
@@ -16,6 +15,11 @@
     // Functions
     const launchDebugger = () => {
         INFO("LAUNCH DEBUG")("Launching the debug panel");
+
+        if ($nbr_screens === 0){
+            $nbr_screens += 1;
+        }
+
         $store_tabs = [...$store_tabs, {
             type:TypeFile.DEBUG,
             filename:"Debugger",
