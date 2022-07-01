@@ -17,5 +17,6 @@
         <input type="text" placeholder="Replace" class="flex-1 ml-3 input input-bordered input-xs max-w-xs w-32" />
     </Drawer>
 
+
     <MainPage/>
 </div>

@@ -2,10 +2,8 @@
     import Icon from 'svelte-icons-pack/Icon.svelte';
     export let icon;
     export let drawer_id;
-
-    let unfold = true;
-
-    function showDrawer(){
+    export let onClick = function() {
+        console.log("Called showDrawer");
         var drawers = document.getElementsByClassName("drawer");
 
         Array.prototype.forEach.call(drawers, function(element) {
@@ -17,12 +15,11 @@
             else
                 element.style.display = 'none';
         });
-
-
     }
 
+    let unfold = true
 </script>
 
-<div class="sidebar-icon" on:click={showDrawer}>
+<div class="sidebar-icon" on:click={onClick}>
     <Icon src={icon} size="20"/>
 </div>

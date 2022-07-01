@@ -2,6 +2,7 @@
     import {store_tabs, TypeFile, INFO, ERROR, DEBUG} from './../Utils/store.js';
 
     import SideBarIcons from './SideBarIcons.svelte';
+    import { onMount } from 'svelte';
 
     // Icons
     import Icon from 'svelte-icons-pack/Icon.svelte';

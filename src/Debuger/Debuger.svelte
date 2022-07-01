@@ -1,25 +1,85 @@
 <script>
-    import Screen from './Screen.svelte'
+    import Flex from 'svelte-flex';
+    import { onDestroy } from 'svelte';
+    import SplitPane from '../lib/SplitPane.svelte'
 
-    let debug_on = false;
-    export let name;
-    export let drawer_id;
+    import { launchServer, PythonDebug } from '../lib/callPythonDebuger'
+    import { debug_on } from '../lib/Store'
+
+    const pd = new PythonDebug('/home/geox/ing1/tlya/tp1/a.out');
+    let promise = null;
+
+    async function handleClick() {
+        promise = pd.test();
+    }
+
+    let debug_back_proc;
+
+    const stopServer = async () => {
+        const val = "kill " + debug_back_proc;
+        const args = { value: val };
+
+        const res = await fetch("http://localhost:8000/cmd", {
+            method: "POST",
+            headers: [ ['Content-Type', 'application/json'] ], 
+            body: JSON.stringify(args)
+        });
+    };
+
+    debug_on.subscribe(async v => {
+        if (v) {
+            debug_back_proc = await launchServer();
+            console.log("debug_back_proc:", debug_back_proc)
+        }
+        else {
+            stopServer();
+        }
+    });
+
+    onDestroy(() => {
+        if ($debug_on)
+            stopServer();
+    });
+
+    let w, h;
 </script>
 
 
-<Screen title="Debug Console" drawer={debug_on} drawerTitle="Debug" tabs={["a.svelte", "b.svelte"]}></Screen>
+<button on:click={handleClick}>
+	generate random number
+</button>
 
-<div class="drawer" id={drawer_id} style="display: none;">
-    <div class="relative flex w-auto h-9 items-center">
-        <p class="text-xs text-white uppercase ml-3">{name}</p>
+{#await promise}
+	<p>...waiting</p>
+{:then number}
+	<p>The number is {number}</p>
+{:catch error}
+	<p style="color: red">{error.message}</p>
+{/await}
+
+<Flex direction="column" align="center" justify="evenly" bind:clientWidth={w} bind:clientHeight={h}>
+    <div class="inside" height={h / 3}>
+        NON    
     </div>
-</div>
 
+    <SplitPane minWidth={w / 2}>
+		<div id="blue" slot="left">
+			Left
+		</div>
 
-<div class="flex-none drawer flex" id="drawer-debug" style="display: none;">
-    <div class="relative flex w-auto h-9 items-center">
-        <p class="text-xs text-white uppercase ml-3">Search</p>
-    </div>
-    <input type="text" placeholder="oui oui" class="flex-1 ml-3 mb-1 input input-bordered input-xs max-w-xs w-32" />
-    <input type="text" placeholder="aller" class="flex-1 ml-3 input input-bordered input-xs max-w-xs w-32" />
-</div>
+		<div id="red" slot="right">
+			Right
+		</div>
+	</SplitPane>
+</Flex>
+
+<style>
+    .inside {
+        height: 100%;
+        width: 100%;
+        border-color: rgb(83, 177, 156);
+        border-width: 4px;
+        background-color: rgb(39 39 42 / var(--tw-bg-opacity));
+        width: 100% !important;
+    }
+</style>
