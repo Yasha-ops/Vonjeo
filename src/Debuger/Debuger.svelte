@@ -6,10 +6,13 @@
     import { debug_on } from '../lib/Store'
 
     const pd = new PythonDebug('/home/geox/ing1/tlya/tp1/a.out');
-    //let promise = pd.test();
+    let promise = null;
 
-    function handleClick() {
-        // promise = pd.test();
+    async function handleClick() {
+        console.log("Clicked promise:", pd);
+        promise = pd.test();
+        console.log("prom:", promise);
+        console.log("await:", await promise);
     }
 
     /*
@@ -23,25 +26,24 @@
     debug_on.subscribe(async v => {
         if (v) {
             debug_back_proc = await launchServer();
+            console.log("debug_back_proc:", debug_back_proc)
         }
         else {
-            console.log("LA Before post /cmd");
-            const oui = await fetch(backend + "/test");
-            console.log("LA:", await oui.text());
+            const val = "kill " + debug_back_proc;
+            const args = { value: val };
 
-            const res = await fetch("localhost:8000/cmd", {
+            const res = await fetch("http://localhost:8000/cmd", {
                 method: "POST",
                 headers: [ ['Content-Type', 'application/json'] ], 
                 body: JSON.stringify(args)
             });
-            console.log("LA After post /cmd");
         }
     });
 
     let w, h;
 </script>
 
-<!--
+
 <button on:click={handleClick}>
 	generate random number
 </button>
@@ -53,7 +55,6 @@
 {:catch error}
 	<p style="color: red">{error.message}</p>
 {/await}
--->
 
 <Flex direction="column" align="center" justify="evenly" bind:clientWidth={w} bind:clientHeight={h}>
     <div class="inside" height={h / 3}>
