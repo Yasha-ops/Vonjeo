@@ -1,3 +1,4 @@
+import { component_subscribe } from "svelte/internal";
 
 const port = 5555;
 const backend_port = 8000;
@@ -33,7 +34,6 @@ async function getFetchContent(url) {
 export class PythonDebug {
     constructor(filename) {
         this.filename = filename;
-        this.dbg = './python_debuger.py';
     }
 
     async test() {
@@ -66,7 +66,37 @@ export class PythonDebug {
         return await getFetchContent('http://localhost:' + port + "/interrupt");
     }
 
+    async lines() {
+        return await getFetchContent('http://localhost:' + port + "/lines");
+    }
+
     async exit() {
         return await getFetchContent('http://localhost:' + port + "/exit");
+    }
+
+    toLines(input) {
+        console.log("input:", input);
+        const data = JSON.parse(input);
+        
+        data.shift();
+        return data.map(o => {
+            if (o['stream'] !== 'stdout') {
+                console.log(o);
+            }
+            else {
+                let res = "";
+
+                if (o['message']) {
+                    res += o['message'] + " ";
+                }
+                if (o['payload']) {
+                    res += (typeof o['payload'] === "object") ?
+                        o['payload']['msg'] :
+                        o['payload'];
+                }
+
+                return res;
+            }
+        });
     }
 }
