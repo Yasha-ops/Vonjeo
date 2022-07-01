@@ -33,7 +33,6 @@ async function getFetchContent(url) {
 export class PythonDebug {
     constructor(filename) {
         this.filename = filename;
-        this.dbg = './python_debuger.py';
     }
 
     async test() {
@@ -64,6 +63,10 @@ export class PythonDebug {
 
     async interrupt() {
         return await getFetchContent('http://localhost:' + port + "/interrupt");
+    }
+
+    async lines() {
+        return await getFetchContent('http://localhost:' + port + "/lines");
     }
 
     async exit() {

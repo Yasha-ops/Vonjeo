@@ -41,6 +41,8 @@
             stopServer();
     });
 
+    const codes = pd.lines();
+
     let w, h;
 </script>
 
@@ -59,7 +61,13 @@
 
 <Flex direction="column" align="center" justify="evenly" bind:clientWidth={w} bind:clientHeight={h}>
     <div class="inside" height={h / 3}>
-        NON    
+        {#await codes}
+            <p>Loading ...</p>
+        {:then codes}
+            <p>{codes}</p>
+        {:catch error}
+            <p style="color: red">{error.message}</p>
+        {/await}
     </div>
 
     <SplitPane minWidth={w / 2}>
