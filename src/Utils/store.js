@@ -39,8 +39,3 @@ export const ERROR = logger("ERROR");
 export const DEBUG = logger("DEBUG");
 
 export let nbr_screens = writable(1);
-
-
-export function deepEquality(var1, var2){
-    return JSON.stringify(var1) === JSON.stringify(var2);
-}
