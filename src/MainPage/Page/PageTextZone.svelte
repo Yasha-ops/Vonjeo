@@ -1,5 +1,7 @@
 <script lang="ts">
     import { AceEditor} from "svelte-ace";
+    import {INFO} from './../../Utils/store.js'
+
     import "brace/mode/c_cpp";
     import "brace/mode/javascript";
     import "brace/mode/golang";
@@ -12,7 +14,6 @@
 
     export let text = "";
     export let h_parent;
-    export let name;
 
     function editor_init(editors){
     }
@@ -36,6 +37,16 @@
         fileStats.innerText = '☠️ ' + nbr_errors + ' ⚠ ' + nbr_warning; 
     }
 
+    function updateBreakpoints(obj){
+        // [empty, ace_breakpoint, empty];
+        console.log(obj.nbr_breakpoints);
+        let keys = Object.keys(obj.nbr_breakpoints);
+
+        let breakpoints =  keys.filter((n) => obj.nbr_breakpoints[n]);
+
+        console.log(breakpoints.map((n) => +n + 1));    
+    }
+
 </script>
    
 <div class="">
@@ -48,7 +59,7 @@
     on:copy={() => console.log('copy')}
     on:init={editor_init}
     on:commandKey={(obj) => console.log(obj.detail)}
-    
+    on:breakpoints= {(obj) =>  updateBreakpoints(obj.detail)}
     on:input={(obj) => {
         update_text(obj);
         update_stats();
