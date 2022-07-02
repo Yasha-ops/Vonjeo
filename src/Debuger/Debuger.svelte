@@ -6,15 +6,10 @@
     import { debug_on } from '../lib/Store'
 
     const pd = new PythonDebug('./a.out');
-    let promise = null;
-
-    async function handleClick() {
-        promise = pd.test();
-    }
-
     let debug_back_proc;
 
     const stopServer = async () => {
+        console.log("Stopped debug server");
         const val = "kill " + debug_back_proc;
         const args = { value: val };
 
@@ -41,46 +36,30 @@
     });
 
     let codes = pd.lines();
-    let act = false;
     let files;
 
     $: if (files) {
         codes = pd.file();
     }
 
+    async function callAndLines(toCall) {
+        codes = pd.lines();
+        await toCall();
+    }
+
     // suposed to updates text in top div of the page but idk y it doesn't
     // for ex when i click on run it's  not updating D:
-    $: act, codes = pd.file();
+    // $: act, codes = pd.file();
 </script>
 
-<!--Flex direction="column" align="center" justify="evenly" bind:clientWidth={w} bind:clientHeight={h}>
-    <div class="inside" height={h / 3}>
-        {#await codes}
-            <p>Loading ...</p>
-        {:then codes}
-            <p>{codes}</p>
-        {:catch error}
-            <p style="color: red">{error.message}</p>
-        {/await}
-    </div>
-
-    <SplitPane minWidth={w / 2}>
-		<div id="blue" slot="left">
-			Left
-		</div>
-
-		<div id="red" slot="right">
-			Right
-		</div>
-	</SplitPane>
-</Flex-->
 
 <div class="flex flex-col flex-auto h-full w-full">
     <div class="inside flex-auto">
         {#await codes}
             <p>Loading ...</p>
         {:then codes}
-            {#each pd.toLines(codes) as line}
+            <!-- {#each pd.toLines(codes) as line} -->
+            {#each codes as line}
                 <p>{line}</p>
             {/each}
         {:catch error}
@@ -97,13 +76,13 @@
             <div id="red" slot="right">
                 <div class="btn-group">
                     <input type="file" bind:files>
-                    <button on:click={async () => { codes = pd.toLines(await pd.continue()); act = !act; }}>
+                    <button on:click={async () => callAndLines(pd.continue) }>
                         Continue
                     </button>
-                    <button on:click={async () => { codes = pd.toLines(await pd.run()); act = !act; }}>
+                    <button on:click={async () => callAndLines(pd.run) }>
                         Run
                     </button>
-                    <button on:click={async () => { codes = pd.toLines(await pd.run()); act = !act; }}>
+                    <button on:click={async () => callAndLines(pd.run) }>
                         Run2
                     </button>
                 </div>

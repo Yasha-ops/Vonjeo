@@ -31,6 +31,8 @@ async function getFetchContent(url) {
     return data;
 }
 
+Object.values = obj => Object.keys(obj).map(key => obj[key]);
+
 export class PythonDebug {
     constructor(filename) {
         this.filename = filename;
@@ -76,9 +78,14 @@ export class PythonDebug {
 
     toLines(input) {
         console.log("input:", input);
+
+        if (Array.isArray(input))
+            return Object.values(input).reduce((acc, obj) => acc + " " + obj, "");
+
         const data = JSON.parse(input);
         
         data.shift();
+        data.pop();
         return data.map(o => {
             if (o['stream'] !== 'stdout') {
                 console.log(o);
@@ -91,7 +98,8 @@ export class PythonDebug {
                 }
                 if (o['payload']) {
                     res += (typeof o['payload'] === "object") ?
-                        o['payload']['msg'] :
+                        Object.values(o['payload']).reduce((acc, obj) => acc + obj, res) :
+                        // o['payload']['msg'] :
                         o['payload'];
                 }
 
