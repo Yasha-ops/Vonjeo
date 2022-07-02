@@ -6,6 +6,7 @@
 
     import SideBarIcons from './SideBarIcons.svelte';
 
+
     // Icons
     import Icon from 'svelte-icons-pack/Icon.svelte';
     
@@ -30,9 +31,20 @@
         }];
     }
 
-    function toggleSpotify(){
-        showSpotify.set(! $showSpotify); 
-    }
+    const launchSpotify = () => {
+            var r = new XMLHttpRequest();
+            r.open("POST", "http://127.0.0.1:8001/kill", true);
+            r.onreadystatechange = function () {
+                if (r.readyState != 4 || r.status != 200) return;
+            console.log("sent");
+            };
+            // Send data in below way from JS
+             r.send(JSON.stringify({"input": "test"}));
+             
+
+}
+
+
 
 
 </script>
