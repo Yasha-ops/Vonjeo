@@ -2,12 +2,14 @@
 	import { getContext } from 'svelte';
 	import { DEBUG } from '../../Utils/store';
 	import { TABS } from './Tabs.svelte';
-
+	
 	export let id;
-	const panel = {id: id};
+	export let mIndex;
+
+	const panel = {id: id, mIndex: mIndex};
 	const { registerPanel, selectedPanel } = getContext(TABS);
 
-	registerPanel(panel);
+	registerPanel(panel, mIndex);
 	
 	$: onWatchSelected($selectedPanel);
 	function onWatchSelected(event){
