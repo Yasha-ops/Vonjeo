@@ -4,7 +4,7 @@
 
     export let text = "";
     export let name;
-    export let h;
+    let h;
 </script>
 
 <div class="flex-1 flex flex-col h-full" name="page">

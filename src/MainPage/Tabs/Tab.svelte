@@ -1,5 +1,6 @@
 <script>	
     export let item;
+
     import { Menu } from './../../ContextMenu/context_menu.js';
     import TabContextMenu from './TabContextMenu.svelte';
     
@@ -12,10 +13,8 @@
     const tab = {name: item.filename, panel_id: item.id};
 	const { registerTab, selectTab, selectedTab } = getContext(TABS);
    
-
     // TODO Add removeMe Function
-	registerTab(tab);
-
+	registerTab(tab, item.mIndex);
     
     // Context Menu
 	let pos = { x: 0, y: 0 };
@@ -47,7 +46,7 @@
 {/if}
 
 <div name="tab" class:tab-actif="{$selectedTab === tab}" class:tab-passif="{$selectedTab !== tab}"  on:contextmenu|preventDefault={onRightClick}>
-    <div class="flex-auto flex justify-center items-center h-full m-full" class:selected="{$selectedTab === tab}" on:click="{() => selectTab(tab)}" id="tab-{item.filename}-button">
+    <div class="flex-auto flex justify-center items-center h-full m-full" class:selected="{$selectedTab === tab}" on:click="{() => selectTab(tab, item.mIndex)}" id="tab-{item.filename}-button">
         <h1 class="text-white flex-auto ml-2 mr-2 text-xs">
             {item.filename}
         </h1>

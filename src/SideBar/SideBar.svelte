@@ -20,7 +20,7 @@
             $nbr_screens += 1;
         }
 
-        $store_tabs = [...$store_tabs, {
+        $store_tabs[0] = [...$store_tabs[0], {
             type:TypeFile.DEBUG,
             filename:"Debugger",
             id:"panel-debug"

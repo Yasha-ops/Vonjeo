@@ -6,13 +6,15 @@ export const TypeFile = Object.freeze({
 });
 
 export const store_tabs = writable([
-	{type: TypeFile.FILE, filename:"Orange", content:"ORANGE", id:"panel-Orange"},
-	{type: TypeFile.FILE, filename:"Pineapple",content:"PINEAPPLE", id:"panel-Pineapple"},
-	{type: TypeFile.FILE, filename:"Peach", content:"PEACH", id:"panel-Peach"}
+    [
+    	{type: TypeFile.FILE, filename:"Orange", content:"ORANGE", id:"panel-Orange", mIndex: 0},
+    	{type: TypeFile.FILE, filename:"Pineapple",content:"PINEAPPLE", id:"panel-Pineapple", mIndex: 0},
+    	{type: TypeFile.FILE, filename:"Peach", content:"PEACH", id:"panel-Peach", mIndex: 0}
+    ]
 ]);
 
-export const tabs = writable([]);
-export const panels = [];
+export const tabs = writable([[]]);
+export const panels = [[]];
 
 
 
@@ -29,4 +31,4 @@ export const INFO = logger("INFO");
 export const ERROR = logger("ERROR");
 export const DEBUG = logger("DEBUG");
 
-export let nbr_screens = writable(0);
+export let nbr_screens = writable(1);

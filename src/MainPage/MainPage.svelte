@@ -6,24 +6,20 @@
 	import {DEBUG, store_tabs, TypeFile} from './../Utils/store.js';
 
 	function onDrop(newItems) {
-		$store_tabs = newItems;	
-		console.log(DEBUG("ONDROP")(""));
+		$store_tabs[0] = newItems;	
 		console.log(newItems);
-	}
+	}	
 
-	export let onePage = false;
-
+	export let onePage;
+	export let mIndex;
 </script>
 
 <div class="flex-1 flex flex-col bg-red h-full w-auto bg-zinc-900" id="main_files">   
 	<!-- TabList/ -->
 	<Tabs>
-
-		<TabList itemsData={$store_tabs} itemComponent={Tab} onDrop={onDrop}/>
-
-		{#if ! onePage}
-			{#each $store_tabs as tab}
-				<TabPanel id={tab.id}>
+		<TabList itemsData={$store_tabs[mIndex]} itemComponent={Tab} onDrop={onDrop} onePage={onePage}/>
+			{#each $store_tabs[mIndex] as tab}
+				<TabPanel id={tab.id} mIndex={mIndex}>
 					{#if tab.type === TypeFile.FILE }
 						<Page text={tab.content} name={tab.panel_id}/>
 					{:else}
@@ -31,8 +27,5 @@
 					{/if}
 				</TabPanel>
 			{/each}
-		{:else}
-				<Page text="// Splitted" name="Split"/>
-		{/if}
 	</Tabs>
 </div>

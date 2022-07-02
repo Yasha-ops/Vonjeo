@@ -27,7 +27,7 @@
 
     {#each Array($nbr_screens) as _, index(index)}
         <div animate:flip="{{ duration: 300 }}" out:scale="{{ duration: 250 }}" in:fly="{{ x: -20, duration: 250 }}" class="flex-auto flex">
-            <MainPage onePage={index !== 0}/>
+            <MainPage onePage={index !== 0} mIndex={index} />
         </div>
     {/each}
 

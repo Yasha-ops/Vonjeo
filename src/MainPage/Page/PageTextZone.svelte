@@ -67,7 +67,5 @@
     keybindings='vim'
 
     value={text} 
-
-    name={name}
     />
 </div>
