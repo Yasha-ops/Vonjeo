@@ -10,6 +10,8 @@
     import "brace/ext/language_tools";
     import "brace/keybinding/vim";
 
+    import { FONTSIZE } from "./../../Utils/store.js";
+
     export let text = "";
     export let h_parent;
     export let name;
@@ -22,6 +24,14 @@
         enableBasicAutocompletion: true,
         enableSnippets: true,
         enableLiveAutocompletion: true
+    }
+
+    $: fontSet($FONTSIZE);
+    function fontSet(e) {
+        optionObject.fontSize = `${$FONTSIZE}pt`;
+        if (optionObject.fontSize == "Defaultpt") {
+            optionObject.fontSize = "20pt"
+        }
     }
 
     function update_text(editor){
@@ -59,7 +69,7 @@
     height={h_parent}
 
     lang="javascript"
-    
+     
     theme="clouds_midnight"
   
     options = {optionObject}

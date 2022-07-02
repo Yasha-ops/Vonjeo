@@ -1,10 +1,20 @@
-<select class="flex-none bg-white w-40 h-5 rounded-lg hover:bg-gray-500 ml-2">
-    <option disabled selected >Size</option>
-    <option>10</option>
-    <option>11</option>
-    <option>12</option>
-    <option>13</option>
-    <option>14</option>
+<script>
+    import {FONTSIZE} from "./../Utils/store.js"
+    let fontSizeOptions = [ 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+    let fontSizeSelected = "Default";
+    let fontSizePH = "Font Size"
+    $: $FONTSIZE = fontSizeSelected
+
+</script>
+
+<p class="text-white">Font Size</p>
+<select class="flex-none bg-white w-40 h-5 rounded-lg hover:bg-gray-500 ml-2" bind:value={fontSizeSelected}>
+    <option selected >Default</option>
+    {#each fontSizeOptions as fontSize}
+			<option value={fontSize}>
+				{fontSize}
+			</option>
+		{/each}
 </select>
 
 <select class="flex-none bg-white w-40 h-5 rounded-lg hover:bg-gray-500 ml-2">
