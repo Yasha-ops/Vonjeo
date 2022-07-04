@@ -9,7 +9,7 @@
 
 	function sortTabs(tabs, storeTabs){
 		for (let i = 0; i < tabs.length; i++){
-			var sortingArr = storeTabs[i];
+			let sortingArr = storeTabs[i];
 			sortingArr = sortingArr.map(n => n.filename);
 			
 			tabs[i] = tabs[i].sort((a, b) => {
@@ -25,7 +25,7 @@
 		$tabs = $tabs
 		console.log(DEBUG("ON CHANGE TABS")("tabs"), $tabs);
 
-		var selectedTabSimple = $selectedTab;
+		let selectedTabSimple = $selectedTab;
 
 		if (selectedTabSimple === null)
 			return ;
@@ -33,31 +33,34 @@
 		document.getElementById(`tab-${selectedTabSimple.name}-button`).click();
 	}
 
-	$: onChangeTabs($store_tabs);
+	// $: onChangeTabs($store_tabs);
 
 	setContext(TABS, {
 		registerTab: (tab, mIndex) => {
-		
-			if ($tabs.length <= mIndex)
-				$tabs = [...$tabs, []];
+			let tempTabs = $tabs;
+
+			if (tempTabs.length <= mIndex)
+				tempTabs = [...tempTabs, []];
 			
-			var tabsSimple = $tabs[mIndex];
+			let tabsSimple = tempTabs[mIndex];
 
 			tabsSimple.push(tab);
 
 			selectedTab.update(current => current || tab);
 			
-			$tabs[mIndex] = tabsSimple;
-			$tabs = $tabs;
-
+			tempTabs[mIndex] = tabsSimple;
+			
+			tabs.set(tempTabs);
+			
 			onDestroy(() => {
-				var tabsSimple = $tabs[mIndex];
+
+				console.log(INFO("ON DESTROY - REGISTER TAB")("tab"), tab);
+
+				let tabsSimple = $tabs[mIndex];
 				const i = tabsSimple.indexOf(tab);
 				tabsSimple.splice(i, 1);
 				
-				$tabs[mIndex] = tabsSimple;
-				$tabs = $tabs;
-				
+				$tabs[mIndex] = tabsSimple;	
 				selectedTab.update(current => current === tab ? (tabsSimple[i] || tabsSimple[tabs.length - 1]) : current);
 			});
 		},
@@ -71,6 +74,9 @@
 			selectedPanel.update(current => current || panel);
 			
 			onDestroy(() => {
+				
+				console.log(DEBUG("ON DESTROY - REGISTER PANEL")("panel"), panel);
+
 				const i = panels[mIndex].indexOf(panel);
 				panels[mIndex].splice(i, 1);
 				selectedPanel.update(current => current === panel ? (panels[mIndex][i] || panels[mIndex][panels.length - 1]) : current);
@@ -78,14 +84,14 @@
 		},
 
 		selectTab: (tab, mIndex) => {
-			var tabsSimple = $tabs[mIndex];
-			const i = tabsSimple.indexOf(tab);
-			selectedTab.set(tab);
-			selectedPanel.set(panels[mIndex][i]);
-			
 			console.log(DEBUG("SELECT TAB")("tabs"), $tabs);
 			console.log(DEBUG("SELECT TAB")("panels"), panels);
 
+			let tabsSimple = $tabs[mIndex];
+			const i = tabsSimple.indexOf(tab);
+			selectedTab.set(tab);
+			selectedPanel.set(panels[mIndex][i]);
+		
 			$tabs[mIndex] = tabsSimple;
 			$tabs = $tabs;
 		},

@@ -1,6 +1,6 @@
 <script>
     import { MenuOption } from './../../ContextMenu/context_menu.js';
-    import { nbr_screens, store_tabs, TypeFile, deepEquality, DEBUG, INFO } from './../../Utils/store.js';
+    import { nbr_screens, store_tabs, tabs, deepEquality, DEBUG, INFO } from './../../Utils/store.js';
 
     import { getContext } from 'svelte';
     import { TABS } from './Tabs.svelte';    
@@ -11,21 +11,41 @@
     import VscSplitHorizontal from "svelte-icons-pack/vsc/VscSplitHorizontal";
 
 
+    export let currentItem;
+    
     export let currentTab;
-
-    console.log("CURRENT TAB", currentTab);
 
 	const { registerTab } = getContext(TABS);
  
-    function addScreen(){
-        $nbr_screens += 1;
+    let log = DEBUG("ADD SCREEN");
+    
+    const sleep = (milliseconds) => {
+      return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+
+    async  function addScreen(){
+        // tabs
+        let tempTabs = $tabs;
+        let tabIndex = tempTabs[$nbr_screens - 1].indexOf(currentTab);
+
+        console.log(log("tabs START"), tempTabs);
         
-        console.log("NBR SCREENS", currentTab);
+        tempTabs[$nbr_screens - 1].splice(tabIndex, 1); 
+
         
-        $store_tabs = [...$store_tabs, [currentTab]];
-        console.log(INFO("ADD SCREEN")("store tabs"), $store_tabs);
-        $store_tabs[$nbr_screens - 2] = $store_tabs[$nbr_screens - 2].filter((n) => !deepEquality(n, currentTab)); 
-        console.log(INFO("ADD SCREEN")("store tabs"), $store_tabs);
+        // Store Tabs
+        let storeTabs = $store_tabs;
+        storeTabs[$nbr_screens - 1] = storeTabs[$nbr_screens - 1].filter((n) => !deepEquality(n, currentItem));
+        
+        currentItem.mIndex += 1;
+        storeTabs = [...storeTabs, [currentItem]];
+        
+        $nbr_screens += 1; 
+
+        store_tabs.set(storeTabs);
+        console.log(log("tabs END END"), tempTabs);
+        tabs.set(tempTabs);
+        // $store_tabs[$nbr_screens - 2] = $store_tabs[$nbr_screens - 2].filter((n) => !deepEquality(n, currentItem));
     }
 
 </script>

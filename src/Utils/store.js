@@ -9,7 +9,8 @@ export const store_tabs = writable([
     [
     	{type: TypeFile.FILE, filename:"Orange", content:"ORANGE", id:"panel-Orange", mIndex: 0},
     	{type: TypeFile.FILE, filename:"Pineapple",content:"PINEAPPLE", id:"panel-Pineapple", mIndex: 0},
-    	{type: TypeFile.FILE, filename:"Peach", content:"PEACH", id:"panel-Peach", mIndex: 0}
+    	{type: TypeFile.FILE, filename:"Peach", content:"PEACH", id:"panel-Peach", mIndex: 0},
+    	{type: TypeFile.FILE, filename:"Lemon", content:"LEMON", id:"panel-Lemon", mIndex: 0}
     ]
 ]);
 

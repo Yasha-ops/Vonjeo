@@ -41,11 +41,12 @@
 
 {#if showMenu}
 	<Menu {...pos} on:click={closeMenu} on:clickoutside={closeMenu}>
-        <TabContextMenu currentTab={item}/>
+        <TabContextMenu currentTab={tab} currentItem={item}/>
 	</Menu>
 {/if}
 
 <div name="tab" class:tab-actif="{$selectedTab === tab}" class:tab-passif="{$selectedTab !== tab}"  on:contextmenu|preventDefault={onRightClick}>
+    {item.mIndex}
     <div class="flex-auto flex justify-center items-center h-full m-full" class:selected="{$selectedTab === tab}" on:click="{() => selectTab(tab, item.mIndex)}" id="tab-{item.filename}-button">
         <h1 class="text-white flex-auto ml-2 mr-2 text-xs">
             {item.filename}

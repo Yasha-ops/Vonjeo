@@ -16,7 +16,7 @@
 		if ($selectedPanel !== panel)
 			return;
 		
-		console.log(DEBUG("onWatchSelected")("id"), id);
+		//console.log(DEBUG("onWatchSelected")("id"), id);
 
 		let aceEditor = document.querySelector(`#${id} > div > div.flex-1.h-full > div > div`);
 		if (aceEditor === null)
