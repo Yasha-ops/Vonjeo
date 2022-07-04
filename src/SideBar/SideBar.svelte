@@ -6,7 +6,6 @@
 
     import SideBarIcons from './SideBarIcons.svelte';
 
-
     // Icons
     import Icon from 'svelte-icons-pack/Icon.svelte';
     
@@ -31,19 +30,9 @@
         }];
     }
 
-    const launchSpotify = () => {
-            var r = new XMLHttpRequest();
-            r.open("POST", "http://127.0.0.1:8001/kill", true);
-            r.onreadystatechange = function () {
-                if (r.readyState != 4 || r.status != 200) return;
-            console.log("sent");
-            };
-            // Send data in below way from JS
-             r.send(JSON.stringify({"input": "test"}));
-             
-
-}
-
+    function toggleSpotify(){
+        showSpotify.set(! $showSpotify); 
+    }
 
 
 
@@ -65,6 +54,6 @@
 
     <!-- Spotify subproccess launcher-->
     <div class="sidebar-icon" on:click={toggleSpotify}>
-        <Icon src={ImSpotify} size="20"/>
+        <Icon src={RiLogoSpotifyLine} size="20"/>
     </div>
 </div>
