@@ -4,6 +4,17 @@
     import "brace/mode/javascript";
     import "brace/mode/golang";
     import "brace/theme/clouds_midnight";
+    import "brace/theme/github";
+    import "brace/theme/chaos";
+    import "brace/theme/cobalt";
+    import "brace/theme/twilight";
+    import "brace/theme/dracula";
+    import "brace/theme/clouds";
+    import "brace/theme/monokai";
+    import "brace/theme/tomorrow";
+    import "brace/theme/idle_fingers";
+    import "brace/theme/kuroir";
+    import "brace/theme/gob";
 
     import "brace/ext/searchbox";
 
@@ -12,6 +23,7 @@
 
     import { FONTSIZE } from "./../../Utils/store.js";
     import { FONTTYPE } from "./../../Utils/store.js";
+    import { THEME } from "./../../Utils/store.js";
 
     export let text = "";
     export let h_parent;
@@ -23,6 +35,7 @@
     let optionObject = {
         fontSize: "20pt",
         fontFamily: "Consolas",
+        theme:"ace/theme/clouds_midnight",
         enableBasicAutocompletion: true,
         enableSnippets: true,
         enableLiveAutocompletion: true
@@ -41,6 +54,14 @@
         optionObject.fontFamily = `${$FONTTYPE}`;
         if (optionObject.fontFamily == "Default") {
             optionObject.fontFamily = "Consolas"
+        }
+    }
+    
+    $: themeSet($THEME);
+    function themeSet(e) {
+        optionObject.theme = `ace/theme/${$THEME}`;
+        if (optionObject.theme == "ace/theme/Default") {
+            optionObject.theme = "ace/theme/clouds_midnight"
         }
     }
 
@@ -80,13 +101,13 @@
 
     lang="javascript"
      
-    theme="clouds_midnight"
+    theme= "github"
   
     options = {optionObject}
     
     keybindings='vim'
 
-    value={text} 
+    value={text}
 
     name={name}
     />

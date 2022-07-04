@@ -1,6 +1,7 @@
 <script>
     import {FONTSIZE} from "./../Utils/store.js"
     import {FONTTYPE} from "./../Utils/store.js"
+    import {THEME} from "./../Utils/store.js"
 
     let fontSizeOptions = [ 10, 11, 12, 13, 14, 15, 16, 24, 28, 32, 36, 40, 44, 48, 52]
     let fontSizeSelected = "Default";
@@ -10,6 +11,10 @@
                             "VT323", "Noto Sans Mono"];
     let fontTypeSelected = "Default";
     $: $FONTTYPE = fontTypeSelected
+
+    let themeOptions = ["chaos", "clouds", "cobalt", "dracula", "github", "gob", "idle_fingers", "kuroir", "monokai", "tomorrow", "twilight"]
+    let themeSelected = "Default"
+    $: $THEME = themeSelected
 
 </script>
 
@@ -36,12 +41,11 @@
 
 <p class="text-white flex-none m-2">Theme</p>
 
-<select class="flex-none bg-white w-40 h-5 rounded-lg hover:bg-gray-500 ml-2">
-    <option disabled selected>Theme</option>
-    <option>Theme1</option>
-    <option>Theme2</option>
-    <option>Theme3</option>
-    <option>Theme4</option>
-    <option>Theme5</option>
-    <option>Theme6</option>
+<select class="flex-none bg-white w-40 h-5 rounded-lg hover:bg-gray-500 ml-2" bind:value={themeSelected}>
+    <option selected >Default</option>
+    {#each themeOptions as theme}
+			<option value={theme}>
+				{theme}
+			</option>
+	{/each}
 </select>

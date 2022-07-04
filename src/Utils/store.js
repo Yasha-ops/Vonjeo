@@ -31,3 +31,4 @@ export const DEBUG = logger("DEBUG");
 
 export let FONTSIZE = writable(10);
 export let FONTTYPE = writable(10);
+export let THEME = writable(10);
