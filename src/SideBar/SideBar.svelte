@@ -3,6 +3,7 @@
 
     import SideBarIcons from './SideBarIcons.svelte';
 
+
     // Icons
     import Icon from 'svelte-icons-pack/Icon.svelte';
     
@@ -28,37 +29,19 @@
     }
 
     const launchSpotify = () => {
-        const { exec } = require('child_process');
+            var r = new XMLHttpRequest();
+            r.open("POST", "http://127.0.0.1:8001/kill", true);
+            r.onreadystatechange = function () {
+                if (r.readyState != 4 || r.status != 200) return;
+            console.log("sent");
+            };
+            // Send data in below way from JS
+             r.send(JSON.stringify({"input": "test"}));
+             
 
-        exec('cd ~/src/spotify/server; npm start', (error, stdout, stderr) => {
-
-
-          if (error) {
-            console.error(`error: ${error.message}`);
-            return;
-          }
-      
-          if (stderr) {
-            console.error(`stderr: ${stderr}`);
-            return;
-          }
-
-        });
-        exec('cd ~/src/spotify/client; npm start', (error, stdout, stderr) => {
+}
 
 
-        if (error) {
-          console.error(`error: ${error.message}`);
-          return;
-        }
-
-        if (stderr) {
-          console.error(`stderr: ${stderr}`);
-          return;
-        }
-
-        });
-    }
 
 </script>
 
