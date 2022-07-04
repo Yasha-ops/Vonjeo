@@ -7,7 +7,7 @@
 
     let color = {
         "Connect" : "bg-[#1DB954]",
-        "Waiting..." : "bg-[#B9971D]",
+        "Waiting" : "bg-[#B9971D]",
         "Select device" : "bg-[#1D6EB9]",
         "Error" : "bg-[#B91D1D]"
     }

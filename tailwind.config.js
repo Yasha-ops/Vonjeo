@@ -9,6 +9,7 @@ module.exports = {
       },
       fontFamily: {
         Spotify: ['Source Sans Pro', 'sans-serif'],
+        Spotify_win: ['Inter', 'sans-serif']
       }
     },
   }, 
