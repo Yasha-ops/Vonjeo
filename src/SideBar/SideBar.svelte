@@ -12,7 +12,7 @@
     import BsFiles from "svelte-icons-pack/bs/BsFiles";
     import BsSearch from "svelte-icons-pack/bs/BsSearch";
     import BsBug from "svelte-icons-pack/bs/BsBug";
-    import RiLogoSpotifyLine from "svelte-icons-pack/ri/RiLogoSpotifyLine";
+    import ImSpotify from "svelte-icons-pack/im/ImSpotify";
 
 
     // Functions
@@ -53,6 +53,6 @@
 
     <!-- Spotify subproccess launcher-->
     <div class="sidebar-icon" on:click={toggleSpotify}>
-        <Icon src={RiLogoSpotifyLine} size="20"/>
+        <Icon src={ImSpotify} size="20"/>
     </div>
 </div>
