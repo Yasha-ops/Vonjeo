@@ -19,6 +19,7 @@
 
     let optionObject = {
         fontSize: "20pt",
+        //fontFamily: "tahoma",
         enableBasicAutocompletion: true,
         enableSnippets: true,
         enableLiveAutocompletion: true

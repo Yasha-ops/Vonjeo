@@ -5,6 +5,13 @@ export const TypeFile = Object.freeze({
     DEBUG: 2
 });
 
+export const SpotifyState = Object.freeze({
+    CONNECT: "Connect",
+    WAITING: "Waiting...",
+    DEVICE: "Select device",
+    ERROR: "Error"
+})
+
 export const store_tabs = writable([
 	{type: TypeFile.FILE, filename:"Orange", content:"ORANGE", id:"panel-Orange"},
 	{type: TypeFile.FILE, filename:"Pineapple",content:"PINEAPPLE", id:"panel-Pineapple"},
