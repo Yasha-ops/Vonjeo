@@ -14,7 +14,7 @@ export const store_tabs = writable([
 export const tabs = writable([]);
 export const panels = [];
 
-
+export let showSpotify = writable(false);
 
 
 export const logger = (type) => {

@@ -5,6 +5,10 @@ module.exports = {
     extend: {
       colors: {
         'tab-color':'#007BCA',
+        'spotify-font' : '#191414'
+      },
+      fontFamily: {
+        Spotify: ['Source Sans Pro', 'sans-serif'],
       }
     },
   }, 

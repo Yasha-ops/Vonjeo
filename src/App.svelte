@@ -4,6 +4,7 @@
 
     import { nbr_screens } from './Utils/store.js';
 
+
     import SideBar from './SideBar/SideBar.svelte'
     import MainPage from './MainPage/MainPage.svelte';    
     import Drawer from './Drawer/Drawer.svelte';
@@ -23,7 +24,6 @@
         <input type="text" placeholder="Search" class="flex-1 ml-3 mb-1 input input-bordered input-xs max-w-xs w-32" />
         <input type="text" placeholder="Replace" class="flex-1 ml-3 input input-bordered input-xs max-w-xs w-32" />
     </Drawer>
-
 
     {#each Array($nbr_screens) as _, index(index)}
         <div animate:flip="{{ duration: 300 }}" out:scale="{{ duration: 250 }}" in:fly="{{ x: -20, duration: 250 }}" class="flex-auto flex">
