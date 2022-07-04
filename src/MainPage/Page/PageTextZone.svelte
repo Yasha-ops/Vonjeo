@@ -11,6 +11,7 @@
     import "brace/keybinding/vim";
 
     import { FONTSIZE } from "./../../Utils/store.js";
+    import { FONTTYPE } from "./../../Utils/store.js";
 
     export let text = "";
     export let h_parent;
@@ -21,16 +22,25 @@
 
     let optionObject = {
         fontSize: "20pt",
+        fontFamily: "Consolas",
         enableBasicAutocompletion: true,
         enableSnippets: true,
         enableLiveAutocompletion: true
     }
 
-    $: fontSet($FONTSIZE);
-    function fontSet(e) {
+    $: fontSizeSet($FONTSIZE);
+    function fontSizeSet(e) {
         optionObject.fontSize = `${$FONTSIZE}pt`;
         if (optionObject.fontSize == "Defaultpt") {
             optionObject.fontSize = "20pt"
+        }
+    }
+    
+    $: fontTypeSet($FONTTYPE);
+    function fontTypeSet(e) {
+        optionObject.fontFamily = `${$FONTTYPE}`;
+        if (optionObject.fontFamily == "Default") {
+            optionObject.fontFamily = "Consolas"
         }
     }
 
