@@ -1,6 +1,6 @@
 <script>
     import SpotifyWindow from './SpotifyWindow.svelte'; 
-    import { SpotifyState } from './../Utils/store.js';
+    import { SpotifyState, showSpotify} from './../Utils/store.js';
     
     import DraggableComponent from "../Utils/DraggableComponent.svelte";
     import { WebPlayback } from 'svelte-spotify-web-playback';
@@ -13,7 +13,7 @@
 
 
 <DraggableComponent>
-    <div class="spotify-drawer">
+    <div class="spotify-drawer" class:visible={$showSpotify} class:unvisible={!$showSpotify}>
         <WebPlayback {client_id}  name="My Spotify Player"  volume={0.5}  bind:this={wrapper}>
             <!-- Direct usage -->
              <div slot="login">
@@ -33,3 +33,14 @@
     </div>
 </DraggableComponent>
 
+
+<style>
+    .visible {
+        visibility: visible;
+    }
+
+    .unvisible{
+        visibility: hidden;
+    }
+
+</style>

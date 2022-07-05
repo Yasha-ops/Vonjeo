@@ -1,7 +1,10 @@
 <script>
-    import {store_tabs, TypeFile, INFO, ERROR, DEBUG, nbr_screens, showSpotify } from './../Utils/store.js';
+    import { Menu } from './../ContextMenu/context_menu.js';
 
-    import SpotifyWrapper from './../Spotify/SpotifyWrapper.svelte';
+    import TimerContextMenu from '../Timer/TimerContextMenu.svelte';
+
+    import {store_tabs, TypeFile, INFO, ERROR, DEBUG, nbr_screens, showSpotify, showTimer } from './../Utils/store.js';
+
 
 
     import SideBarIcons from './SideBarIcons.svelte';
@@ -13,6 +16,8 @@
     import BsSearch from "svelte-icons-pack/bs/BsSearch";
     import BsBug from "svelte-icons-pack/bs/BsBug";
     import ImSpotify from "svelte-icons-pack/im/ImSpotify";
+    import BsClockHistory from "svelte-icons-pack/bs/BsClockHistory";
+
 
 
     // Functions
@@ -34,13 +39,40 @@
         showSpotify.set(! $showSpotify); 
     }
 
+    function toggleTimer(){
+        console.log("TOGGLE TIMER");
+        showTimer.set(! $showTimer);
+    }
+    // Context Menu
+	let pos = { x: 0, y: 0 };
+	let showMenu = false;
+	
+	async function onRightClick(e) {
+        if (document.getElementsByName("context-menu").length !== 0){
+            document.body.click(); /* To disable all other context menu */
+        }
+        
+		if (showMenu) {
+			showMenu = false;
+			await new Promise(res => setTimeout(res, 100));
+		}
+		
+		pos = { x: e.clientX, y: e.clientY };
+		showMenu = true;
+	}
+	
+	function closeMenu() {
+		showMenu = false;
+	}
 
 </script>
 
 
-
-<SpotifyWrapper/>
-
+{#if showMenu}
+	<Menu {...pos} on:click={closeMenu} on:clickoutside={closeMenu}>
+        <TimerContextMenu/>
+	</Menu>
+{/if}
 
 <div class="flex fixed top-0 left-0 h-screen w-14 m-0 flex-col bg-zinc-700">
     <SideBarIcons icon={BsFiles} drawer_id="drawer-files" />
@@ -51,8 +83,14 @@
         <Icon src={BsBug} size="20" />
     </div>
 
+    <!-- Clock launcher -->
+    <div class="sidebar-icon" on:contextmenu|preventDefault={onRightClick} on:click={toggleTimer}>
+        <Icon src={BsClockHistory} size="20"/>
+    </div>
+    
     <!-- Spotify subproccess launcher-->
     <div class="sidebar-icon" on:click={toggleSpotify}>
         <Icon src={ImSpotify} size="20"/>
     </div>
+
 </div>

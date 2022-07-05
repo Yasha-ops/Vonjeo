@@ -22,11 +22,12 @@
 	
 </script>
 
-<section on:mousedown={onMouseDown} style="left: {left}px; top: {top}px;" class="draggable" class:visible={$showSpotify} class:unvisible={!$showSpotify}>
+<section on:mousedown={onMouseDown} style="left: {left}px; top: {top}px;" class="draggable">
 	<slot></slot>
 </section>
 
 <svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
+
 
 <style>
 	.draggable {
@@ -35,13 +36,4 @@
 		position: absolute;
 		z-index: 2000; /* Usefull to create an overlay effect */
 	}
-
-    .visible {
-        visibility: visible;
-    }
-
-    .unvisible{
-        visibility: hidden;
-    }
-
 </style>

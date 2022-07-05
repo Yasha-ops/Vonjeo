@@ -13,7 +13,7 @@ export const SpotifyState = Object.freeze({
 })
 
 export const store_tabs = writable([
-	{type: TypeFile.FILE, filename:"Orange", content:"ORANGE", id:"panel-Orange"},
+	//{type: TypeFile.FILE, filename:"Orange", content:"ORANGE", id:"panel-Orange"},
 	{type: TypeFile.FILE, filename:"Pineapple",content:"PINEAPPLE", id:"panel-Pineapple"},
 	{type: TypeFile.FILE, filename:"Peach", content:"PEACH", id:"panel-Peach"}
 ]);
@@ -22,6 +22,19 @@ export const tabs = writable([]);
 export const panels = [];
 
 export let showSpotify = writable(false);
+export let showTimer = writable(false);
+export let launchedTimer = writable(false);
+export let timerFinished = writable(false);
+
+class TimerDate{
+    constructor(hour, minute, seconds) {
+        this.hour = hour;
+        this.minute = minute ;
+        this.seconds = seconds;
+      }
+}
+ 
+export let timerSettings = writable(new TimerDate(0, 0, 10))
 
 
 export const logger = (type) => {

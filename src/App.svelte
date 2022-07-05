@@ -9,10 +9,20 @@
     import MainPage from './MainPage/MainPage.svelte';    
     import Drawer from './Drawer/Drawer.svelte';
 
+    import TimerWrapper from './Timer/TimerWrapper.svelte';
+    import TimerModal from './Timer/TimerModalSettings.svelte';
+    import TimerModalPause from './Timer/TimerModalPause.svelte';
+    import SpotifyWrapper from './Spotify/SpotifyWrapper.svelte';
 
 </script>
+    
+<TimerModalPause/>
 
 <div class="flex h-screen w-screen">
+    <TimerModal/>
+    <SpotifyWrapper/>
+    <TimerWrapper/>
+
     
     <div class="flex-none h-screen w-14">
         <SideBar/>
