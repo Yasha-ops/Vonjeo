@@ -13,15 +13,13 @@ export const SpotifyState = Object.freeze({
 })
 
 export const store_tabs = writable([
-    [
-    	{type: TypeFile.FILE, filename:"Orange", content:"ORANGE", id:"panel-Orange", mIndex: 0},
-    	{type: TypeFile.FILE, filename:"Pineapple",content:"PINEAPPLE", id:"panel-Pineapple", mIndex: 0},
-    	{type: TypeFile.FILE, filename:"Peach", content:"PEACH", id:"panel-Peach", mIndex: 0}
-    ]
+	{type: TypeFile.FILE, filename:"Orange", content:"ORANGE", id:"panel-Orange"},
+	{type: TypeFile.FILE, filename:"Pineapple",content:"PINEAPPLE", id:"panel-Pineapple"},
+	{type: TypeFile.FILE, filename:"Peach", content:"PEACH", id:"panel-Peach"}
 ]);
 
-export const tabs = writable([[]]);
-export const panels = [[]];
+export const tabs = writable([]);
+export const panels = [];
 
 export let showSpotify = writable(false);
 

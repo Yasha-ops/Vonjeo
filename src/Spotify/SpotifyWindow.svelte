@@ -1,17 +1,13 @@
 <script>
     export let state;
-
     import { createEventDispatcher } from 'svelte';
-
     const dispatch = createEventDispatcher();
-
     let color = {
         "Connect" : "bg-[#1DB954]",
-        "Waiting" : "bg-[#B9971D]",
+        "Waiting..." : "bg-[#B9971D]",
         "Select device" : "bg-[#1D6EB9]",
         "Error" : "bg-[#B91D1D]"
     }
-
     function click(){
         dispatch("onclick");
     }

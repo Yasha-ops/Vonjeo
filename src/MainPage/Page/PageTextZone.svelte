@@ -1,23 +1,17 @@
 <script lang="ts">
     import { AceEditor} from "svelte-ace";
-    import {INFO} from './../../Utils/store.js'
-
     import "brace/mode/c_cpp";
     import "brace/mode/javascript";
     import "brace/mode/golang";
     import "brace/theme/clouds_midnight";
-
     import "brace/ext/searchbox";
-
     import "brace/ext/language_tools";
     import "brace/keybinding/vim";
-
     export let text = "";
     export let h_parent;
-
+    export let name;
     function editor_init(editors){
     }
-
     let optionObject = {
         fontSize: "20pt",
         //fontFamily: "tahoma",
@@ -25,11 +19,9 @@
         enableSnippets: true,
         enableLiveAutocompletion: true
     }
-
     function update_text(editor){
         text = editor.detail;
     }
-
     function update_stats(){
         let fileStats = document.getElementById("tab_stats");
         
@@ -37,17 +29,6 @@
         let nbr_warning = document.getElementsByClassName("ace_warning").length;
         fileStats.innerText = '☠️ ' + nbr_errors + ' ⚠ ' + nbr_warning; 
     }
-
-    function updateBreakpoints(obj){
-        // [empty, ace_breakpoint, empty];
-        console.log(obj.nbr_breakpoints);
-        let keys = Object.keys(obj.nbr_breakpoints);
-
-        let breakpoints =  keys.filter((n) => obj.nbr_breakpoints[n]);
-
-        console.log(breakpoints.map((n) => +n + 1));    
-    }
-
 </script>
    
 <div class="">
@@ -60,7 +41,7 @@
     on:copy={() => console.log('copy')}
     on:init={editor_init}
     on:commandKey={(obj) => console.log(obj.detail)}
-    on:breakpoints= {(obj) =>  updateBreakpoints(obj.detail)}
+    
     on:input={(obj) => {
         update_text(obj);
         update_stats();
@@ -79,5 +60,7 @@
     keybindings='vim'
 
     value={text} 
+
+    name={name}
     />
 </div>

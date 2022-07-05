@@ -4,9 +4,7 @@
     
     import DraggableComponent from "../Utils/DraggableComponent.svelte";
     import { WebPlayback } from 'svelte-spotify-web-playback';
-
     const client_id = '59c441dcbab547ff970b90b30bfd6e67';
-
     let wrapper;
 </script>
 
@@ -32,4 +30,3 @@
         </WebPlayback>
     </div>
 </DraggableComponent>
-

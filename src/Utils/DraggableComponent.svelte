@@ -1,6 +1,5 @@
 <script>
     import { showSpotify } from './store.js';
-
 	export let left = 100;
 	export let top = 100;
 	let moving = false;	
@@ -15,7 +14,6 @@
 			top += e.movementY;
 		}
 	}
-
 	function onMouseUp() {
 		moving = false;
 	}
@@ -35,13 +33,10 @@
 		position: absolute;
 		z-index: 2000; /* Usefull to create an overlay effect */
 	}
-
     .visible {
         visibility: visible;
     }
-
     .unvisible{
         visibility: hidden;
     }
-
 </style>

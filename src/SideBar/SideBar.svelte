@@ -1,11 +1,7 @@
 <script>
     import {store_tabs, TypeFile, INFO, ERROR, DEBUG, nbr_screens, showSpotify } from './../Utils/store.js';
-
     import SpotifyWrapper from './../Spotify/SpotifyWrapper.svelte';
-
-
     import SideBarIcons from './SideBarIcons.svelte';
-
     // Icons
     import Icon from 'svelte-icons-pack/Icon.svelte';
     
@@ -13,29 +9,21 @@
     import BsSearch from "svelte-icons-pack/bs/BsSearch";
     import BsBug from "svelte-icons-pack/bs/BsBug";
     import ImSpotify from "svelte-icons-pack/im/ImSpotify";
-
-
     // Functions
     const launchDebugger = () => {
         INFO("LAUNCH DEBUG")("Launching the debug panel");
-
         if ($nbr_screens === 0){
             $nbr_screens += 1;
         }
-
-        $store_tabs[0] = [...$store_tabs[0], {
+        $store_tabs = [...$store_tabs, {
             type:TypeFile.DEBUG,
             filename:"Debugger",
             id:"panel-debug"
         }];
     }
-
     function toggleSpotify(){
         showSpotify.set(! $showSpotify); 
     }
-
-
-
 </script>
 
 
@@ -54,6 +42,6 @@
 
     <!-- Spotify subproccess launcher-->
     <div class="sidebar-icon" on:click={toggleSpotify}>
-        <Icon src={RiLogoSpotifyLine} size="20"/>
+        <Icon src={ImSpotify} size="20"/>
     </div>
 </div>
