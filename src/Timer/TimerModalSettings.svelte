@@ -1,23 +1,18 @@
 <script>
 var soundOn = true;
 //how do i check that the toggle button was turned on?
-const soundToggle = document.querySelector("#SoundSwitch");
-soundToggle.addEventListener("click", () =>
-{
-  soundOn = false;
-})
+
 
 var screenOn = true;
 //how do i check that the toggle button was turned on?
-const screenToggle = document.querySelector("#ScreenSwitch");
-screenToggle.addEventListener("click", () =>
-{
-  screenOn = false;
-})
+
 
 
 
 </script>
+
+
+
 
 
 
@@ -67,7 +62,7 @@ screenToggle.addEventListener("click", () =>
 
 <style>
   .glass {
-    background: rgba(253, 177, 12, 0.747);
+    background: rgb(85, 85, 84);
     box-shadow: 0 8px 32px 0 rgba(94, 225, 248, 0.37);
     backdrop-filter: blur(5px);
     border-radius: 10px;
