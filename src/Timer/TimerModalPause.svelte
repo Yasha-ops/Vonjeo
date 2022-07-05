@@ -16,9 +16,14 @@
         return true;
     }
 
+    let links = [
+      "https://cdn.discordapp.com/attachments/988437608369623040/994000854438903818/augh_short.mp3",
+      "https://cdn.discordapp.com/attachments/993602272590311568/993926567975723088/its_time_to_stop_mp3cut.net.mp3"
+    ]
+
 </script>
 
-<audio src="https://cdn.discordapp.com/attachments/993602272590311568/993926567975723088/its_time_to_stop_mp3cut.net.mp3" bind:this={audio}></audio>
+<audio src={Math.random() > 0.5 ? links[0] : links[1]} bind:this={audio}></audio>
 
 {#if $timerFinished && startTimer()}
     <div class="
