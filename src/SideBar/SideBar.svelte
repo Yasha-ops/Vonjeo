@@ -1,5 +1,11 @@
 <script>
-    import {store_tabs, TypeFile, INFO, ERROR, DEBUG, nbr_screens } from './../Utils/store.js';
+    import { Menu } from './../ContextMenu/context_menu.js';
+
+    import TimerContextMenu from '../Timer/TimerContextMenu.svelte';
+
+    import {store_tabs, TypeFile, INFO, ERROR, DEBUG, nbr_screens, showSpotify, showTimer } from './../Utils/store.js';
+
+
 
     import SideBarIcons from './SideBarIcons.svelte';
 
@@ -8,8 +14,11 @@
     
     import BsFiles from "svelte-icons-pack/bs/BsFiles";
     import BsSearch from "svelte-icons-pack/bs/BsSearch";
+    import FiSettings from "svelte-icons-pack/fi/FiSettings";
     import BsBug from "svelte-icons-pack/bs/BsBug";
-    import RiLogoSpotifyLine from "svelte-icons-pack/ri/RiLogoSpotifyLine";
+    import ImSpotify from "svelte-icons-pack/im/ImSpotify";
+    import BsClockHistory from "svelte-icons-pack/bs/BsClockHistory";
+
 
 
     // Functions
@@ -27,52 +36,76 @@
         }];
     }
 
-    const launchSpotify = () => {
-        const { exec } = require('child_process');
-
-        exec('cd ~/src/spotify/server; npm start', (error, stdout, stderr) => {
-
-
-          if (error) {
-            console.error(`error: ${error.message}`);
-            return;
-          }
-      
-          if (stderr) {
-            console.error(`stderr: ${stderr}`);
-            return;
-          }
-
-        });
-        exec('cd ~/src/spotify/client; npm start', (error, stdout, stderr) => {
-
-
-        if (error) {
-          console.error(`error: ${error.message}`);
-          return;
-        }
-
-        if (stderr) {
-          console.error(`stderr: ${stderr}`);
-          return;
-        }
-
-        });
+    function toggleSpotify(){
+        showSpotify.set(! $showSpotify); 
     }
+
+    function toggleTimer(){
+        console.log("TOGGLE TIMER");
+        showTimer.set(! $showTimer);
+    }
+
+    // Context Menu
+	let pos = { x: 0, y: 0 };
+	let showMenu = false;
+	
+	async function onRightClick(e) {
+        if (document.getElementsByName("context-menu").length !== 0){
+            document.body.click(); /* To disable all other context menu */
+        }
+        
+		if (showMenu) {
+			showMenu = false;
+			await new Promise(res => setTimeout(res, 100));
+		}
+		
+		pos = { x: e.clientX, y: e.clientY };
+		showMenu = true;
+	}
+	
+	function closeMenu() {
+		showMenu = false;
+	}
 
 </script>
 
+
+{#if showMenu}
+	<Menu {...pos} on:click={closeMenu} on:clickoutside={closeMenu}>
+        <TimerContextMenu/>
+	</Menu>
+{/if}
+
 <div class="flex fixed top-0 left-0 h-screen w-14 m-0 flex-col bg-zinc-700">
-    <SideBarIcons icon={BsFiles} drawer_id="drawer-files" />
-    <SideBarIcons icon={BsSearch} drawer_id="drawer-search" />
+        <div class="flex-none"> 
+        <SideBarIcons icon={BsFiles} drawer_id="drawer-files" />
+        <SideBarIcons icon={BsSearch} drawer_id="drawer-search" />
 
-    <!-- Debug butt on -->
-    <div class="sidebar-icon" on:click={launchDebugger}>
-        <Icon src={BsBug} size="20" />
+          <!-- Debug butt on -->
+        <div class="sidebar-icon" on:click={launchDebugger}>
+            <Icon src={BsBug} size="20" />
+        </div>
+    
+        <!-- Clock launcher -->
+        <div class="sidebar-icon" on:contextmenu|preventDefault={onRightClick} on:click={toggleTimer}>
+            <Icon src={BsClockHistory} size="20"/>
+        </div>
+
+        <!-- Spotify subproccess launcher-->
+        <div class="sidebar-icon" on:click={toggleSpotify}>
+            <Icon src={ImSpotify} size="20"/>
+        </div>
     </div>
 
-    <!-- Spotify subproccess launcher-->
-    <div class="sidebar-icon" on:click={launchSpotify}>
-        <Icon src={RiLogoSpotifyLine} size="20"  color={"white"}/>
+
+    <div class="flex-auto h-full w-full">
     </div>
+
+    <div class="flex-none">
+        <label for="my-modal-settings"  class="modal-button sidebar-icon">
+            <Icon src={FiSettings} size="20"/>
+        </label>
+        <!--SideBarIcons icon={FiSettings} drawer_id="drawer-settings" class="flex space-x-5.5 "/-->
+    </div>
+
 </div>
