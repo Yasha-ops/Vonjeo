@@ -50,3 +50,22 @@ export const ERROR = logger("ERROR");
 export const DEBUG = logger("DEBUG");
 
 export let nbr_screens = writable(0);
+
+
+export const LanguagesType = Object.freeze({
+    FRENCH : "Francais",
+    ENGLISH : "English",
+    MALGACHE : "Malgache"
+})
+
+export let FONTSIZE = writable(10);
+export let FONTTYPE = writable(10);
+export let THEME = writable(10);
+export let LANGUAGE = writable(LanguagesType.ENGLISH);
+
+
+export let fontSizeOptions = [ 10, 11, 12, 13, 14, 15, 16, 24, 28, 32, 36, 40, 44, 48, 52, 56]
+export let fontTypeOptions = ["Cousine", "Terminal", "Source Code Pro", "Major Mono Display", "Roboto Mono", "Nanum Gothic Coding",
+                        "VT323", "Noto Sans Mono"];
+export let themeOptions = ["chaos", "clouds", "cobalt", "dawn", "dracula", "github", "gob", "idle_fingers", "kuroir", "monokai", "sorcier", "textmate", "tomorrow", "twilight"]
+export let languagesOptions = [LanguagesType.ENGLISH, LanguagesType.FRENCH , LanguagesType.MALGACHE];
