@@ -1,6 +1,6 @@
 <script>
     import { MenuOption } from './../ContextMenu/context_menu';
-    import { nbr_screens } from './../Utils/store';
+    import { nbr_screens, LANGUAGE, LanguagesType } from './../Utils/store';
     
 
     // Icon
@@ -34,8 +34,9 @@
 
     </div>
     {#if launched}
-        Stop
+        {($LANGUAGE === LanguagesType.ENGLISH) ? "Stop" : ($LANGUAGE === LanguagesType.FRENCH) ? "Arrêter" : "Mijanòna"}
     {:else}
+        {($LANGUAGE === LanguagesType.ENGLISH) ? "Start" : ($LANGUAGE === LanguagesType.FRENCH) ? "Commencer" : "Fanombohana"}
         Start
     {/if}
 </MenuOption>
@@ -44,5 +45,5 @@
     <div class="icon-option">
         <Icon src={BsGear} size={20}/>
     </div>
-    Setup 
+    {($LANGUAGE === LanguagesType.ENGLISH) ? "Settings" : ($LANGUAGE === LanguagesType.FRENCH) ? "Paramètres" : "Fikirana"}
 </MenuOption> 

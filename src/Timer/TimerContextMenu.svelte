@@ -1,6 +1,6 @@
 <script>
     import { MenuOption } from './../ContextMenu/context_menu';
-    import { launchedTimer } from './../Utils/store';
+    import { launchedTimer, LANGUAGE, LanguagesType } from './../Utils/store';
     
 
     // Icon
@@ -22,12 +22,12 @@
             <div class="icon-option">
                 <Icon src={BsStop} size={20}/>
             </div>
-                Stop
+                {($LANGUAGE === LanguagesType.ENGLISH) ? "Stop" : ($LANGUAGE === LanguagesType.FRENCH) ? "Arrêter" : "Mijanòna"}
         {:else}
             <div class="icon-option">
                 <Icon src={VscDebugStart} size={20}/>
             </div>
-                Start
+                {($LANGUAGE === LanguagesType.ENGLISH) ? "Start" : ($LANGUAGE === LanguagesType.FRENCH) ? "Commencer" : "Fanombohana"}
         {/if}
 </MenuOption>
 
@@ -37,5 +37,7 @@
     </div>
     
     <!-- The button to open modal -->
-    <label for="my-modal-6" class="modal-button">Setup</label>
+    <label for="my-modal-6" class="modal-button">
+        {($LANGUAGE === LanguagesType.ENGLISH) ? "Settings" : ($LANGUAGE === LanguagesType.FRENCH) ? "Paramètres" : "Fikirana"}
+    </label>
 </MenuOption> 
