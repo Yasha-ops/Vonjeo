@@ -3,16 +3,17 @@
     import {FONTTYPE} from "./../Utils/store.js"
     import {THEME} from "./../Utils/store.js"
 
-    let fontSizeOptions = [ 10, 11, 12, 13, 14, 15, 16, 24, 28, 32, 36, 40, 44, 48, 52]
+    let fontSizeOptions = [ 10, 11, 12, 13, 14, 15, 16, 24, 28, 32, 36, 40, 44, 48, 52, 56]
     let fontSizeSelected = "Default";
     $: $FONTSIZE = fontSizeSelected
+    console.log(fontSizeOptions)
 
     let fontTypeOptions = ["Cousine", "Terminal", "Source Code Pro", "Major Mono Display", "Roboto Mono", "Nanum Gothic Coding",
                             "VT323", "Noto Sans Mono"];
     let fontTypeSelected = "Default";
     $: $FONTTYPE = fontTypeSelected
 
-    let themeOptions = ["chaos", "clouds", "cobalt", "dracula", "github", "gob", "idle_fingers", "kuroir", "monokai", "tomorrow", "twilight"]
+    let themeOptions = ["chaos", "clouds", "cobalt", "dawn", "dracula", "github", "gob", "idle_fingers", "kuroir", "monokai", "textmate", "tomorrow", "twilight", "sorcier"]
     let themeSelected = "Default"
     $: $THEME = themeSelected
 

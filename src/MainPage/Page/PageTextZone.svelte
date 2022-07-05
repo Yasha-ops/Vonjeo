@@ -15,6 +15,12 @@
     import "brace/theme/idle_fingers";
     import "brace/theme/kuroir";
     import "brace/theme/gob";
+    import "brace/theme/textmate";
+    import "brace/theme/sorcier";
+
+    import ace from 'brace';
+
+    ace["define"]("ace/theme/custom")
 
     import "brace/ext/searchbox";
 
