@@ -51,7 +51,13 @@ export const DEBUG = logger("DEBUG");
 
 export let nbr_screens = writable(0);
 
-
+/* TODO
+ * Once the project open button is implemented:
+ *     - replace this with null
+ *     - set it from the project selection event function
+ *     - ???
+ *     - profit
+ */
 export let file_tree = fetch('http://localhost:8000/project?dir=src')
     .then((response) => response.json())
     .catch(err => console.error(err));
