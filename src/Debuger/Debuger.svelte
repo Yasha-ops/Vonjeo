@@ -1,5 +1,5 @@
 <script>
-    import { onDestroy } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
     import { HSplitPane } from 'svelte-split-pane';
 
     import { launchServer, PythonDebug } from '../lib/callPythonDebuger'
@@ -7,6 +7,25 @@
 
     const pd = new PythonDebug('./a.out');
     let debug_back_proc;
+    let vars = null;
+    
+    let codes;
+    let files;
+
+    onMount(async () => {
+        const args = [
+                { filename: "main", line: 0 }
+            ];
+        const data = await pd.launch(args);
+        const txt = await data.text();
+        const { variables, infos } = JSON.parse(txt);
+        console.log("At launch:", variables, infos);
+
+        const all = PythonDebug.handleResponse(infos.pop());
+        vars = variables;
+        codes = all['console'].map(s => s.replace("\t", "    "));
+
+    });
 
     const stopServer = async () => {
         console.log("Stopped debug server");
@@ -22,8 +41,8 @@
 
     debug_on.subscribe(async v => {
         if (v) {
-            debug_back_proc = await launchServer();
-            console.log("debug_back_proc:", debug_back_proc)
+            debug_back_proc = 0; //await launchServer();
+            console.log("debug_back_proc:", debug_back_proc);
         }
         else {
             stopServer();
@@ -35,16 +54,20 @@
             stopServer();
     });
 
-    let codes = pd.lines();
-    let files;
+    $: files, codes = pd.file();
 
-    $: if (files) {
-        codes = pd.file();
-    }
+    const updateVars = () => vars = pd.info("local");
 
-    async function callAndLines(toCall) {
-        codes = pd.lines();
-        await toCall();
+    async function handleCall(toCall) {
+        console.log("calling:", toCall);
+        // output to get stuff on stdout debuged
+        let res_out = PythonDebug.handleResponse(await toCall())['output'];
+        // console for code lines
+        const d = PythonDebug.handleResponse(await pd.lines())['console'];
+
+        codes = d;
+        updateVars();
+        console.log("out", res_out)
     }
 
     // suposed to updates text in top div of the page but idk y it doesn't
@@ -54,11 +77,10 @@
 
 
 <div class="flex flex-col flex-auto h-full w-full">
-    <div class="inside flex-auto">
+    <div class="inside flex-auto bg-sky-500/75">
         {#await codes}
             <p>Loading ...</p>
         {:then codes}
-            <!-- {#each pd.toLines(codes) as line} -->
             {#each codes as line}
                 <p>{line}</p>
             {/each}
@@ -67,23 +89,44 @@
         {/await}
     </div>
     
-    <div class="flex-auto">
+    <div class="flex-auto bg-sky-500/75">
         <HSplitPane> 
-            <div id="blue" slot="left">
-                Left
+            <div slot="left" >
+                {#if vars}
+                    {#await vars}
+                        <p>Loading ...</p>
+                    {:then vars}
+                        {#if PythonDebug.get_vars(vars) === []}
+                            <p>No variables.</p>
+                        {:else}
+                            {#each PythonDebug.get_vars(vars) as a_var}
+                                <p>{a_var.name}: {a_var.value}</p>
+                            {/each}
+                        {/if}
+                    {:catch error}
+                        <p style="color: red">{error.message}</p>
+                    {/await}
+                {/if}
             </div>
     
-            <div id="red" slot="right">
+            <div slot="right">
                 <div class="btn-group">
                     <input type="file" bind:files>
-                    <button on:click={async () => callAndLines(pd.continue) }>
-                        Continue
-                    </button>
-                    <button on:click={async () => callAndLines(pd.run) }>
+                    <button on:click={async () => handleCall(pd.run) }>
                         Run
                     </button>
-                    <button on:click={async () => callAndLines(pd.run) }>
-                        Run2
+                    <button on:click={async () => await pd.interrupt() }>
+                        Stop
+                    </button>
+
+                    <button on:click={async () => handleCall(pd.continue) }>
+                        Continue
+                    </button>
+                    <button on:click={async () => handleCall(pd.next) }>
+                        Next
+                    </button>
+                    <button on:click={async () => handleCall(pd.step) }>
+                        Step
                     </button>
                 </div>
             </div>
@@ -92,7 +135,7 @@
 
 </div>
 
-
+btn btn-blue
 <style>
     .inside {
         border-color: rgb(83, 177, 156);
@@ -101,19 +144,11 @@
     }
 
     .btn-group button {
-        background-color: #4c63af86; /* Green */
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        cursor: pointer;
-        float: left;
+        @apply font-bold py-2 px-4 rounded;
+        @apply bg-blue-500 text-white;
     }
 
     .btn-group button:hover {
-        background-color: #36378f57;
+        @apply bg-blue-700;
     }
 </style>

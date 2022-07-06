@@ -16,11 +16,11 @@ export async function launchServer() {
         body: JSON.stringify(args)
     });
 
-     console.log("Launched server:", res);
-     const txt = await res.text();
-     console.log(txt);
-     const data = JSON.parse(txt);
-     return data['value'];
+    const txt = await res.text();
+    console.log("Launched server:", res, txt);
+     
+    const data = JSON.parse(txt);
+    return data['value'];
 
 }
 
@@ -43,6 +43,14 @@ export class PythonDebug {
         return await getFetchContent('http://localhost:' + port + "/test");
     }
 
+    async launch(args) {
+        return await fetch("http://localhost:5555/launch/" + this.filename, {
+            method: "POST",
+            headers: [ ['Content-Type', 'application/json'] ], 
+            body: JSON.stringify(args)
+        });
+    }
+
     async file() {
         return await getFetchContent('http://localhost:' + port + "/file/" + this.filename);
     }
@@ -60,6 +68,14 @@ export class PythonDebug {
         return await getFetchContent('http://localhost:' + port + "/continue");
     }
 
+    async step() {
+        return await getFetchContent('http://localhost:' + port + "/step");
+    }
+    
+    async next() {
+        return await getFetchContent('http://localhost:' + port + "/next");
+    }
+
     async signal(val) {
         return await getFetchContent('http://localhost:' + port + "/signal/" + val);
     }
@@ -72,39 +88,44 @@ export class PythonDebug {
         return await getFetchContent('http://localhost:' + port + "/lines");
     }
 
+    async info(val) {
+        return await getFetchContent('http://localhost:' + port + "/info/" + val);
+    }
+
     async exit() {
         return await getFetchContent('http://localhost:' + port + "/exit");
     }
 
-    toLines(input) {
+    static get_data(result) {
+        return result.map(obj =>
+            (typeof obj === "object") ? obj['msg'] : obj
+        );
+    }
+
+    static get_vars(result) {
+        console.log("vars result:", result, typeof result);
+
+        if  (result === "No registers." || result.join('') === "No registers.") {
+            return [];
+        }
+
+        return result;
+    }
+
+    static handleResponse(input) {
         console.log("input:", input);
+        try {
+            const data = JSON.parse(input);
 
-        if (Array.isArray(input))
-            return Object.values(input).reduce((acc, obj) => acc + " " + obj, "");
+            console.log("LOG DEBUGER:", data['log']);
+            console.log("NOTIFY DEBUGER:", data['notify']);
+            console.log("TARGET DEBUGER:", data['target']);
+            console.log("DONE DEBUGER:", data['done']);
+            console.log("RESULT DEBUGER:", data['result']);
 
-        const data = JSON.parse(input);
-        
-        data.shift();
-        data.pop();
-        return data.map(o => {
-            if (o['stream'] !== 'stdout') {
-                console.log(o);
-            }
-            else {
-                let res = "";
-
-                if (o['message']) {
-                    res += o['message'] + " ";
-                }
-                if (o['payload']) {
-                    res += (typeof o['payload'] === "object") ?
-                        Object.values(o['payload']).reduce((acc, obj) => acc + obj, res) :
-                        // o['payload']['msg'] :
-                        o['payload'];
-                }
-
-                return res;
-            }
-        });
+            return data;
+        } catch (error) {
+            return input;
+        }
     }
 }

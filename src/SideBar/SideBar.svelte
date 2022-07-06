@@ -9,17 +9,24 @@
     import BsSearch from "svelte-icons-pack/bs/BsSearch";
     import BsBug from "svelte-icons-pack/bs/BsBug";
     import ImSpotify from "svelte-icons-pack/im/ImSpotify";
+
+    import { debug_on } from '../lib/Store'
+
     // Functions
     const launchDebugger = () => {
         INFO("LAUNCH DEBUG")("Launching the debug panel");
+
         if ($nbr_screens === 0){
             $nbr_screens += 1;
         }
+
         $store_tabs = [...$store_tabs, {
             type:TypeFile.DEBUG,
             filename:"Debugger",
             id:"panel-debug"
         }];
+
+        debug_on.set(! $debug_on);
     }
     function toggleSpotify(){
         showSpotify.set(! $showSpotify); 
