@@ -105,13 +105,14 @@ export class PythonDebug {
     static get_vars(result) {
         console.log("vars result:", result, typeof result);
 
-        if  (result === "No registers." || result.join('') === "No registers.") {
+        if  (typeof result === "string" || result.join('') === "No registers.") {
             return [];
         }
 
         return result;
     }
 
+    // run continue next step
     static handleResponse(input) {
         console.log("input:", input);
         try {

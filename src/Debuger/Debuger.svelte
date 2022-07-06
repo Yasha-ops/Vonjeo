@@ -13,13 +13,15 @@
     let files;
 
     onMount(async () => {
-        const args = [
+        const args = { breakpoints: [
                 { filename: "main", line: 0 }
-            ];
+            ]};
         const data = await pd.launch(args);
         const txt = await data.text();
         const { variables, infos } = JSON.parse(txt);
-        console.log("At launch:", variables, infos);
+
+        const output = infos.shift()['output'];
+        console.log("process output:", output);
 
         const all = PythonDebug.handleResponse(infos.pop());
         vars = variables;
@@ -61,12 +63,14 @@
     async function handleCall(toCall) {
         console.log("calling:", toCall);
         // output to get stuff on stdout debuged
+        // ex: gdb.write(l) : output contains lines
+        //     gdb.write(run) : output contains stdout stuff
         let res_out = PythonDebug.handleResponse(await toCall())['output'];
         // console for code lines
-        const d = PythonDebug.handleResponse(await pd.lines())['console'];
+        codes = PythonDebug.handleResponse(await pd.lines())['console'];
 
-        codes = d;
         updateVars();
+        console.log("vars type:", typeof vars);
         console.log("out", res_out)
     }
 
@@ -112,20 +116,20 @@
             <div slot="right">
                 <div class="btn-group">
                     <input type="file" bind:files>
-                    <button on:click={async () => handleCall(pd.run) }>
+                    <button on:click={ () => handleCall(pd.run) }>
                         Run
                     </button>
-                    <button on:click={async () => await pd.interrupt() }>
+                    <button on:click={async () => await pd.exit() }>
                         Stop
                     </button>
 
-                    <button on:click={async () => handleCall(pd.continue) }>
+                    <button on:click={ () => handleCall(pd.continue) }>
                         Continue
                     </button>
-                    <button on:click={async () => handleCall(pd.next) }>
+                    <button on:click={ () => handleCall(pd.next) }>
                         Next
                     </button>
-                    <button on:click={async () => handleCall(pd.step) }>
+                    <button on:click={ () => handleCall(pd.step) }>
                         Step
                     </button>
                 </div>
