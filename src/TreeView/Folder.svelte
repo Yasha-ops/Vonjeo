@@ -1,5 +1,9 @@
 <script>
-	import File from './File.svelte';
+	import File from "./File.svelte";
+
+	import Icon from "svelte-icons-pack/Icon.svelte";
+	import AiFillFolder from "svelte-icons-pack/ai/AiFillFolder";
+	import AiFillFolderOpen from "svelte-icons-pack/ai/AiFillFolderOpen";
 
 	export let expanded = false;
 	export let label;
@@ -10,16 +14,25 @@
 	}
 </script>
 
-<span class:expanded on:click={toggle}>{label}</span>
+<span class="px-1 rounded-sm" on:click={toggle}>
+	<span class="pl-1 pt-2" style="float:left">
+		{#if expanded}
+			<Icon src={AiFillFolderOpen} size="10" color="white" />
+		{:else}
+			<Icon src={AiFillFolder} size="10" color="grey" />
+		{/if}
+	</span>
+	<span>{label}/</span>
+</span>
 
 {#if expanded}
 	<ul>
 		{#each files as file}
 			<li>
 				{#if file.files}
-					<svelte:self {...file}/>
+					<svelte:self {...file} />
 				{:else}
-					<File {...file}/>
+					<File {...file} on:fileClick={(msg) => console.log(msg)} />
 				{/if}
 			</li>
 		{/each}
@@ -28,25 +41,13 @@
 
 <style>
 	span {
-		padding: 0 0 0 1.5em;
-		/* background: url(/tutorial/icons/folder.svg) 0 0.1em no-repeat; */
-		/* background-size: 1em 1em; */
 		font-weight: bold;
 		cursor: pointer;
 	}
 
-	/* .expanded {
-		background-image: url(/tutorial/icons/folder-open.svg);
-	} */
-
 	ul {
 		padding: 0.2em 0 0 0.5em;
 		margin: 0 0 0 0.5em;
-		list-style: none;
-		border-left: 1px solid #eee;
-	}
-
-	li {
-		padding: 0.2em 0;
+		border-left: 1px solid #999;
 	}
 </style>
