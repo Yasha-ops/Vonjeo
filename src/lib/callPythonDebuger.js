@@ -6,7 +6,7 @@ const backend = 'http://localhost:' + backend_port;
 
 // Launch server in bg
 export async function launchServer() {
-    const val = "FLASK_APP=./python_debuger.py python -m flask run --host=0.0.0.0 -p " + port;
+    const val = "FLASK_APP=./python_debuger.py python -m flask run -p " + port;
     const args = { value: val };
     console.log(JSON.stringify(args));
 
