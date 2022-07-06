@@ -5,14 +5,14 @@
     import { launchServer, PythonDebug } from '../lib/callPythonDebuger'
     import { debug_on } from '../lib/Store'
 
-    const pd = new PythonDebug('./a.out');
+    let files = './a.out';
+    let pd = new PythonDebug(files);
     let debug_back_proc;
     let vars = null;
-    
-    let codes;
-    let files;
+    let codes = [];
 
-    onMount(async () => {
+    const mount = async () => {
+        // TODO: ok how tf do i get the breakpoints ?
         const args = { breakpoints: [
                 { filename: "main", line: 0 }
             ]};
@@ -20,13 +20,18 @@
         const txt = await data.text();
         const { variables, infos } = JSON.parse(txt);
 
-        const output = infos.shift()['output'];
+        const output = infos[0]['output'];
+        const msg = infos[0]['console'];
         console.log("process output:", output);
+        console.log("gdb msg:", msg);
 
         const all = PythonDebug.handleResponse(infos.pop());
         vars = variables;
         codes = all['console'].map(s => s.replace("\t", "    "));
+    }
 
+    onMount(async () => {
+        mount();
     });
 
     const stopServer = async () => {
@@ -41,9 +46,10 @@
         });
     };
 
+    // At start / end of debug mode (clicked debug button)
     debug_on.subscribe(async v => {
         if (v) {
-            debug_back_proc = 0; //await launchServer();
+            debug_back_proc = await launchServer();
             console.log("debug_back_proc:", debug_back_proc);
         }
         else {
@@ -56,8 +62,6 @@
             stopServer();
     });
 
-    $: files, codes = pd.file();
-
     const updateVars = () => vars = pd.info("local");
 
     async function handleCall(toCall) {
@@ -65,18 +69,18 @@
         // output to get stuff on stdout debuged
         // ex: gdb.write(l) : output contains lines
         //     gdb.write(run) : output contains stdout stuff
-        let res_out = PythonDebug.handleResponse(await toCall())['output'];
+        const out = PythonDebug.handleResponse(await toCall());
+        const res_out = out['output'];
+        const msg_out = out['console'];
         // console for code lines
         codes = PythonDebug.handleResponse(await pd.lines())['console'];
 
         updateVars();
-        console.log("vars type:", typeof vars);
-        console.log("out", res_out)
+        console.log("res_out", res_out);
+        console.log("msg_out", msg_out);
     }
 
-    // suposed to updates text in top div of the page but idk y it doesn't
-    // for ex when i click on run it's  not updating D:
-    // $: act, codes = pd.file();
+    $: files, async () => await mount();
 </script>
 
 
@@ -139,7 +143,7 @@
 
 </div>
 
-btn btn-blue
+
 <style>
     .inside {
         border-color: rgb(83, 177, 156);

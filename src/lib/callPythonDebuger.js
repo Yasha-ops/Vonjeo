@@ -24,6 +24,7 @@ export async function launchServer() {
 
 }
 
+// return txt content for the request at url
 async function getFetchContent(url) {
     const res = await fetch(url);
     const data = await res.text();
@@ -33,6 +34,27 @@ async function getFetchContent(url) {
 
 Object.values = obj => Object.keys(obj).map(key => obj[key]);
 
+/*
+/name -> endpoint: {
+    type: [gdb command] (what is usefull to get in this object)
+} -> content
+
+/launch : {
+    variables,
+    infos: [
+        all_type: run   (ouptut for stdout, console for gdb message)
+        all_type: l     (console for lines)
+    ](size: 2)
+}
+
+/lines : {
+    all_type:           (console for stdout)
+}
+
+/[continue|next|step] : {
+    all_type:           (output for stdout, console for gdb message)
+}
+*/
 export class PythonDebug {
     constructor(filename) {
         this.filename = filename;
@@ -43,6 +65,7 @@ export class PythonDebug {
         return await getFetchContent('http://localhost:' + port + "/test");
     }
 
+    // See python backend
     async launch(args) {
         return await fetch("http://localhost:5555/launch/" + this.filename, {
             method: "POST",
@@ -80,10 +103,6 @@ export class PythonDebug {
         return await getFetchContent('http://localhost:' + port + "/signal/" + val);
     }
 
-    async interrupt() {
-        return await getFetchContent('http://localhost:' + port + "/interrupt");
-    }
-
     async lines() {
         return await getFetchContent('http://localhost:' + port + "/lines");
     }
@@ -102,6 +121,7 @@ export class PythonDebug {
         );
     }
 
+    // See backend result (idk why it returns a string sometimes instead of an array)
     static get_vars(result) {
         console.log("vars result:", result, typeof result);
 
@@ -113,6 +133,9 @@ export class PythonDebug {
     }
 
     // run continue next step
+    // Yes ugly !
+    // Get the text response from python backend and see if it's already a json or not
+    // Idk why sometimes it wouldn't work
     static handleResponse(input) {
         console.log("input:", input);
         try {
