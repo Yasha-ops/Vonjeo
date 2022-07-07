@@ -3,7 +3,7 @@
 	import {flip} from 'svelte/animate';
 	
 	import Tab from './Tab.svelte';
-    import { DEBUG } from '../../Utils/store.js';
+    import { DEBUG, ERROR, store_tabs } from '../../Utils/store.js';
 
     export let itemsData;
 	export let itemComponent;
@@ -18,15 +18,17 @@
 		itemsData = e.detail.items;
 	}
 
-	function handleFinalize(e) {    
+	function handleFinalize(e) {
 		onDrop(e.detail.items);
 	}
 
 	function removeTab(obj){
-        console.log(DEBUG("TABLIST")("removeTab"));
+		if ( ! obj.detail.valueTab.saved){
+        	console.log(ERROR("TAB LIST")("Can't remove the tab"));
+			return;
+		}
 		itemsData = itemsData.filter((n) => n !== obj.detail.valueTab);
-         console.log(DEBUG("TABLIST")("removeTab"), obj.detail.valueTab);
-        console.log(DEBUG("TABLIST")("removeTab"), obj.detail.valueTab);
+		$store_tabs  = $store_tabs.filter((n) => n !== obj.detail.valueTab);
 	}
 </script>
 

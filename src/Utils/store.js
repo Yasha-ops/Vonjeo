@@ -13,9 +13,9 @@ export const SpotifyState = Object.freeze({
 })
 
 export const store_tabs = writable([
-    { type: TypeFile.FILE, filename: "Orange", content: "ORANGE", id: "panel-Orange" },
-    { type: TypeFile.FILE, filename: "Pineapple", content: "PINEAPPLE", id: "panel-Pineapple" },
-    { type: TypeFile.FILE, filename: "Peach", content: "PEACH", id: "panel-Peach" }
+    { type: TypeFile.FILE, filename: "Orange", content: "ORANGE", id: "panel-Orange", saved:false },
+    { type: TypeFile.FILE, filename: "Pineapple", content: "PINEAPPLE", id: "panel-Pineapple", saved: true},
+    { type: TypeFile.FILE, filename: "Peach", content: "PEACH", id: "panel-Peach", saved:true}
 ]);
 
 export const tabs = writable([]);
@@ -49,7 +49,7 @@ export const INFO = logger("INFO");
 export const ERROR = logger("ERROR");
 export const DEBUG = logger("DEBUG");
 
-export let nbr_screens = writable(0);
+export let nbr_screens = writable(1);
 
 /* TODO
  * Once the project open button is implemented:

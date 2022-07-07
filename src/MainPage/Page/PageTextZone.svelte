@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { createEventDispatcher } from 'svelte';
     import { AceEditor} from "svelte-ace";
     import "brace/mode/c_cpp";
     import "brace/mode/javascript";
@@ -69,6 +70,15 @@
         if (optionObject.theme == "ace/theme/Default") {
             optionObject.theme = "ace/theme/clouds_midnight"
         }
+    }
+
+    const dispatch = createEventDispatcher();
+    
+    $: textUpdated(text);
+    function textUpdated(text){
+        dispatch("textUpdate", {
+            value : text
+        });  
     }
 
     function update_text(editor){

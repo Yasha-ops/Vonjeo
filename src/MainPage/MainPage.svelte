@@ -11,6 +11,17 @@
 		console.log(newItems);
 	}
 
+	function saveFile(obj){
+		obj.detail.value.saved = true;
+		// FIXME ADD THE FETCH COMMAND TO SAVE THE FILE TO THE BACK
+	}
+
+
+	function updateText(obj){
+		let tab  = $store_tabs.find((n) => n === obj.detail.value);
+		tab.content = obj.detail.text;
+		tab.saved = false;
+	}
 	export let onePage = false;
 
 </script>
@@ -25,7 +36,7 @@
 			{#each $store_tabs as tab}
 				<TabPanel id={tab.id}>
 					{#if tab.type === TypeFile.FILE }
-						<Page text={tab.content} name={tab.panel_id}/>
+						<Page text={tab.content} tab={tab} name={tab.panel_id} on:saveFile={saveFile} on:updateText={updateText}/>
 					{:else}
 						<Debugger/>
 					{/if}
