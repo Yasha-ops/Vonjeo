@@ -53,7 +53,7 @@
 
 {#if showMenu}
 	<Menu {...pos} on:click={closeMenu} on:clickoutside={closeMenu}>
-        <TabContextMenu/>
+        <TabContextMenu on:closeTab={closeTab}/>
 	</Menu>
 {/if}
 
