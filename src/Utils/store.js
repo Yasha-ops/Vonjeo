@@ -13,9 +13,9 @@ export const SpotifyState = Object.freeze({
 })
 
 export const store_tabs = writable([
-	//{type: TypeFile.FILE, filename:"Orange", content:"ORANGE", id:"panel-Orange"},
-	{type: TypeFile.FILE, filename:"Pineapple",content:"PINEAPPLE", id:"panel-Pineapple"},
-	{type: TypeFile.FILE, filename:"Peach", content:"PEACH", id:"panel-Peach"}
+    { type: TypeFile.FILE, filename: "Orange", content: "ORANGE", id: "panel-Orange" },
+    { type: TypeFile.FILE, filename: "Pineapple", content: "PINEAPPLE", id: "panel-Pineapple" },
+    { type: TypeFile.FILE, filename: "Peach", content: "PEACH", id: "panel-Peach" }
 ]);
 
 export const tabs = writable([]);
@@ -38,8 +38,8 @@ export let timerSettings = writable(new TimerDate(0, 0, 10))
 
 
 export const logger = (type) => {
-    return function(line){
-        return function(message){
+    return function (line) {
+        return function (message) {
             return `[${type}][${line}]: ${message}`
         }
     }
@@ -50,6 +50,17 @@ export const ERROR = logger("ERROR");
 export const DEBUG = logger("DEBUG");
 
 export let nbr_screens = writable(0);
+
+/* TODO
+ * Once the project open button is implemented:
+ *     - replace this with null
+ *     - set it from the project selection event function
+ *     - ???
+ *     - profit
+ */
+export let file_tree = fetch('http://localhost:8000/project?dir=src')
+    .then((response) => response.json())
+    .catch(err => console.error(err));
 
 
 export const LanguagesType = Object.freeze({
