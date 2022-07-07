@@ -6,7 +6,7 @@ const backend = 'http://localhost:' + backend_port;
 
 // Launch server in bg
 export async function launchServer() {
-    const val = "FLASK_APP=./python_debuger.py python -m flask run --host=0.0.0.0 -p " + port;
+    const val = "FLASK_APP=./python_debuger.py python -m flask run -p " + port;
     const args = { value: val };
     console.log(JSON.stringify(args));
 
@@ -16,14 +16,15 @@ export async function launchServer() {
         body: JSON.stringify(args)
     });
 
-     console.log("Launched server:", res);
-     const txt = await res.text();
-     console.log(txt);
-     const data = JSON.parse(txt);
-     return data['value'];
+    const txt = await res.text();
+    console.log("Launched server:", res, txt);
+     
+    const data = JSON.parse(txt);
+    return data['value'];
 
 }
 
+// return txt content for the request at url
 async function getFetchContent(url) {
     const res = await fetch(url);
     const data = await res.text();
@@ -31,6 +32,29 @@ async function getFetchContent(url) {
     return data;
 }
 
+Object.values = obj => Object.keys(obj).map(key => obj[key]);
+
+/*
+/name -> endpoint: {
+    type: [gdb command] (what is usefull to get in this object)
+} -> content
+
+/launch : {
+    variables,
+    infos: [
+        all_type: run   (ouptut for stdout, console for gdb message)
+        all_type: l     (console for lines)
+    ](size: 2)
+}
+
+/lines : {
+    all_type:           (console for stdout)
+}
+
+/[continue|next|step] : {
+    all_type:           (output for stdout, console for gdb message)
+}
+*/
 export class PythonDebug {
     constructor(filename) {
         this.filename = filename;
@@ -39,6 +63,15 @@ export class PythonDebug {
     async test() {
         console.log("Called test")
         return await getFetchContent('http://localhost:' + port + "/test");
+    }
+
+    // See python backend
+    async launch(args) {
+        return await fetch("http://localhost:5555/launch/" + this.filename, {
+            method: "POST",
+            headers: [ ['Content-Type', 'application/json'] ], 
+            body: JSON.stringify(args)
+        });
     }
 
     async file() {
@@ -58,45 +91,65 @@ export class PythonDebug {
         return await getFetchContent('http://localhost:' + port + "/continue");
     }
 
-    async signal(val) {
-        return await getFetchContent('http://localhost:' + port + "/signal/" + val);
+    async step() {
+        return await getFetchContent('http://localhost:' + port + "/step");
+    }
+    
+    async next() {
+        return await getFetchContent('http://localhost:' + port + "/next");
     }
 
-    async interrupt() {
-        return await getFetchContent('http://localhost:' + port + "/interrupt");
+    async signal(val) {
+        return await getFetchContent('http://localhost:' + port + "/signal/" + val);
     }
 
     async lines() {
         return await getFetchContent('http://localhost:' + port + "/lines");
     }
 
+    async info(val) {
+        return await getFetchContent('http://localhost:' + port + "/info/" + val);
+    }
+
     async exit() {
         return await getFetchContent('http://localhost:' + port + "/exit");
     }
 
-    toLines(input) {
+    static get_data(result) {
+        return result.map(obj =>
+            (typeof obj === "object") ? obj['msg'] : obj
+        );
+    }
+
+    // See backend result (idk why it returns a string sometimes instead of an array)
+    static get_vars(result) {
+        console.log("vars result:", result, typeof result);
+
+        if  (typeof result === "string" || result.join('') === "No registers.") {
+            return [];
+        }
+
+        return result;
+    }
+
+    // run continue next step
+    // Yes ugly !
+    // Get the text response from python backend and see if it's already a json or not
+    // Idk why sometimes it wouldn't work
+    static handleResponse(input) {
         console.log("input:", input);
-        const data = JSON.parse(input);
-        
-        data.shift();
-        return data.map(o => {
-            if (o['stream'] !== 'stdout') {
-                console.log(o);
-            }
-            else {
-                let res = "";
+        try {
+            const data = JSON.parse(input);
 
-                if (o['message']) {
-                    res += o['message'] + " ";
-                }
-                if (o['payload']) {
-                    res += (typeof o['payload'] === "object") ?
-                        o['payload']['msg'] :
-                        o['payload'];
-                }
+            console.log("LOG DEBUGER:", data['log']);
+            console.log("NOTIFY DEBUGER:", data['notify']);
+            console.log("TARGET DEBUGER:", data['target']);
+            console.log("DONE DEBUGER:", data['done']);
+            console.log("RESULT DEBUGER:", data['result']);
 
-                return res;
-            }
-        });
+            return data;
+        } catch (error) {
+            return input;
+        }
     }
 }

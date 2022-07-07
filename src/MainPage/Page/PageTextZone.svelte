@@ -24,7 +24,6 @@
     ace["define"]("ace/theme/custom")
 
     import "brace/ext/searchbox";
-
     import "brace/ext/language_tools";
     import "brace/keybinding/vim";
 
@@ -35,10 +34,8 @@
     export let text = "";
     export let h_parent;
     export let name;
-
     function editor_init(editors){
     }
-
     let optionObject = {
         fontSize: "20pt",
         fontFamily: "Consolas",
@@ -84,7 +81,6 @@
     function update_text(editor){
         text = editor.detail;
     }
-
     function update_stats(){
         let fileStats = document.getElementById("tab_stats");
         
@@ -92,7 +88,6 @@
         let nbr_warning = document.getElementsByClassName("ace_warning").length;
         fileStats.innerText = '☠️ ' + nbr_errors + ' ⚠ ' + nbr_warning; 
     }
-
 </script>
    
 <div class="">

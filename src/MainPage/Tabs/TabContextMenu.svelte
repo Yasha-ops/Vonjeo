@@ -4,7 +4,6 @@
     import { MenuOption } from './../../ContextMenu/context_menu.js';
     import { nbr_screens, INFO } from './../../Utils/store.js';
     
-
     // Icon
     import Icon from 'svelte-icons-pack/Icon.svelte';
     import VscChromeClose from "svelte-icons-pack/vsc/VscChromeClose";

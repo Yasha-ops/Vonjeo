@@ -1,10 +1,8 @@
 <script>
 	import Page from './Page/Page.svelte';
 	import Debugger from './../Debuger/Debuger.svelte';
-
 	import {Tabs, TabPanel, TabList, Tab} from './Tabs/tabs.js';
 	import {DEBUG, store_tabs, TypeFile} from './../Utils/store.js';
-
 	function onDrop(newItems) {
 		$store_tabs = newItems;	
 		console.log(DEBUG("ONDROP")(""));
@@ -23,7 +21,6 @@
 		tab.saved = false;
 	}
 	export let onePage = false;
-
 </script>
 
 <div class="flex-1 flex flex-col bg-red h-full w-auto bg-zinc-900" id="main_files">   

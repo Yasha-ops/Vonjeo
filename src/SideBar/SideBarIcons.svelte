@@ -6,7 +6,6 @@
     export let onClick = function() {
         console.log("Called showDrawer");
         var drawers = document.getElementsByClassName("drawer");
-
         Array.prototype.forEach.call(drawers, function(element) {
             if (element.id === drawer_id){
                 console.log("FOUND !");
@@ -17,7 +16,6 @@
                 element.style.display = 'none';
         });
     }
-
     let unfold = true
 </script>
 

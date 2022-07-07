@@ -2,11 +2,9 @@
 	import { getContext } from 'svelte';
 	import { DEBUG } from '../../Utils/store';
 	import { TABS } from './Tabs.svelte';
-
 	export let id;
 	const panel = {id: id};
 	const { registerPanel, selectedPanel } = getContext(TABS);
-
 	registerPanel(panel);
 	
 	$: onWatchSelected($selectedPanel);
@@ -15,7 +13,6 @@
 			return;
 		
 		console.log(DEBUG("onWatchSelected")("id"), id);
-
 		let aceEditor = document.querySelector(`#${id} > div > div.flex-1.h-full > div > div`);
 		if (aceEditor === null)
 			return;

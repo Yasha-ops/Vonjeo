@@ -2,9 +2,7 @@
     export let state;
     import { LANGUAGE, LanguagesType } from './../Utils/store.js';
     import { createEventDispatcher } from 'svelte';
-
     const dispatch = createEventDispatcher();
-
     let color = {
         "Connect" : "bg-[#1DB954]",
         "Waiting..." : "bg-[#B9971D]",

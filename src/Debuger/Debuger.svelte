@@ -1,20 +1,41 @@
 <script>
-    import { onDestroy } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
     import { HSplitPane } from 'svelte-split-pane';
 
     import { launchServer, PythonDebug } from '../lib/callPythonDebuger'
     import { debug_on } from '../lib/Store'
 
-    const pd = new PythonDebug('./a.out');
-    let promise = null;
+    let files = './a.out';
+    let pd = new PythonDebug(files);
+    let debug_back_proc;
+    let vars = null;
+    let codes = [];
 
-    async function handleClick() {
-        promise = pd.test();
+    const mount = async () => {
+        // TODO: ok how tf do i get the breakpoints ?
+        const args = { breakpoints: [
+                { filename: "main", line: 0 }
+            ]};
+        const data = await pd.launch(args);
+        const txt = await data.text();
+        const { variables, infos } = JSON.parse(txt);
+
+        const output = infos[0]['output'];
+        const msg = infos[0]['console'];
+        console.log("process output:", output);
+        console.log("gdb msg:", msg);
+
+        const all = PythonDebug.handleResponse(infos.pop());
+        vars = variables;
+        codes = all['console'].map(s => s.replace("\t", "    "));
     }
 
-    let debug_back_proc;
+    onMount(async () => {
+        mount();
+    });
 
     const stopServer = async () => {
+        console.log("Stopped debug server");
         const val = "kill " + debug_back_proc;
         const args = { value: val };
 
@@ -25,10 +46,11 @@
         });
     };
 
+    // At start / end of debug mode (clicked debug button)
     debug_on.subscribe(async v => {
         if (v) {
             debug_back_proc = await launchServer();
-            console.log("debug_back_proc:", debug_back_proc)
+            console.log("debug_back_proc:", debug_back_proc);
         }
         else {
             stopServer();
@@ -40,47 +62,34 @@
             stopServer();
     });
 
-    let codes = pd.lines();
-    let act = false;
-    let files;
+    const updateVars = () => vars = pd.info("local");
 
-    $: if (files) {
-        codes = pd.file();
+    async function handleCall(toCall) {
+        console.log("calling:", toCall);
+        // output to get stuff on stdout debuged
+        // ex: gdb.write(l) : output contains lines
+        //     gdb.write(run) : output contains stdout stuff
+        const out = PythonDebug.handleResponse(await toCall());
+        const res_out = out['output'];
+        const msg_out = out['console'];
+        // console for code lines
+        codes = PythonDebug.handleResponse(await pd.lines())['console'];
+
+        updateVars();
+        console.log("res_out", res_out);
+        console.log("msg_out", msg_out);
     }
 
-    // suposed to updates text in top div of the page but idk y it doesn't
-    // for ex when i click on run it's  not updating D:
-    $: act, codes = pd.file();
+    $: files, async () => await mount();
 </script>
 
-<!--Flex direction="column" align="center" justify="evenly" bind:clientWidth={w} bind:clientHeight={h}>
-    <div class="inside" height={h / 3}>
-        {#await codes}
-            <p>Loading ...</p>
-        {:then codes}
-            <p>{codes}</p>
-        {:catch error}
-            <p style="color: red">{error.message}</p>
-        {/await}
-    </div>
-
-    <SplitPane minWidth={w / 2}>
-		<div id="blue" slot="left">
-			Left
-		</div>
-
-		<div id="red" slot="right">
-			Right
-		</div>
-	</SplitPane>
-</Flex-->
 
 <div class="flex flex-col flex-auto h-full w-full">
-    <div class="inside flex-auto">
+    <div class="inside flex-auto bg-sky-500/75">
         {#await codes}
             <p>Loading ...</p>
         {:then codes}
-            {#each pd.toLines(codes) as line}
+            {#each codes as line}
                 <p>{line}</p>
             {/each}
         {:catch error}
@@ -88,23 +97,44 @@
         {/await}
     </div>
     
-    <div class="flex-auto">
+    <div class="flex-auto bg-sky-500/75">
         <HSplitPane> 
-            <div id="blue" slot="left">
-                Left
+            <div slot="left" >
+                {#if vars}
+                    {#await vars}
+                        <p>Loading ...</p>
+                    {:then vars}
+                        {#if PythonDebug.get_vars(vars) === []}
+                            <p>No variables.</p>
+                        {:else}
+                            {#each PythonDebug.get_vars(vars) as a_var}
+                                <p>{a_var.name}: {a_var.value}</p>
+                            {/each}
+                        {/if}
+                    {:catch error}
+                        <p style="color: red">{error.message}</p>
+                    {/await}
+                {/if}
             </div>
     
-            <div id="red" slot="right">
+            <div slot="right">
                 <div class="btn-group">
                     <input type="file" bind:files>
-                    <button on:click={async () => { codes = pd.toLines(await pd.continue()); act = !act; }}>
-                        Continue
-                    </button>
-                    <button on:click={async () => { codes = pd.toLines(await pd.run()); act = !act; }}>
+                    <button on:click={ () => handleCall(pd.run) }>
                         Run
                     </button>
-                    <button on:click={async () => { codes = pd.toLines(await pd.run()); act = !act; }}>
-                        Run2
+                    <button on:click={async () => await pd.exit() }>
+                        Stop
+                    </button>
+
+                    <button on:click={ () => handleCall(pd.continue) }>
+                        Continue
+                    </button>
+                    <button on:click={ () => handleCall(pd.next) }>
+                        Next
+                    </button>
+                    <button on:click={ () => handleCall(pd.step) }>
+                        Step
                     </button>
                 </div>
             </div>
@@ -122,19 +152,11 @@
     }
 
     .btn-group button {
-        background-color: #4c63af86; /* Green */
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        cursor: pointer;
-        float: left;
+        @apply font-bold py-2 px-4 rounded;
+        @apply bg-blue-500 text-white;
     }
 
     .btn-group button:hover {
-        background-color: #36378f57;
+        @apply bg-blue-700;
     }
 </style>

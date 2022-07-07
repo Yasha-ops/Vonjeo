@@ -15,6 +15,7 @@
     documentChange: { data: any };
     focus: void;
     paste: string;
+    breakpoints: any;
   }>();
 
   /**
@@ -79,6 +80,7 @@
       editor.setReadOnly(flag);
     }
   }
+
 
   const resizeOnNextTick = () =>
     tick().then(() => {
@@ -189,6 +191,15 @@
           console.log("SETTING BREAKPOINT !");
           e.editor.session.clearBreakpoint(row);
       }
+      
+      const getBreakpoints = ()=> {
+          console.log("GETTING BREAKPOINTS");
+          dispatch("breakpoints", {
+              nbr_breakpoints: e.editor.session.getBreakpoints()
+          })
+      };
+
+      getBreakpoints();
 
       e.stop();
     });

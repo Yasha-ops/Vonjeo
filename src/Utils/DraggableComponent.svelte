@@ -1,6 +1,5 @@
 <script>
     import { showSpotify } from './store.js';
-
 	export let left = 100;
 	export let top = 100;
 	let moving = false;	
@@ -15,7 +14,6 @@
 			top += e.movementY;
 		}
 	}
-
 	function onMouseUp() {
 		moving = false;
 	}

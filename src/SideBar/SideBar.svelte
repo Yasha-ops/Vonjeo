@@ -8,7 +8,6 @@
 
 
     import SideBarIcons from './SideBarIcons.svelte';
-
     // Icons
     import Icon from 'svelte-icons-pack/Icon.svelte';
     
@@ -20,6 +19,7 @@
     import BsClockHistory from "svelte-icons-pack/bs/BsClockHistory";
 
 
+    import { debug_on } from '../lib/Store'
 
     // Functions
     const launchDebugger = () => {
@@ -34,9 +34,10 @@
             filename:"Debugger",
             id:"panel-debug"
         }];
-    }
 
-    function toggleSpotify(){
+        debug_on.set(! $debug_on);
+    }
+    function toggleSpotify(){i
         showSpotify.set(! $showSpotify); 
     }
 
