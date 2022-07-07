@@ -4,6 +4,7 @@
 	
 	import Tab from './Tab.svelte';
     import { DEBUG, ERROR, store_tabs } from '../../Utils/store.js';
+	import FileNotSaved from '../../Notification/FileNotSaved.svelte';
 
     export let itemsData;
 	export let itemComponent;
@@ -22,15 +23,21 @@
 		onDrop(e.detail.items);
 	}
 
+	let showNotification = false;
 	function removeTab(obj){
 		if ( ! obj.detail.valueTab.saved){
         	console.log(ERROR("TAB LIST")("Can't remove the tab"));
+			showNotification = true;
 			return;
 		}
 		itemsData = itemsData.filter((n) => n !== obj.detail.valueTab);
 		$store_tabs  = $store_tabs.filter((n) => n !== obj.detail.valueTab);
 	}
 </script>
+
+{#if showNotification}
+	 <FileNotSaved/>
+{/if}
 
 
 <section use:dndzone={{items: itemsData, flipDurationMs}} on:consider={handleConsider} on:finalize={handleFinalize}  class="flex-none flex bg-zinc-600 h-8 w-full" id="tabs_id">
