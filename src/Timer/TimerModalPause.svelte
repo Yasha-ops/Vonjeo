@@ -1,6 +1,6 @@
 
 <script>
-    import { timerFinished } from './../Utils/store.js';
+    import { timerFinished , playTimeToStop, showTrippyScreen} from './../Utils/store.js';
     import { fade, scale } from 'svelte/transition';
     import { onMount } from 'svelte';
   
@@ -12,7 +12,10 @@
     let audio
 
     function startTimer() {
+      if ($playTimeToStop)
+      {
         audio.play()
+      }
         return true;
     }
 
@@ -20,7 +23,7 @@
 
 <audio src="https://cdn.discordapp.com/attachments/993602272590311568/993926567975723088/its_time_to_stop_mp3cut.net.mp3" bind:this={audio}></audio>
 
-{#if $timerFinished && startTimer()}
+{#if $timerFinished && startTimer() && $showTrippyScreen}
     <div class="
         w-full
         h-screen

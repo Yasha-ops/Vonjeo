@@ -8,7 +8,9 @@
     let h = $timerSettings.hour;
     let m = $timerSettings.minute;
     let s = $timerSettings.seconds;
-        
+    $: m = $timerSettings.minute; 
+    $: s = $timerSettings.seconds; 
+    $: h = $timerSettings.hour; 
 
     let old_h = h;
     let old_m = m; 

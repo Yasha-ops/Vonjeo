@@ -26,7 +26,10 @@ export let showTimer = writable(false);
 export let launchedTimer = writable(false);
 export let timerFinished = writable(false);
 
-class TimerDate{
+export let showTrippyScreen = writable(true);
+export let playTimeToStop = writable(true);
+
+export class TimerDate{
     constructor(hour, minute, seconds) {
         this.hour = hour;
         this.minute = minute ;

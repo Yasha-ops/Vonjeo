@@ -1,11 +1,38 @@
 <script>
+import { playTimeToStop, showTrippyScreen, timerSettings, TimerDate} from "../Utils/store.js"
 var soundOn = true;
 //how do i check that the toggle button was turned on?
-
-
 var screenOn = true;
-//how do i check that the toggle button was turned on?
 
+function toggleSound(){
+  soundOn = !soundOn;
+  playTimeToStop.set(soundOn);
+    }
+
+function toggleScreen(){
+  screenOn = !screenOn;
+    showTrippyScreen.set(screenOn);
+  }
+
+
+
+
+  function apply()
+  {
+    var form = document.getElementById("date_id");
+    if (form.value !== null)
+    {
+      var datetime = form.value;
+      var hours = 0;
+      var mins = 0;
+      var sec = 0;
+      hours = (parseInt(datetime[0]) * 10) + parseInt(datetime[1]);
+      mins = (parseInt(datetime[3]) * 10) + parseInt(datetime[4]);
+      sec = (parseInt(datetime[6]) * 10) + parseInt(datetime[7]);
+      timerSettings.set(new TimerDate(hours, mins, sec));
+      
+    }
+  }
 
 
 
@@ -24,46 +51,40 @@ var screenOn = true;
   <div class="modal-box bg-[#484E56] text-white">
     <h3 class="font-bold text-lg text-center">Timer settings</h3>
     
-  
-    <div class="glass width-2/3 h-64 p-4">
-      <h1 class="mb-2 text-2xl text-blue-100 border-b border-white">
-        Stop Watch Timer</h1>
-    <div class="text-left">
-    
-      <div class="form-control" id="SoundSwitch" >
+      <div class="form-control" id="SoundSwitch" on:click={toggleSound}>
         <label class="label cursor-pointer text-blue-300">
-          <span class="label-text">Sound</span> 
+          <span class="label-text text-lg text-blue-300">Sound</span> 
           <input type="checkbox" class="toggle toggle-accent" checked />
         </label>
       </div>
 
-      <div class="form-control" id="ScreenSwitch" >
+      <div class="form-control" id="ScreenSwitch" on:click={toggleScreen}>
         <label class="label cursor-pointer text-blue-300">
-          <span class="label-text">Trippy Screen</span> 
+          <span class="label-text text-lg text-blue-300">Trippy Screen</span> 
           <input type="checkbox" class="toggle toggle-accent" checked />
         </label>
       </div>
 
       <div class="input-time">
         <label class="label cursor-text text-blue-300" >
-          <span class="label-text"> Input Awaited Time</span>
-          <input type="text" placeholder="00:00:00" class="input input-bordered input-info w-full max-w-xs" />
+          <span class="label-text text-lg text-blue-300"> Input Awaited Time</span>
+          <input type="text" id="date_id" placeholder="00:00:00" class="input input-bordered input-info w-full max-w-xs" />
         </label>
+      </div>
+      <div class="modal-action flex justify-center items-center">
+        <button on:click={apply}>
+        <label for="my-modal-6" class="btn">Apply</label>
+      </button>
       </div>
     </div>
       </div>
 
-    <div class="modal-action flex justify-center items-center">
-      <label for="my-modal-6" class="btn">Apply</label>
-    </div>
-  </div>
-</div>
+
 
 
 <style>
   .glass {
     background: rgb(85, 85, 84);
-    box-shadow: 0 8px 32px 0 rgba(94, 225, 248, 0.37);
     backdrop-filter: blur(5px);
     border-radius: 10px;
   }
