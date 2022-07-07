@@ -1,6 +1,6 @@
 
 <script>
-    import { timerFinished } from './../Utils/store.js';
+    import { timerFinished , playTimeToStop, showTrippyScreen} from './../Utils/store.js';
     import { fade, scale } from 'svelte/transition';
     import { onMount } from 'svelte';
   
@@ -12,7 +12,10 @@
     let audio
 
     function startTimer() {
+      if ($playTimeToStop)
+      {
         audio.play()
+      }
         return true;
     }
 
@@ -25,7 +28,7 @@
 
 <audio src={Math.random() > 0.5 ? links[0] : links[1]} bind:this={audio}></audio>
 
-{#if $timerFinished && startTimer()}
+{#if $timerFinished && startTimer() && $showTrippyScreen}
     <div class="
         w-full
         h-screen
