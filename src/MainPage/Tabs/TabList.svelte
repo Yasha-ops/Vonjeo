@@ -27,18 +27,13 @@
 	function removeTab(obj){
 		if ( ! obj.detail.valueTab.saved){
         	console.log(ERROR("TAB LIST")("Can't remove the tab"));
-			showNotification = true;
+			document.getElementById("my-modal-not-saved").checked = true;
 			return;
-		}
+		}	
 		itemsData = itemsData.filter((n) => n !== obj.detail.valueTab);
 		$store_tabs  = $store_tabs.filter((n) => n !== obj.detail.valueTab);
 	}
 </script>
-
-{#if showNotification}
-	 <FileNotSaved/>
-{/if}
-
 
 <section use:dndzone={{items: itemsData, flipDurationMs}} on:consider={handleConsider} on:finalize={handleFinalize}  class="flex-none flex bg-zinc-600 h-8 w-full" id="tabs_id">
 	{#each itemsData as item(item[idPropertyName])}

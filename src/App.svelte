@@ -12,6 +12,8 @@
     import SideBar from "./SideBar/SideBar.svelte";
     import MainPage from "./MainPage/MainPage.svelte";
     import Drawer from "./Drawer/Drawer.svelte";
+    import FileNotSaved from "./Notification/FileNotSaved.svelte";
+    
 
     import SettingsModalMain from "./Settings/SettingsModalMain.svelte";
 
@@ -28,6 +30,8 @@
 
 <div class="flex h-screen w-screen">
     <SettingsModalMain />
+    
+    <FileNotSaved/>
     <TimerModal />
     <SpotifyWrapper />
     <TimerWrapper />
