@@ -2,12 +2,14 @@
     export let item;
     import { Menu } from './../../ContextMenu/context_menu.js';
     import TabContextMenu from './TabContextMenu.svelte';
+	import { createEventDispatcher } from 'svelte';
     
     import { getContext } from 'svelte';
 	import { TABS } from './Tabs.svelte';
     
     import Icon from 'svelte-icons-pack/Icon.svelte';
     import IoClose from "svelte-icons-pack/io/IoClose";
+    import { DEBUG } from '../../Utils/store.js';
 	
     const tab = {name: item.filename, panel_id: item.id};
 	const { registerTab, selectTab, selectedTab } = getContext(TABS);
@@ -15,6 +17,8 @@
 
     // TODO Add removeMe Function
 	registerTab(tab);
+	
+    const dispatch = createEventDispatcher();
 
     
     // Context Menu
@@ -38,6 +42,13 @@
 	function closeMenu() {
 		showMenu = false;
 	}
+
+    function closeTab(){
+        console.log(DEBUG("TAB")("closeTab"));
+        dispatch("deleteTab", {
+            valueTab: item
+        })
+    }
 </script>
 
 {#if showMenu}
@@ -53,7 +64,7 @@
         </h1>
     </div>
 
-    <button class="flex-non w-auto ml-2 mr-2 rounded-xl hover:bg-white transition-all duration-300 ease-linear">
+    <button class="flex-non w-auto ml-2 mr-2 rounded-xl hover:bg-white transition-all duration-300 ease-linear" on:click={closeTab}>
         <Icon src={IoClose} size="15"/>
     </button>
 </div> 
