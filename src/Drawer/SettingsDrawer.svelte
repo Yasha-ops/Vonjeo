@@ -13,7 +13,7 @@
     let fontTypeSelected = "Default";
     $: $FONTTYPE = fontTypeSelected
 
-    let themeOptions = ["chaos", "clouds", "cobalt", "dawn", "dracula", "github", "gob", "idle_fingers", "kuroir", "monokai", "sorcier", "textmate", "tomorrow", "twilight"]
+    let themeOptions = ["chaos", "clouds", "cobalt", "dawn", "dracula", "eliott", "github", "gob", "idle_fingers", "karim", "kuroir", "monokai", "param", "raphael", "sorcier", "tao", "textmate", "tomorrow", "twilight", "yassine"]
     let themeSelected = "Default"
     $: $THEME = themeSelected
 

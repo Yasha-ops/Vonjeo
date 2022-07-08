@@ -9,6 +9,7 @@
     import "brace/theme/cobalt";
     import "brace/theme/twilight";
     import "brace/theme/dracula";
+    import "brace/theme/dawn";
     import "brace/theme/clouds";
     import "brace/theme/monokai";
     import "brace/theme/tomorrow";
@@ -17,6 +18,12 @@
     import "brace/theme/gob";
     import "brace/theme/textmate";
     import "brace/theme/sorcier";
+    import "brace/theme/tao";
+    import "brace/theme/karim";
+    import "brace/theme/raphael";
+    import "brace/theme/eliott";
+    import "brace/theme/yassine";
+    import "brace/theme/param";
 
     import ace from 'brace';
 
