@@ -14,6 +14,7 @@ cp config_files/sorcier.js node_modules/brace/theme/raphael.js
 cp config_files/sorcier.js node_modules/brace/theme/eliott.js
 cp config_files/sorcier.js node_modules/brace/theme/yassine.js
 cp config_files/sorcier.js node_modules/brace/theme/param.js
+cp config_files/sorcier.js node_modules/brace/theme/pov.js
 echo "Done !"
 
 exit 0

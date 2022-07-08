@@ -24,6 +24,7 @@
     import "brace/theme/eliott";
     import "brace/theme/yassine";
     import "brace/theme/param";
+    import "brace/theme/pov";
 
     import ace from 'brace';
 
@@ -66,7 +67,7 @@
     function fontTypeSet(e) {
         optionObject.fontFamily = `${$FONTTYPE}`;
         if (optionObject.fontFamily == "Default") {
-            optionObject.fontFamily = "Consolas"
+            optionObject.fontFamily = "Cousine"
         }
     }
     
