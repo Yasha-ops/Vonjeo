@@ -37,7 +37,7 @@
 
         debug_on.set(! $debug_on);
     }
-    function toggleSpotify(){i
+    function toggleSpotify(){
         showSpotify.set(! $showSpotify); 
     }
 
