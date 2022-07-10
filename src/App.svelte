@@ -103,10 +103,10 @@
     >
     <!-- HELP: reload component on tree change -->
         {#key local_ft}
-            {#if local_ft && Array.isArray(file_tree.files)}
+            {#if local_ft && Array.isArray(local_ft.files)}
                 <Folder
-                    label={file_tree.label}
-                    files={file_tree.files}
+                    label={local_ft.label}
+                    files={local_ft.files}
                     expanded
                 />
             {:else}
