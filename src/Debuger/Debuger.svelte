@@ -11,7 +11,7 @@
     let codes = [];
     let pd = new PythonDebug(files);
 
-
+    let resultant = [];
     const mount = async () => {
         // TODO: ok how tf do i get the breakpoints ?
         pd = new PythonDebug(files);
@@ -78,6 +78,23 @@
         codes = PythonDebug.handleResponse(await pd.lines())['console'];
 
         updateVars();
+        let yes = await PythonDebug.get_vars(vars);
+        let vv = []
+        let resu = []
+        let end = []
+        for (let x of yes )
+        {
+            vv.push(x);
+            console.log(vv);
+            let str = vv.join(' ');
+            console.log("asfsdvds svsfvrbrerbtbtrrtbt",str);
+            resu.push(str);
+            vv = [];
+            end.push(resu.join(" "));
+            
+        }
+        resultant.push(end[end.length - 1]);
+        
         console.log("res_out", res_out);
         console.log("msg_out", msg_out);
     }
@@ -107,13 +124,11 @@
                     {#await vars}
                         <p>Loading ...</p>
                     {:then vars}
-                        {#if PythonDebug.get_vars(vars) === []}
+                        {#if vars === []}
                             <p style="color:red">No variables.</p>
                         {:else}
-                            {#each PythonDebug.get_vars(vars) as a_var}
-                            
-                                <p style="color:red">{a_var.name}: {a_var.value}</p>
-                            {/each}
+                                <p style="color:red">{resultant}</p>
+
                         {/if}
                     {:catch error}
                         <p style="color: red">{error.message}</p>

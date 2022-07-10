@@ -125,10 +125,18 @@ export class PythonDebug {
     static get_vars(result) {
         console.log("vars result:", result, typeof result);
 
-        if  (typeof result === "string" || result.join('') === "No registers.") {
+        if  (typeof result === "string") {
             return [];
         }
-
+        try
+        {
+            if (result.join('') === "No registers.")
+            {
+                return [];
+            }
+        }
+        catch (e) {return result;}
+        
         return result;
     }
 
