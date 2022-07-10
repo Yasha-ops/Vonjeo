@@ -6,13 +6,13 @@
     import { debug_on } from '../lib/Store'
 
     let files = './a.out';
-    let pd = new PythonDebug(files);
     let debug_back_proc;
     let vars = null;
     let codes = [];
 
     const mount = async () => {
         // TODO: ok how tf do i get the breakpoints ?
+        let pd = new PythonDebug(files);
         const args = { breakpoints: [
                 { filename: "main", line: 0 }
             ]};
