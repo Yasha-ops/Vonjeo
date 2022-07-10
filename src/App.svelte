@@ -8,6 +8,7 @@
         LanguagesType,
         file_tree,
         store_tabs,
+        TypeFile,
     } from "./Utils/store.js";
 
     import SideBar from "./SideBar/SideBar.svelte";
@@ -29,8 +30,9 @@
         var form = document.getElementById("file_input");
         console.log(`Loading project ${form.value}`);
 
-        let path = "http://localhost:8000/project?dir=" +
-                    form.value.replaceAll("/", "%2F");
+        let path =
+            "http://localhost:8000/project?dir=" +
+            form.value.replaceAll("/", "%2F");
 
         file_tree.set(
             await fetch(path)
@@ -42,15 +44,16 @@
     }
 
     function openFile(obj) {
-        $store_tabs.update((tabs) =>
-            tabs.append({
+        $store_tabs = [
+            ...$store_tabs,
+            {
                 type: TypeFile.FILE,
-                filename: obj.label,
-                content: "",
-                id: `panel-${obj.label}`,
+                filename: obj.detail.label,
+                content: "asdasd",
+                id: `panel-${obj.detail.label}`,
                 saved: false,
-            })
-        );
+            },
+        ];
     }
 </script>
 
@@ -104,7 +107,6 @@
             ? "Fichiers"
             : "Rakitra"}
     >
-        <!-- HELP: reload component on tree change -->
         {#key $file_tree}
             <div class="flex flex-auto flex-shrink w-full">
                 <span class="flex flex-auto float-left flex-shrink">

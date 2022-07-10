@@ -12,7 +12,7 @@
 	async function saveFile(obj) {
 		obj.detail.value.saved = true;
 
-		let requestBody = JSON.stringify({content: obj.detail.value.content});
+		let requestBody = JSON.stringify({ content: obj.detail.value.content });
 		console.log(requestBody);
 
 		await fetch(
