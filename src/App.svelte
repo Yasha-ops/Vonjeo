@@ -2,7 +2,6 @@
     import { fade, fly, scale } from "svelte/transition";
     import { flip } from "svelte/animate";
 
-
     import {
         nbr_screens,
         LANGUAGE,
@@ -14,7 +13,6 @@
     import MainPage from "./MainPage/MainPage.svelte";
     import Drawer from "./Drawer/Drawer.svelte";
     import FileNotSaved from "./Notification/FileNotSaved.svelte";
-    
 
     import SettingsModalMain from "./Settings/SettingsModalMain.svelte";
 
@@ -26,16 +24,30 @@
 
     import Folder from "./TreeView/Folder.svelte";
 
+    // HELP
+    $: tree = $file_tree;
+    let local_ft = null;
 
+    const get_tree = (t) => {
+        console.log(t);
+        local_ft = t;
+    };
+    file_tree.subscribe(get_tree);
+    // HELP END
 
-    function givePath()
-    {
+    async function givePath() {
         var form = document.getElementById("file_input");
-        var formval = form.value;
-        file_tree.set(fetch('http://localhost:8000/project?dir=${formval}')
-        .then((response) => response.json())
-        .catch(err => console.log(err)));
-
+        console.log(`Loading project ${form.value}`);
+        file_tree.set(
+            await fetch(
+                "http://localhost:8000/project?dir=" +
+                    form.value.replace("/", "%2F")
+            )
+                .then((response) => response.json())
+                .catch((err) => console.log(err))
+        );
+        console.log(`Loaded project ${form.value}`);
+        console.log(file_tree);
     }
 </script>
 
@@ -43,8 +55,8 @@
 
 <div class="flex h-screen w-screen">
     <SettingsModalMain />
-    
-    <FileNotSaved/>
+
+    <FileNotSaved />
     <TimerModal />
     <SpotifyWrapper />
     <TimerWrapper />
@@ -89,24 +101,37 @@
             ? "Fichiers"
             : "Rakitra"}
     >
-        {#await file_tree}
-            <p>Loading files...</p>
-        {:then tree}
-            {#if tree && Array.isArray(tree.files)}
-                <Folder label={tree.label} files={tree.files} expanded />
+    <!-- HELP: reload component on tree change -->
+        {#key local_ft}
+            {#if local_ft && Array.isArray(file_tree.files)}
+                <Folder
+                    label={file_tree.label}
+                    files={file_tree.files}
+                    expanded
+                />
             {:else}
-                
-            <div>
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300" for="file_input">Give File Path</label>
-            <input class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="text">
-            <button on:click={givePath}>
-                <label for="my-modal-6" class="btn">Load</label></button>
-            </div>
-
+                <label
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    for="file_input"
+                >
+                    Give File Path
+                </label>
+                <div class="flex flex-auto flex-shrink w-full">
+                    <span class="flex flex-auto float-left flex-shrink">
+                        <input
+                            class="input w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                            id="file_input"
+                            type="text"
+                        />
+                    </span>
+                    <span class="flex flex-auto">
+                        <label for="load_project_button" class="btn">Load</label
+                        >
+                        <button id="load_project_button" on:click={givePath} />
+                    </span>
+                </div>
             {/if}
-        {:catch error}
-            <p class="to-red-700">{error.message}</p>
-        {/await}
+        {/key}
     </Drawer>
 
     {#each Array($nbr_screens) as _, index (index)}

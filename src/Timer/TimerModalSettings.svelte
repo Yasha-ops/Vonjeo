@@ -81,14 +81,3 @@ function toggleScreen(){
       </div>
     </div>
       </div>
-
-
-
-
-<style>
-  .glass {
-    background: rgb(85, 85, 84);
-    backdrop-filter: blur(5px);
-    border-radius: 10px;
-  }
-  </style>
