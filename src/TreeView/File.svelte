@@ -22,6 +22,6 @@
 </span>
 <span class="pl-1">
 	<button on:click={handleClick}>
-		{label}
+		{label.split('/').pop()}
 	</button>
 </span>
