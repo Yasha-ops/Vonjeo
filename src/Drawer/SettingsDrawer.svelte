@@ -8,12 +8,12 @@
     $: $FONTSIZE = fontSizeSelected
     console.log(fontSizeOptions)
 
-    let fontTypeOptions = ["Cousine", "Terminal", "Source Code Pro", "Major Mono Display", "Roboto Mono", "Nanum Gothic Coding",
+    let fontTypeOptions = ["Source Code Pro", "Major Mono Display", "Roboto Mono", "Nanum Gothic Coding",
                             "VT323", "Noto Sans Mono"];
     let fontTypeSelected = "Default";
     $: $FONTTYPE = fontTypeSelected
 
-    let themeOptions = ["chaos", "clouds", "cobalt", "dawn", "dracula", "github", "gob", "idle_fingers", "kuroir", "monokai", "sorcier", "textmate", "tomorrow", "twilight"]
+    let themeOptions = ["chaos", "clouds", "cobalt", "dawn", "dracula", "eliott", "github", "gob", "idle_fingers", "karim", "kuroir", "monokai", "param",  "pov", "raphael", "sorcier", "tao", "textmate", "tomorrow", "twilight", "yassine"]
     let themeSelected = "Default"
     $: $THEME = themeSelected
 
