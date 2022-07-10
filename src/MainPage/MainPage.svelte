@@ -45,25 +45,25 @@
 		<TabList itemsData={$store_tabs} itemComponent={Tab} {onDrop} />
 
 		{#key $store_tabs}
-		{#if !onePage}
-			{#each $store_tabs as tab}
-				<TabPanel id={tab.id}>
-					{#if tab.type === TypeFile.FILE}
-						<Page
-							text={tab.content}
-							tab={tab}
-							name={tab.id}
-							on:saveFile={saveFile}
-							on:updateText={updateText}
-						/>
-					{:else}
-						<Debugger />
-					{/if}
-				</TabPanel>
-			{/each}
-		{:else}
-			<Page text="// Splitted" name="Split" />
-		{/if}
+			{#if !onePage}
+				{#each $store_tabs as tab}
+					<TabPanel id={tab.id}>
+						{#if tab.type === TypeFile.FILE}
+							<Page
+								text={tab.content}
+								{tab}
+								name={tab.id}
+								on:saveFile={saveFile}
+								on:updateText={updateText}
+							/>
+						{:else}
+							<Debugger />
+						{/if}
+					</TabPanel>
+				{/each}
+			{:else}
+				<Page text="// Splitted" name="Split" />
+			{/if}
 		{/key}
 	</Tabs>
 </div>
