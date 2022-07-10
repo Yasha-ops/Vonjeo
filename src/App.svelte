@@ -2,6 +2,7 @@
     import { fade, fly, scale } from "svelte/transition";
     import { flip } from "svelte/animate";
 
+
     import {
         nbr_screens,
         LANGUAGE,
@@ -24,6 +25,18 @@
     import SpotifyWrapper from "./Spotify/SpotifyWrapper.svelte";
 
     import Folder from "./TreeView/Folder.svelte";
+
+
+
+    function givePath()
+    {
+        var form = document.getElementById("file_input");
+        var formval = form.value;
+        file_tree.set(fetch('http://localhost:8000/project?dir=${formval}')
+        .then((response) => response.json())
+        .catch(err => console.log(err)));
+
+    }
 </script>
 
 <TimerModalPause />
@@ -82,9 +95,14 @@
             {#if tree && Array.isArray(tree.files)}
                 <Folder label={tree.label} files={tree.files} expanded />
             {:else}
-                <p class="to-red-700">
-                    Tree is undefined or null or field 'files' isn't an array.
-                </p>
+                
+            <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300" for="file_input">Give File Path</label>
+            <input class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="text">
+            <button on:click={givePath}>
+                <label for="my-modal-6" class="btn">Load</label></button>
+            </div>
+
             {/if}
         {:catch error}
             <p class="to-red-700">{error.message}</p>

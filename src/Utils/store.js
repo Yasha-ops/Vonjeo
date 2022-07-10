@@ -21,6 +21,11 @@ export const store_tabs = writable([
 export const tabs = writable([]);
 export const panels = [];
 
+
+
+
+
+
 export let showSpotify = writable(false);
 export let showTimer = writable(false);
 export let launchedTimer = writable(false);
@@ -61,9 +66,7 @@ export let nbr_screens = writable(1);
  *     - ???
  *     - profit
  */
-export let file_tree = fetch('http://localhost:8000/project?dir=src')
-    .then((response) => response.json())
-    .catch(err => console.log(err));
+export let file_tree = writable(null);
 
 
 export const LanguagesType = Object.freeze({
