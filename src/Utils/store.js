@@ -63,7 +63,7 @@ export let nbr_screens = writable(1);
  */
 export let file_tree = fetch('http://localhost:8000/project?dir=src')
     .then((response) => response.json())
-    .catch(err => console.error(err));
+    .catch(err => console.log(err));
 
 
 export const LanguagesType = Object.freeze({
@@ -77,9 +77,8 @@ export let FONTTYPE = writable(10);
 export let THEME = writable(10);
 export let LANGUAGE = writable(LanguagesType.ENGLISH);
 
-
+export let fontTypeOptions = ["Source Code Pro", "Major Mono Display", "Roboto Mono", "Nanum Gothic Coding", "VT323", "Noto Sans Mono"];
+export let themeOptions = ["chaos", "clouds", "cobalt", "dawn", "dracula", "eliott", "github", "gob", "idle_fingers", "karim", "kuroir", "monokai", "param",  "pov", "raphael", "sorcier", "tao", "textmate", "tomorrow", "twilight", "yassine"]
 export let fontSizeOptions = [ 10, 11, 12, 13, 14, 15, 16, 24, 28, 32, 36, 40, 44, 48, 52, 56]
-export let fontTypeOptions = ["Cousine", "Terminal", "Source Code Pro", "Major Mono Display", "Roboto Mono", "Nanum Gothic Coding",
-                        "VT323", "Noto Sans Mono"];
-export let themeOptions = ["chaos", "clouds", "cobalt", "dawn", "dracula", "github", "gob", "idle_fingers", "kuroir", "monokai", "sorcier", "textmate", "tomorrow", "twilight"]
+
 export let languagesOptions = [LanguagesType.ENGLISH, LanguagesType.FRENCH , LanguagesType.MALGACHE];
