@@ -44,16 +44,23 @@
     }
 
     function openFile(obj) {
-        $store_tabs = [
-            ...$store_tabs,
-            {
-                type: TypeFile.FILE,
-                filename: obj.detail.label,
-                content: "asdasd",
-                id: `panel-${obj.detail.label}`,
-                saved: false,
-            },
-        ];
+        store_tabs.update((tabs) => {
+            tabs = [
+                ...tabs,
+                {
+                    type: TypeFile.FILE,
+                    filename: obj.detail.label,
+                    content: obj.detail.content,
+                    id: `panel-${obj.detail.label}`,
+                    saved: false,
+                },
+            ];
+            return tabs;
+        });
+
+        $store_tabs = $store_tabs;
+
+        console.log($store_tabs);
     }
 </script>
 
@@ -132,16 +139,14 @@
         {/key}
     </Drawer>
 
-    {#key $store_tabs}
-        {#each Array($nbr_screens) as _, index (index)}
-            <div
-                animate:flip={{ duration: 300 }}
-                out:scale={{ duration: 250 }}
-                in:fly={{ x: -20, duration: 250 }}
-                class="flex flex-auto"
-            >
-                <MainPage onePage={index !== 0} />
-            </div>
-        {/each}
-    {/key}
+    {#each Array($nbr_screens) as _, index (index)}
+        <div
+            animate:flip={{ duration: 300 }}
+            out:scale={{ duration: 250 }}
+            in:fly={{ x: -20, duration: 250 }}
+            class="flex flex-auto"
+        >
+            <MainPage onePage={index !== 0} />
+        </div>
+    {/each}
 </div>

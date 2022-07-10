@@ -7,11 +7,12 @@
 	const dispatch = createEventDispatcher();
 
 	export let label;
+	export let content;
 	// $: type = label.slice(label.lastIndexOf('.') + 1);
 
 	function handleClick() {
 		console.log(`Clicked file ${label} in file tree`);
-		dispatch("fileClick", { label: label });
+		dispatch("fileClick", { label: label, content: content });
 	}
 </script>
 

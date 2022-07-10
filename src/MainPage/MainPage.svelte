@@ -4,9 +4,9 @@
 	import { Tabs, TabPanel, TabList, Tab } from "./Tabs/tabs.js";
 	import { DEBUG, store_tabs, TypeFile } from "./../Utils/store.js";
 	function onDrop(newItems) {
+		let str = JSON.stringify($store_tabs);
+		console.log("oh no: " + str);
 		$store_tabs = newItems;
-		console.log(DEBUG("ONDROP")(""));
-		console.log(newItems);
 	}
 
 	async function saveFile(obj) {
@@ -44,14 +44,15 @@
 	<Tabs>
 		<TabList itemsData={$store_tabs} itemComponent={Tab} {onDrop} />
 
+		{#key $store_tabs}
 		{#if !onePage}
 			{#each $store_tabs as tab}
 				<TabPanel id={tab.id}>
 					{#if tab.type === TypeFile.FILE}
 						<Page
 							text={tab.content}
-							{tab}
-							name={tab.panel_id}
+							tab={tab}
+							name={tab.id}
 							on:saveFile={saveFile}
 							on:updateText={updateText}
 						/>
@@ -63,5 +64,6 @@
 		{:else}
 			<Page text="// Splitted" name="Split" />
 		{/if}
+		{/key}
 	</Tabs>
 </div>

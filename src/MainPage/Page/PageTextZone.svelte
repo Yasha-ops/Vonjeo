@@ -96,6 +96,8 @@
         let nbr_warning = document.getElementsByClassName("ace_warning").length;
         fileStats.innerText = '☠️ ' + nbr_errors + ' ⚠ ' + nbr_warning; 
     }
+
+    console.log(text);
 </script>
    
 <div class="">
