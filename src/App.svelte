@@ -7,6 +7,7 @@
         LANGUAGE,
         LanguagesType,
         file_tree,
+        store_tabs,
     } from "./Utils/store.js";
 
     import SideBar from "./SideBar/SideBar.svelte";
@@ -24,27 +25,32 @@
 
     import Folder from "./TreeView/Folder.svelte";
 
-    let local_ft = null;
-
-    const get_tree = (t) => {
-        console.log(t);
-        local_ft = t;
-    };
-    file_tree.subscribe(get_tree);
-
     async function givePath() {
         var form = document.getElementById("file_input");
         console.log(`Loading project ${form.value}`);
+
+        let path = "http://localhost:8000/project?dir=" +
+                    form.value.replaceAll("/", "%2F");
+
         file_tree.set(
-            await fetch(
-                "http://localhost:8000/project?dir=" +
-                    form.value.replace("/", "%2F")
-            )
+            await fetch(path)
                 .then((response) => response.json())
                 .catch((err) => console.log(err))
         );
         console.log(`Loaded project ${form.value}`);
         console.log(file_tree);
+    }
+
+    function openFile(obj) {
+        $store_tabs.update((tabs) =>
+            tabs.append({
+                type: TypeFile.FILE,
+                filename: obj.label,
+                content: "",
+                id: `panel-${obj.label}`,
+                saved: false,
+            })
+        );
     }
 </script>
 
@@ -118,19 +124,22 @@
                     label={$file_tree.label}
                     files={$file_tree.files}
                     expanded
+                    on:fileClick={(obj) => openFile(obj)}
                 />
             {/if}
         {/key}
     </Drawer>
 
-    {#each Array($nbr_screens) as _, index (index)}
-        <div
-            animate:flip={{ duration: 300 }}
-            out:scale={{ duration: 250 }}
-            in:fly={{ x: -20, duration: 250 }}
-            class="flex flex-auto"
-        >
-            <MainPage onePage={index !== 0} />
-        </div>
-    {/each}
+    {#key $store_tabs}
+        {#each Array($nbr_screens) as _, index (index)}
+            <div
+                animate:flip={{ duration: 300 }}
+                out:scale={{ duration: 250 }}
+                in:fly={{ x: -20, duration: 250 }}
+                class="flex flex-auto"
+            >
+                <MainPage onePage={index !== 0} />
+            </div>
+        {/each}
+    {/key}
 </div>

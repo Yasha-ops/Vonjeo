@@ -10,10 +10,8 @@
 	// $: type = label.slice(label.lastIndexOf('.') + 1);
 
 	function handleClick() {
-		console.log("Clicked file ${label} in file tree");
-		dispatch('fileClick', {
-			test: label,
-		});
+		console.log(`Clicked file ${label} in file tree`);
+		dispatch("fileClick", { label: label });
 	}
 </script>
 
@@ -22,6 +20,6 @@
 </span>
 <span class="pl-1">
 	<button on:click={handleClick}>
-		{label.split('/').pop()}
+		{label.split("/").pop()}
 	</button>
 </span>

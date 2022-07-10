@@ -32,7 +32,7 @@
 				{#if file.files}
 					<svelte:self {...file} />
 				{:else}
-					<File {...file} on:fileClick={(msg) => console.log(msg)} />
+					<File {...file} on:fileClick/>
 				{/if}
 			</li>
 		{/each}
