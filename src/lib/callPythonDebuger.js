@@ -67,7 +67,7 @@ export class PythonDebug {
 
     // See python backend
     async launch(args) {
-        return await fetch("http://localhost:5555/launch/" + this.filename.replace('/', '%2f'), {
+        return await fetch("http://localhost:5555/launch/" + this.filename, {
             method: "POST",
             headers: [ ['Content-Type', 'application/json'] ], 
             body: JSON.stringify(args)

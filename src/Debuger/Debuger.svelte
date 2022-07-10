@@ -7,14 +7,16 @@
 
     let files = './a.out';
     let debug_back_proc;
-    let vars = null;
+    let vars = ['1'];
     let codes = [];
+    let pd = new PythonDebug(files);
+
 
     const mount = async () => {
         // TODO: ok how tf do i get the breakpoints ?
-        let pd = new PythonDebug(files);
+        pd = new PythonDebug(files);
         const args = { breakpoints: [
-                { filename: "main", line: 0 }
+                { filename: "main", line: 6 }
             ]};
         const data = await pd.launch(args);
         const txt = await data.text();
@@ -27,7 +29,7 @@
 
         const all = PythonDebug.handleResponse(infos.pop());
         vars = variables;
-        codes = all['console'].map(s => s.replace("\t", "    "));
+        codes = all['console'];
     }
 
     onMount(async () => {
@@ -89,32 +91,33 @@
         {#await codes}
             <p>Loading ...</p>
         {:then codes}
+            <p style="color:white">/!\ DISPLAYS NOTHING IF IT RUNS CORRECTLY /!\</p>
             {#each codes as line}
-                <p>{line}</p>
+                <p style="color:white">{line}</p>
             {/each}
         {:catch error}
-            <p style="color: red">{error.message}</p>
+            <p style="color:red">{error.message}</p>
         {/await}
     </div>
     
     <div class="flex-auto bg-sky-500/75">
         <HSplitPane> 
             <div slot="left" >
-                {#if vars}
+                    <p style="color:red">Variables</p>
                     {#await vars}
                         <p>Loading ...</p>
                     {:then vars}
                         {#if PythonDebug.get_vars(vars) === []}
-                            <p>No variables.</p>
+                            <p style="color:red">No variables.</p>
                         {:else}
                             {#each PythonDebug.get_vars(vars) as a_var}
-                                <p>{a_var.name}: {a_var.value}</p>
+                            
+                                <p style="color:red">{a_var.name}: {a_var.value}</p>
                             {/each}
                         {/if}
                     {:catch error}
                         <p style="color: red">{error.message}</p>
                     {/await}
-                {/if}
             </div>
     
             <div slot="right">
