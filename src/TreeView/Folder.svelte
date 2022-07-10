@@ -22,7 +22,7 @@
 			<Icon src={AiFillFolder} size="10" color="grey" />
 		{/if}
 	</span>
-	<span>{label}/</span>
+	<span>{label.split('/').pop() + '/'}/</span>
 </span>
 
 {#if expanded}
