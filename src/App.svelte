@@ -24,8 +24,6 @@
 
     import Folder from "./TreeView/Folder.svelte";
 
-    // HELP
-    $: tree = $file_tree;
     let local_ft = null;
 
     const get_tree = (t) => {
@@ -33,7 +31,6 @@
         local_ft = t;
     };
     file_tree.subscribe(get_tree);
-    // HELP END
 
     async function givePath() {
         var form = document.getElementById("file_input");
@@ -101,35 +98,27 @@
             ? "Fichiers"
             : "Rakitra"}
     >
-    <!-- HELP: reload component on tree change -->
-        {#key local_ft}
-            {#if local_ft && Array.isArray(local_ft.files)}
+        <!-- HELP: reload component on tree change -->
+        {#key $file_tree}
+            <div class="flex flex-auto flex-shrink w-full">
+                <span class="flex flex-auto float-left flex-shrink">
+                    <input
+                        class="input w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        id="file_input"
+                        type="text"
+                    />
+                </span>
+                <span class="flex flex-auto">
+                    <label for="load_project_button" class="btn">Load</label>
+                    <button id="load_project_button" on:click={givePath} />
+                </span>
+            </div>
+            {#if $file_tree && Array.isArray($file_tree.files)}
                 <Folder
-                    label={local_ft.label}
-                    files={local_ft.files}
+                    label={$file_tree.label}
+                    files={$file_tree.files}
                     expanded
                 />
-            {:else}
-                <label
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    for="file_input"
-                >
-                    Give File Path
-                </label>
-                <div class="flex flex-auto flex-shrink w-full">
-                    <span class="flex flex-auto float-left flex-shrink">
-                        <input
-                            class="input w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                            id="file_input"
-                            type="text"
-                        />
-                    </span>
-                    <span class="flex flex-auto">
-                        <label for="load_project_button" class="btn">Load</label
-                        >
-                        <button id="load_project_button" on:click={givePath} />
-                    </span>
-                </div>
             {/if}
         {/key}
     </Drawer>
