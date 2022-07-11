@@ -55,7 +55,6 @@
 		{#key $store_tabs}
 			{#if !onePage}
 				{#each $store_tabs as tab}
-					{console.log(tab)}
 					<TabPanel id={tab.id}>
 						{#if tab.type === TypeFile.FILE}
 							<Page
