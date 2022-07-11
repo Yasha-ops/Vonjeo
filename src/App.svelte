@@ -60,16 +60,22 @@
 
         // $store_tabs = $store_tabs;
 
-        store_tabs.set([
-            ...$store_tabs,
-            {
-                type: TypeFile.FILE,
-                filename: obj.detail.label.split('/').pop(),
-                content: obj.detail.content,
-                id: `panel-${obj.detail.label.split('/').pop()}`,
-                saved: false,
-            },
-        ]);
+        let filename = obj.detail.label.split("/").pop();
+        let tabPresent = $store_tabs.find((tab) => tab.filename === filename);
+
+        if (!tabPresent) {
+            console.log("Adding new tab");
+            store_tabs.set([
+                ...$store_tabs,
+                {
+                    type: TypeFile.FILE,
+                    filename: filename,
+                    content: obj.detail.content,
+                    id: `panel-${filename}`,
+                    saved: false,
+                },
+            ]);
+        }
 
         console.log($store_tabs);
     }
