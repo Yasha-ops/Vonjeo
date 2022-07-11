@@ -34,6 +34,14 @@
 		tab.saved = false;
 	}
 	export let onePage = false;
+
+	const languages = {
+		"c": "c_cpp",
+		"cpp": "c_cpp",
+		"h": "c_cpp",
+		"hpp": "c_cpp",
+		"js": "javascript",
+	}
 </script>
 
 <div
@@ -47,6 +55,7 @@
 		{#key $store_tabs}
 			{#if !onePage}
 				{#each $store_tabs as tab}
+					{console.log(tab)}
 					<TabPanel id={tab.id}>
 						{#if tab.type === TypeFile.FILE}
 							<Page
@@ -55,6 +64,7 @@
 								name={tab.id}
 								on:saveFile={saveFile}
 								on:updateText={updateText}
+								language={languages[tab.id.split('.').pop() ?? 0] ?? "c_cpp"}
 							/>
 						{:else}
 							<Debugger />

@@ -42,6 +42,8 @@
     export let text = "";
     export let h_parent;
     export let name;
+    export let language;
+
     function editor_init(editors) {}
     let optionObject = {
         fontSize: "20pt",
@@ -115,7 +117,7 @@
         on:blur={() => console.log("blur")}
         width="100%"
         height={h_parent}
-        lang="javascript"
+        lang={language}
         theme="github"
         options={optionObject}
         keybindings="vim"

@@ -8,6 +8,7 @@
     export let name;
     export let h;
     export let tab;
+    export let language;
 
     const dispatch = createEventDispatcher();
 
@@ -31,7 +32,7 @@
     <InfoTab on:saveFile={saveFile} />
 
     <div class= "flex-1 h-full" name="editor-div" bind:clientHeight={h}>
-        <PageTextZone h_parent={h} text={text} name={name} on:textUpdate={updateText}/>
+        <PageTextZone h_parent={h} text={text} name={name} on:textUpdate={updateText} {language}/>
     </div>
 
 </div>

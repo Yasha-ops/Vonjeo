@@ -44,21 +44,32 @@
     }
 
     function openFile(obj) {
-        store_tabs.update((tabs) => {
-            tabs = [
-                ...tabs,
-                {
-                    type: TypeFile.FILE,
-                    filename: obj.detail.label,
-                    content: obj.detail.content,
-                    id: `panel-${obj.detail.label}`,
-                    saved: false,
-                },
-            ];
-            return tabs;
-        });
+        // store_tabs.update((tabs) => {
+        //     tabs = [
+        //         ...tabs,
+        //         {
+        //             type: TypeFile.FILE,
+        //             filename: obj.detail.label,
+        //             content: obj.detail.content,
+        //             id: `panel-${obj.detail.label}`,
+        //             saved: false,
+        //         },
+        //     ];
+        //     return tabs;
+        // });
 
-        $store_tabs = $store_tabs;
+        // $store_tabs = $store_tabs;
+
+        store_tabs.set([
+            ...$store_tabs,
+            {
+                type: TypeFile.FILE,
+                filename: obj.detail.label.split('/').pop(),
+                content: obj.detail.content,
+                id: `panel-${obj.detail.label.split('/').pop()}`,
+                saved: false,
+            },
+        ]);
 
         console.log($store_tabs);
     }

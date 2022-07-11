@@ -18,6 +18,8 @@
 			return;
 		aceEditor.click();
 	}
+
+	console.log($selectedPanel);
 </script>
 
 <div class:panel-actif="{$selectedPanel === panel}" class:panel-passif="{$selectedPanel !== panel}" id={id}>
